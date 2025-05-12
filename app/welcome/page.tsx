@@ -1,6 +1,8 @@
+import ButtonEmpty from "~/components/buttonEmpty";
 import logo from "./logo.svg";
+import ButtonAccent from "~/components/buttonAccent";
 
-export function Page() {
+export function Page(props) {
   return (
     <div className="bg-white h-[40px] flex justify-center items-center">
       <div className="max-w-[1000px] w-auto flex flex-1/0 justify-between items-center px-[15px]">
@@ -16,18 +18,22 @@ export function Page() {
             Главная
           </a>
           <a href="" className="p-def">
-            Главная
+            Покупка
           </a>
           <a href="" className="p-def">
-            Главная
+            Аренда
           </a>
           <span className="p-def">|</span>
           <a href="" className="p-def">
-            Главная
+            Чаты
           </a>
           <a href="" className="p-def">
-            Главная
+            Мониторинг
           </a>
+        </div>
+        <div className="flex flex-row gap-[5px]">
+          <ButtonAccent width={100} label="Регистрация" />
+          <ButtonEmpty label="Вход" />
         </div>
       </div>
     </div >
