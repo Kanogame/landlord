@@ -13,3 +13,9 @@ body {
     color-scheme: dark;
   }
 }
+
+.p-def {
+  color: #2D2D2D;
+  font-size: 12px;
+  text-align: left;
+}
