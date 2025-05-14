@@ -6,12 +6,12 @@
 }
 
 :root {
-  --accent: #8B2635;
-  --accent-pressed: #76222E;
-  --secondary: #F3E7E7;
-  --secondary-pressed: #D5C8C8;
+  --accent: #8b2635;
+  --accent-pressed: #76222e;
+  --secondary: #f3e7e7;
+  --secondary-pressed: #d5c8c8;
 
-  --text-black: #2D2D2D;
+  --text-black: #2d2d2d;
 }
 
 html,
@@ -27,6 +27,22 @@ body {
   color: var(--text-black);
   font-size: 12px;
   text-align: left;
+}
+
+.accent {
+  background: var(--accent);
+}
+
+.accent:hover {
+  background: var(--accent-pressed);
+}
+
+.accent-border {
+  border: 1px so var(--accent-pressed);
+}
+
+.accent-border:hover {
+  background: var(--secondary-pressed);
 }
 
 .button-accent {
