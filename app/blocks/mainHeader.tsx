@@ -1,12 +1,12 @@
 import ButtonAccent from "~/components/buttonAccent";
 import ButtonEmpty from "~/components/buttonEmpty";
-import logo from "./mainHeader/logo.svg";
+import logo from "./common/logo.svg";
 import type { ReactNode } from "react";
 
 export default function MainHeader(props: any) {
   return (
     <div className="bg-white flex justify-center items-center border-b-[1px] border-b-[#EFEFEF] py-[5px]">
-      <div className="max-w-[1300px] flex flex-1/0 justify-between items-center px-[15px]">
+      <div className="flex flex-[0_1_1600px] justify-between items-center px-[50px]">
         <div>
           <img src={logo} alt="logo" className="block w-full" />
         </div>

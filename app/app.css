@@ -16,7 +16,7 @@
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  background-color: #f8f8f8;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
@@ -36,11 +36,22 @@ body {
   font-weight: 400;
 }
 
+.h3-def {
+  color: var(--text-black);
+  font-size: 24px;
+  font-family: Fira Sans;
+  font-weight: 400;
+}
+
 .h4-def {
   color: var(--text-black);
   font-size: 20px;
   font-family: Fira Sans;
   font-weight: 400;
+}
+
+.block-shadow {
+  box-shadow: 0 0 10px 1px #00000020;
 }
 
 .accent {

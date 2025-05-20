@@ -8,7 +8,7 @@ import DropDownLabel from "~/components/dropdownLabel";
 export default function SearchHeader() {
   return (
     <div className="bg-white flex justify-center items-center border-b-[1px] border-b-[#EFEFEF] py-[10px]">
-      <div className="max-w-[1300px] w-auto flex flex-1/0 gap-[100px] justify-center items-center px-[15px]">
+      <div className="flex flex-[0_1_1400px] gap-[20px] justify-center items-center px-[50px]">
         <BigSearch
           sections={[
             {

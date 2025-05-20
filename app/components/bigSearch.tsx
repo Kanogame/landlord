@@ -7,7 +7,7 @@ export interface SearchSection {
 
 export default function BigSearch(props: { sections: SearchSection[] }) {
   return (
-    <div className="flex w-[800px] bg-[#8b2635] px-[2px] py-[2px] rounded-[8px]">
+    <div className="flex flex-[1_0_600px] bg-[#8b2635] px-[2px] py-[2px] rounded-[8px]">
       <div className="flex flex-[1_0] bg-white rounded-[6px]">
         {props.sections.map((el, ind) => {
           const last = ind == props.sections.length - 1;
