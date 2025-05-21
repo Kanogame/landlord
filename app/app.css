@@ -50,6 +50,13 @@ body {
   font-weight: 400;
 }
 
+.h5-def {
+  color: var(--text-black);
+  font-size: 14px;
+  font-family: Fira Sans;
+  font-weight: 400;
+}
+
 .block-shadow {
   box-shadow: 0 0 10px 1px #00000020;
 }
@@ -68,6 +75,10 @@ body {
 
 .accent-border:hover {
   background: var(--secondary-pressed);
+}
+
+.sidepage:hover {
+  background: var(--secondary);
 }
 
 .button-accent {
