@@ -2,8 +2,12 @@ import ButtonAccent from "~/components/buttonAccent";
 import ButtonEmpty from "~/components/buttonEmpty";
 import logo from "./common/logo.svg";
 import type { ReactNode } from "react";
+import RegButtons from "~/components/RegButtons";
+import { useNavigate } from "react-router";
 
 export default function MainHeader(props: any) {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-white flex justify-center items-center border-b-[1px] border-b-[#EFEFEF] py-[5px]">
       <div className="flex flex-[0_1_1600px] justify-between items-center px-[50px]">
@@ -28,10 +32,14 @@ export default function MainHeader(props: any) {
             Мониторинг
           </a>
         </div>
-        <div className="flex flex-row gap-[5px]">
-          <ButtonAccent width={100} label="Регистрация" />
-          <ButtonEmpty width={100} label="Вход" />
-        </div>
+        <RegButtons
+          onLogClick={() => {
+            navigate("/login");
+          }}
+          onRegClick={() => {
+            navigate("/registration");
+          }}
+        />
       </div>
     </div>
   );
