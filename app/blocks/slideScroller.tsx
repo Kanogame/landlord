@@ -1,9 +1,9 @@
 import { useState } from "react";
-import banner from "./slideScroller/banner1.png";
-import leftArrow from "./slideScroller/leftArrow.svg";
-import banner2 from "./slideScroller/banner2.png";
+import banner from "~/media/images/banner1.png";
+import banner2 from "~/media/images/banner2.png";
 import { AnimatePresence, motion } from "motion/react";
 import ButtonAccent from "~/components/buttonAccent";
+import ScrollerArrow from "~/components/scrollerArrow";
 
 export interface Slide {
   image: string;
@@ -38,20 +38,6 @@ const props: Slide[] = [
     href: "./",
   },
 ];
-
-function ScrollerArrow(props: { right: boolean; onClick: () => void }) {
-  return (
-    <div
-      className={
-        "z-10 absolute top-[50%] -translate-y-[50%] bg-white rounded-full py-[3px] px-[6px] " +
-        (props.right ? "right-[10px]" : "left-[10px]")
-      }
-      onClick={props.onClick}
-    >
-      <img src={leftArrow} alt="" className={props.right ? "rotate-180" : ""} />
-    </div>
-  );
-}
 
 const variants = {
   enter: (direction: number) => {

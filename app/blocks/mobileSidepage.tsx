@@ -41,7 +41,7 @@ export default function SidePage() {
         type: "tween",
         duration: 0.2,
       }}
-      className="absolute cursor-pointer bg-white w-[100vw] h-[100vh] z-100 flex flex-col gap-[5px] items-start"
+      className="absolute cursor-pointer bg-white w-[100vw] h-[100vh] z-100 flex flex-col gap-[5px] items-start p-[10px]"
     >
       <SidePageLink label="Главная" img={iconLink} />
       <SidePageLink label="Поиск" img={iconSearch} />
