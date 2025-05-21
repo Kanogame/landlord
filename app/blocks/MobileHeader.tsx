@@ -1,11 +1,10 @@
-import logo from "./common/logo.svg";
-import iconBookmark from "../media/icons/icon-bookmark.svg";
-import iconBurger from "../media/icons/icon-burger.svg";
-import iconLogin from "../media/icons/icon-login.svg";
-import iconSearch from "../media/icons/icon-search.svg";
-import iconExit from "../media/icons/icon-exit.svg";
-import type { ReactNode } from "react";
-import SimpleIconButton from "~/components/SimpleIconButton";
+import logo from '~/media/icons/logo.svg';
+import iconBookmark from '../media/icons/icon-bookmark.svg';
+import iconBurger from '../media/icons/icon-burger.svg';
+import iconLogin from '../media/icons/icon-login.svg';
+import iconSearch from '../media/icons/icon-search.svg';
+import iconExit from '../media/icons/icon-exit.svg';
+import SimpleIconButton from '~/components/SimpleIconButton';
 
 export default function MobileHeader(props: {
   onSidepageClicked: () => void;

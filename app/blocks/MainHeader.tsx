@@ -1,4 +1,4 @@
-import logo from './common/logo.svg';
+import logo from '~/media/icons/logo.svg';
 import RegButtons from '~/components/RegButtons';
 import { useNavigate } from 'react-router';
 

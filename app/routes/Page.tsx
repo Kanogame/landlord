@@ -1,22 +1,23 @@
-import { Outlet } from "react-router";
-import MainHeader from "~/blocks/MainHeader";
-import SearchHeader from "~/blocks/SeachHeader";
-import type { Route } from "../+types/root";
-import { useMediaQuery } from "react-responsive";
-import MobileHeader from "~/blocks/MobileHeader";
-import { useState } from "react";
-import SidePage from "~/blocks/mobileSidepage";
-import { AnimatePresence } from "motion/react";
+import { Outlet } from 'react-router';
+import MainHeader from '~/blocks/MainHeader';
+import SearchHeader from '~/blocks/SeachHeader';
+import type { Route } from '../+types/root';
+import { useMediaQuery } from 'react-responsive';
+import MobileHeader from '~/blocks/MobileHeader';
+import { useState } from 'react';
+import SidePage from '~/blocks/mobileSidepage';
+import { AnimatePresence } from 'motion/react';
+import Footer from '~/blocks/Footer';
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Domio" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: 'Domio' },
+    { name: 'description', content: 'Welcome to React Router!' },
   ];
 }
 
 export default function Page() {
-  const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
+  const isDesktop = useMediaQuery({ query: '(min-width: 1024px)' });
   const [sidePage, setSidepage] = useState<boolean>(false);
 
   function openSidepage() {
@@ -36,6 +37,7 @@ export default function Page() {
       {isDesktop && <SearchHeader />}
       <AnimatePresence>{sidePage && <SidePage />}</AnimatePresence>
       <Outlet />
+      <Footer isDesktop={isDesktop} />
     </div>
   );
 }
