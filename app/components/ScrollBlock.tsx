@@ -1,5 +1,5 @@
 import { useRef, type ReactNode } from "react";
-import ScrollerArrow from "./scrollerArrow";
+import ScrollerArrow from "./ScrollerArrow";
 
 export default function ScrollBlock(props: {
   children: ReactNode;

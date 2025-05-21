@@ -12,6 +12,7 @@
   --secondary-pressed: #d5c8c8;
 
   --text-black: #2d2d2d;
+  --text-light: #707070;
 }
 
 html,
@@ -57,6 +58,13 @@ body {
   font-weight: 400;
 }
 
+.h5-light {
+  color: var(--text-light);
+  font-size: 14px;
+  font-family: Fira Sans;
+  font-weight: 400;
+}
+
 .scrollbar-0 {
   scrollbar-width: none;
 }
@@ -91,6 +99,11 @@ body {
 
 .sidepage:hover {
   background: var(--secondary);
+}
+
+.bg-img {
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .button-accent {

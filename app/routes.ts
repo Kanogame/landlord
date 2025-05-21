@@ -6,8 +6,8 @@ import {
 } from "@react-router/dev/routes";
 
 export default [
-  layout("./routes/page.tsx", [
-    index("./routes/landing.tsx"),
-    route("search/:id", "./routes/search.tsx"),
+  layout("./routes/Page.tsx", [
+    index("./routes/Landing.tsx"),
+    route("search/:id", "./routes/Search.tsx"),
   ]),
 ] satisfies RouteConfig;

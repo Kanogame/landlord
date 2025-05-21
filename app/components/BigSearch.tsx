@@ -1,4 +1,4 @@
-import DropDownLabel from "./dropdownLabel";
+import DropDownLabel from "./DropdownLabel";
 
 export interface SearchSection {
   label: string;

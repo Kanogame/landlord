@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
-import MainHeader from "~/blocks/mainHeader";
-import SearchHeader from "~/blocks/seachHeader";
+import MainHeader from "~/blocks/MainHeader";
+import SearchHeader from "~/blocks/SeachHeader";
 import type { Route } from "../+types/root";
 import { useMediaQuery } from "react-responsive";
 import MobileHeader from "~/blocks/MobileHeader";

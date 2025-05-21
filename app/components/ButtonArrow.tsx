@@ -1,4 +1,4 @@
-import type { ButtonTextProps } from "./button/buttons";
+import { ProcessButtonProps, type ButtonTextProps } from "./button/buttons";
 import arrow from "./buttonArrow/go-arrow.svg";
 
 export default function ButtonArrow(props: ButtonTextProps) {
@@ -10,11 +10,8 @@ export default function ButtonArrow(props: ButtonTextProps) {
 
   return (
     <button
-      className="text-xs text-center flex items-center justify-between text-[white] rounded-[4px] bg-[#8b2635] px-4 py-2"
-      style={{
-        width: props.width + "px",
-        height: props.height + "px",
-      }}
+      className="text-xs text-center flex items-center justify-between text-[white] bg-[#8b2635] px-4 py-2"
+      style={ProcessButtonProps(props)}
       onClick={handleClick}
     >
       {props.label}

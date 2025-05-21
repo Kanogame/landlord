@@ -1,4 +1,4 @@
-import SlideScroller from "~/blocks/slideScroller";
+import SlideScroller from "~/blocks/SlideScroller";
 import Block from "~/components/Block";
 import type { Route } from "../+types/root";
 
