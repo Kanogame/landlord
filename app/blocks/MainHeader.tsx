@@ -1,9 +1,6 @@
-import ButtonAccent from "~/components/ButtonAccent";
-import ButtonEmpty from "~/components/ButtonEmpty";
-import logo from "./common/logo.svg";
-import type { ReactNode } from "react";
-import RegButtons from "~/components/RegButtons";
-import { useNavigate } from "react-router";
+import logo from './common/logo.svg';
+import RegButtons from '~/components/RegButtons';
+import { useNavigate } from 'react-router';
 
 export default function MainHeader(props: any) {
   const navigate = useNavigate();
@@ -34,10 +31,10 @@ export default function MainHeader(props: any) {
         </div>
         <RegButtons
           onLogClick={() => {
-            navigate("/login");
+            navigate('/login');
           }}
           onRegClick={() => {
-            navigate("/registration");
+            navigate('/registration');
           }}
         />
       </div>

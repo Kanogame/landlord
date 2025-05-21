@@ -1,87 +1,42 @@
-# Welcome to React Router!
+# Landlord
 
-A modern, production-ready template for building full-stack React applications using React Router.
+## stack
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+- react
+- react-router
+- react-motion
+- react-responsive
+- radix (maybe, we`ll see..)
 
-## Features
+## Naming convention
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+All files are named with capital letters
 
-## Getting Started
+## Style convention
 
-### Installation
+All style should be written in TailwindCSS, except
 
-Install the dependencies:
+- dynamic styles (through motion or react)
+- typography
+- hovers (optional)
 
-```bash
-npm install
-```
+## Folder convention
 
-### Development
+app/media/icons - all svg icons
+app/media/images - all non-svg images and icons
 
-Start the development server with HMR:
+app/components - small components, may depend on each other
+app/components/somecomp - special subfolder for component **somecomp** (optional), may store helper fuctions/types
+app/blocks - big (usually exclusive for page) blocks, can depend **only** on components
+app/routes - page structure files, may depend on components or blocks
 
-```bash
-npm run dev
-```
+## Code convetion
 
-Your application will be available at `http://localhost:5173`.
+use typescript and types
+use react-responsive for mobile
+refer to notes (emacs)
 
-## Building for Production
+## to avoid
 
-Create a production build:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+- unused imports
+- circular dependecies

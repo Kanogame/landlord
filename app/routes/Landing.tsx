@@ -1,20 +1,16 @@
-import type { ReactNode } from "react";
-import { useNavigate } from "react-router";
-import DesktopWidth from "~/blocks/DesktopWidth";
-import FrequentSearch from "~/blocks/FrequentSearch";
-import LoginPromo from "~/blocks/Login-promo";
-import Offers from "~/blocks/Offers";
-import SearchBanner from "~/blocks/SearchBanner";
-import SlideScroller from "~/blocks/SlideScroller";
-import Tips from "~/blocks/Tips";
-import Block from "~/components/Block";
-import ButtonAccent from "~/components/ButtonAccent";
-import ButtonArrow from "~/components/ButtonArrow";
-import PropertyCard from "~/components/PropertyCard";
-import RegButtons from "~/components/RegButtons";
-import ScrollBlock from "~/components/ScrollBlock";
-import SearchElement from "~/components/SearchElement";
-import TextCard from "~/components/TextCard";
+import type { ReactNode } from 'react';
+import { useNavigate } from 'react-router';
+import DesktopWidth from '~/blocks/DesktopWidth';
+import FrequentSearch from '~/blocks/FrequentSearch';
+import LoginPromo from '~/blocks/Login-promo';
+import Offers from '~/blocks/Offers';
+import SearchBanner from '~/blocks/SearchBanner';
+import SlideScroller from '~/blocks/SlideScroller';
+import Tips from '~/blocks/Tips';
+import PropertyCard from '~/components/PropertyCard';
+import ScrollBlock from '~/components/ScrollBlock';
+import SearchElement from '~/components/SearchElement';
+import TextCard from '~/components/TextCard';
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -25,7 +21,7 @@ export default function LandingPage() {
         <ScrollBlock label="Аренда" link="Все">
           {Array(10)
             .fill(1)
-            .map((el) => {
+            .map(el => {
               return <PropertyCard key={el} />;
             })}
         </ScrollBlock>
