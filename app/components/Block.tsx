@@ -6,7 +6,7 @@ export default function Block(props: {
   label: string;
 }) {
   return (
-    <div className="flex flex-col p-[20px] gap-[15px] bg-white block-shadow rounded-[20px]">
+    <div className="flex flex-col p-[20px] gap-[15px] h-[100%] bg-white block-shadow rounded-[20px]">
       <div className="h3-def flex justify-between">
         {props.label}
         {props.link && <div>{props.link}</div>}
