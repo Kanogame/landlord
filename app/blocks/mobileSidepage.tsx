@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "motion/react";
-import SidePageLink from "~/components/sidePageLink";
+import SidePageLink from "~/components/SidePageLink";
 import iconHouse from "~/media/icons/icon-house.svg";
 import iconSearch from "~/media/icons/icon-search.svg";
 import iconLink from "~/media/icons/icon-link.svg";

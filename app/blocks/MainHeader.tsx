@@ -1,5 +1,5 @@
-import ButtonAccent from "~/components/buttonAccent";
-import ButtonEmpty from "~/components/buttonEmpty";
+import ButtonAccent from "~/components/ButtonAccent";
+import ButtonEmpty from "~/components/ButtonEmpty";
 import logo from "./common/logo.svg";
 import type { ReactNode } from "react";
 import RegButtons from "~/components/RegButtons";

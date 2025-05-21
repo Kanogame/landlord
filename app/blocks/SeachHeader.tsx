@@ -1,8 +1,8 @@
-import BigSearch from "~/components/bigSearch";
-import ButtonAccent from "~/components/buttonAccent";
+import BigSearch from "~/components/BigSearch";
+import ButtonAccent from "~/components/ButtonAccent";
 import ButtonArrow from "~/components/ButtonArrow";
-import ButtonEmpty from "~/components/buttonEmpty";
-import DropDown from "~/components/dropdown";
+import ButtonEmpty from "~/components/ButtonEmpty";
+import DropDown from "~/components/Dropdown";
 import DropDownLabel from "~/components/DropdownLabel";
 
 export default function SearchHeader() {

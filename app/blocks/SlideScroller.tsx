@@ -2,8 +2,8 @@ import { useState } from "react";
 import banner from "~/media/images/banner1.png";
 import banner2 from "~/media/images/banner2.png";
 import { AnimatePresence, motion } from "motion/react";
-import ButtonAccent from "~/components/buttonAccent";
-import ScrollerArrow from "~/components/scrollerArrow";
+import ButtonAccent from "~/components/ButtonAccent";
+import ScrollerArrow from "~/components/ScrollerArrow";
 
 export interface Slide {
   image: string;
