@@ -1,26 +1,26 @@
-import Block from "~/components/Block";
-import TextCard from "~/components/TextCard";
+import Block from '~/components/Block';
+import TextCard from '~/components/TextCard';
 
 const tips = [
   {
-    header: "Налоги",
-    desc: "Советы по налоговой оптимизации сделок.",
-    link: "/tips/nalogi",
+    header: 'Налоги',
+    desc: 'Советы по налоговой оптимизации сделок.',
+    link: '/tips/nalogi',
   },
   {
-    header: "Ремонт",
-    desc: "Как повысить комфорт в съёмном жилье.",
-    link: "/tips/remont",
+    header: 'Ремонт',
+    desc: 'Как повысить комфорт в съёмном жилье.',
+    link: '/tips/remont',
   },
   {
-    header: "Расчет",
-    desc: "Как анализировать затраты и выгоды по каждой сделке.",
-    link: "/tips/raschet",
+    header: 'Расчет',
+    desc: 'Как анализировать затраты и выгоды по каждой сделке.',
+    link: '/tips/raschet',
   },
   {
-    header: "Юридическая проверка",
-    desc: "Где найти агента для безопасной сделки.",
-    link: "/tips/yuridicheskaya-proverka",
+    header: 'Юридическая проверка',
+    desc: 'Где найти агента для безопасной сделки.',
+    link: '/tips/yuridicheskaya-proverka',
   },
 ];
 
@@ -31,7 +31,7 @@ export default function Tips() {
         {tips.map((el, ind) => {
           return (
             <TextCard
-              key={ind}
+              key={el.header}
               header={el.header}
               desc={el.desc}
               link={el.link}

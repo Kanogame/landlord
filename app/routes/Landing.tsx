@@ -21,8 +21,8 @@ export default function LandingPage() {
         <ScrollBlock label="Аренда" link="Все">
           {Array(10)
             .fill(1)
-            .map(el => {
-              return <PropertyCard key={el} />;
+            .map((_, ind) => {
+              return <PropertyCard key={ind} />;
             })}
         </ScrollBlock>
         <ScrollBlock label="Продажа" link="Все">
