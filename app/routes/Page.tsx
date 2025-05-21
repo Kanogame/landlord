@@ -17,7 +17,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Page() {
-  const isDesktop = useMediaQuery({ query: '(min-width: 1024px)' });
+  const isDesktop = useMediaQuery({ query: '(min-width: 1280px)' });
   const [sidePage, setSidepage] = useState<boolean>(false);
 
   function openSidepage() {

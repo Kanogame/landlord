@@ -1,9 +1,9 @@
-import BigSearch from "~/components/BigSearch";
-import ButtonAccent from "~/components/ButtonAccent";
-import ButtonArrow from "~/components/ButtonArrow";
-import ButtonEmpty from "~/components/ButtonEmpty";
-import DropDown from "~/components/Dropdown";
-import DropDownLabel from "~/components/DropdownLabel";
+import BigSearch from '~/components/BigSearch';
+import ButtonAccent from '~/components/ButtonAccent';
+import ButtonArrow from '~/components/ButtonArrow';
+import ButtonEmpty from '~/components/ButtonEmpty';
+import DropDown from '~/components/Dropdown';
+import DropDownLabel from '~/components/DropdownLabel';
 
 export default function SearchHeader() {
   return (
@@ -12,20 +12,20 @@ export default function SearchHeader() {
         <BigSearch
           sections={[
             {
-              label: "Город",
-              values: ["Москва", "Новосибирск"],
+              label: 'Тип услуги',
+              values: ['Покупка', 'Аренда'],
             },
             {
-              label: "Город",
-              values: ["Москва", "Новосибирск"],
+              label: 'Город',
+              values: ['Москва', 'Новосибирск'],
             },
             {
-              label: "Город",
-              values: ["Москва", "Новосибирск"],
+              label: 'Цена',
+              values: ['Custom'],
             },
             {
-              label: "Город",
-              values: ["Москва", "Новосибирск"],
+              label: 'Тип Недвижимости',
+              values: ['Москва', 'Новосибирск'],
             },
           ]}
         />

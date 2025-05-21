@@ -1,4 +1,4 @@
-import DropDownLabel from "./DropdownLabel";
+import DropDownLabel from './DropdownLabel';
 
 export interface SearchSection {
   label: string;
@@ -13,17 +13,17 @@ export default function BigSearch(props: { sections: SearchSection[] }) {
           const last = ind == props.sections.length - 1;
           return (
             <div
-              key={ind}
+              key={el.label}
               className={
-                " flex-[1_0] px-[8px] py-[8px] " +
-                (last ? "" : "border-r-[1px] border-r-[#EFEFEF]")
+                ' flex-[1_0] px-[8px] py-[8px] ' +
+                (last ? '' : 'border-r-[1px] border-r-[#EFEFEF]')
               }
             >
               <DropDownLabel
                 label={el.label}
                 offsetY={0}
                 values={el.values}
-                onChosen={(a) => {
+                onChosen={a => {
                   console.log(a);
                 }}
               />

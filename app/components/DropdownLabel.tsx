@@ -1,5 +1,5 @@
-import { useState } from "react";
-import iconDown from "./dropdown/lcon-down.svg";
+import { useState } from 'react';
+import iconDown from './dropdown/lcon-down.svg';
 
 export default function DropDownLabel(props: {
   label: string;
@@ -10,8 +10,8 @@ export default function DropDownLabel(props: {
 }) {
   const [open, setOpen] = useState<boolean>(false);
 
-  const width: string = props.width ? props.width + "px" : "auto";
-  const offsetY: string = props.offsetY ? props.offsetY + "px" : "auto";
+  const width: string = props.width ? props.width + 'px' : 'auto';
+  const offsetY: string = props.offsetY ? props.offsetY + 'px' : 'auto';
 
   return (
     <div
@@ -35,17 +35,16 @@ export default function DropDownLabel(props: {
             right: offsetY,
           }}
         >
-          {props.values.map((a) => {
+          {props.values.map(el => {
             return (
-              <div>
-                <a
-                  className="p-def border-b-[#EFEFEF]  border-b-[1px] flex"
-                  onClick={() => {
-                    props.onChosen(a);
-                  }}
-                >
-                  {a}
-                </a>
+              <div
+                key={el}
+                className="p-def border-b-[#EFEFEF]  border-b-[1px] flex"
+                onClick={() => {
+                  props.onChosen(el);
+                }}
+              >
+                {el}
               </div>
             );
           })}
