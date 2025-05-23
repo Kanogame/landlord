@@ -23,9 +23,7 @@ export default function BigSearch(props: { sections: SearchSection[] }) {
                 label={el.label}
                 offsetY={0}
                 values={el.values}
-                onChosen={a => {
-                  console.log(a);
-                }}
+                onChosen={a => {}}
               />
             </div>
           );

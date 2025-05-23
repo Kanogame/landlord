@@ -8,6 +8,7 @@ import Offers from '~/blocks/Offers';
 import SearchBanner from '~/blocks/SearchBanner';
 import SlideScroller from '~/blocks/SlideScroller';
 import Tips from '~/blocks/Tips';
+import { TPropertyType, TRentPeriod } from '~/utils/property';
 import PropertyCard from '~/components/PropertyCard';
 import ScrollBlock from '~/components/ScrollBlock';
 import SearchElement from '~/components/SearchElement';
@@ -23,14 +24,52 @@ export default function LandingPage() {
           {Array(10)
             .fill(1)
             .map((_, ind) => {
-              return <PropertyCard key={ind} />;
+              return (
+                <PropertyCard
+                  key={ind}
+                  property={{
+                    type: TPropertyType.Rent,
+                    property: {
+                      id: 3,
+                      ownerId: 789,
+                      name: '3х комнатная квартира',
+                      address: 'Санкт-Петербург, ул. Невского, д. 20, кв. 5',
+                      area: 30,
+                      images: [],
+                      raiting: 3.8,
+                      cost: '20 000',
+                      period: TRentPeriod.Week,
+                    },
+                  }}
+                />
+              );
             })}
         </ScrollBlock>
         <ScrollBlock label="Продажа" link={{ label: 'Все', href: '/search' }}>
           {Array(10)
             .fill(1)
             .map((_, ind) => {
-              return <PropertyCard key={ind} />;
+              return (
+                <PropertyCard
+                  key={ind}
+                  property={{
+                    type: TPropertyType.Sell,
+                    property: {
+                      id: 4,
+                      ownerId: 321,
+                      name: 'Коттедж в Сочи',
+                      address:
+                        'Краснодарский край, г. Сочи, ул. Морская, д. 15',
+                      area: 200,
+                      images: [
+                        'https://example.com/image6.jpg',
+                        'https://example.com/image7.jpg',
+                      ],
+                      cost: '25000000 руб.',
+                    },
+                  }}
+                />
+              );
             })}
         </ScrollBlock>
       </DesktopWidth>
