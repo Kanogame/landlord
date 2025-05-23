@@ -1,9 +1,9 @@
-import { useState } from "react";
-import banner from "~/media/images/banner1.png";
-import banner2 from "~/media/images/banner2.png";
-import { AnimatePresence, motion } from "motion/react";
-import ButtonAccent from "~/components/ButtonAccent";
-import ScrollerArrow from "~/components/ScrollerArrow";
+import { useState } from 'react';
+import banner from '~/media/images/banner1.png';
+import banner2 from '~/media/images/banner2.png';
+import { AnimatePresence, motion } from 'motion/react';
+import ButtonAccent from '~/components/ButtonAccent';
+import ScrollerArrow from '~/components/ScrollerArrow';
 
 export interface Slide {
   image: string;
@@ -15,27 +15,27 @@ export interface Slide {
 const props: Slide[] = [
   {
     image: banner,
-    header: "Ипотека от партнера",
-    desc: "Откройте выгодную ипотеку от одного из партнёров на срок от 10 лет. ",
-    href: "./",
+    header: 'Ипотека от партнера',
+    desc: 'Откройте выгодную ипотеку от одного из партнёров на срок от 10 лет. ',
+    href: './',
   },
   {
     image: banner2,
-    header: "Другая Ипотека от партнера",
-    desc: "Откройте выгодную ипотеку от одного из партнёров на срок от 10 лет. ",
-    href: "./",
+    header: 'Другая Ипотека от партнера',
+    desc: 'Откройте выгодную ипотеку от одного из партнёров на срок от 10 лет. ',
+    href: './',
   },
   {
     image: banner,
-    header: "Ипотека от партнера",
-    desc: "Откройте выгодную ипотеку от одного из партнёров на срок от 10 лет. ",
-    href: "./",
+    header: 'Ипотека от партнера',
+    desc: 'Откройте выгодную ипотеку от одного из партнёров на срок от 10 лет. ',
+    href: './',
   },
   {
     image: banner2,
-    header: "Другая Ипотека от партнера",
-    desc: "Откройте выгодную ипотеку от одного из партнёров на срок от 10 лет. ",
-    href: "./",
+    header: 'Другая Ипотека от партнера',
+    desc: 'Откройте выгодную ипотеку от одного из партнёров на срок от 10 лет. ',
+    href: './',
   },
 ];
 
@@ -72,7 +72,6 @@ export default function SlideScroller() {
   }
 
   function prevSlide() {
-    console.log(page);
     if (page === 0) {
       setPage([props.length - 1, -1]);
     } else {
@@ -95,13 +94,13 @@ export default function SlideScroller() {
           animate="center"
           exit="exit"
           transition={{
-            x: { type: "spring", stiffness: 300, damping: 30 },
+            x: { type: 'spring', stiffness: 300, damping: 30 },
             opacity: { duration: 0.2 },
           }}
           style={{
             background: `url(${currentSlide.image})`,
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
           }}
         >
           <div className="h1-def">{currentSlide.header}</div>

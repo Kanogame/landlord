@@ -1,9 +1,11 @@
-import { useRef, type ReactNode } from "react";
-import ScrollerArrow from "./ScrollerArrow";
+import { useRef, type ReactNode } from 'react';
+import ScrollerArrow from './ScrollerArrow';
+import Link from './Link';
+import type { TLink } from './common/link';
 
 export default function ScrollBlock(props: {
   children: ReactNode;
-  link?: string;
+  link?: TLink;
   label: string;
   scrollStep?: number;
 }) {
@@ -13,7 +15,7 @@ export default function ScrollBlock(props: {
     if (ref.current) {
       ref.current.scrollBy({
         left: -(props.scrollStep ?? 200),
-        behavior: "smooth",
+        behavior: 'smooth',
       });
     }
   }
@@ -22,7 +24,7 @@ export default function ScrollBlock(props: {
     if (ref.current) {
       ref.current.scrollBy({
         left: props.scrollStep ?? 200,
-        behavior: "smooth",
+        behavior: 'smooth',
       });
     }
   }
@@ -31,7 +33,11 @@ export default function ScrollBlock(props: {
     <div className="flex flex-col py-[20px] gap-[15px] bg-white block-shadow rounded-[20px]">
       <div className="h3-def flex justify-between mx-[20px]">
         {props.label}
-        {props.link && <div>{props.link}</div>}
+        {props.link && (
+          <div>
+            <Link link={props.link} />
+          </div>
+        )}
       </div>
       <div className="relative">
         <ScrollerArrow right={false} onClick={scrollLeft} />

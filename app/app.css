@@ -1,8 +1,8 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 :root {
@@ -24,8 +24,15 @@ body {
   }
 }
 
+.p {
+  font-family: Fira Sans;
+  font-size: 12px;
+  text-align: left;
+}
+
 .p-def {
   color: var(--text-black);
+  font-family: Fira Sans;
   font-size: 12px;
   text-align: left;
 }
@@ -46,6 +53,12 @@ body {
 
 .h4-def {
   color: var(--text-black);
+  font-size: 20px;
+  font-family: Fira Sans;
+  font-weight: 400;
+}
+
+.h4 {
   font-size: 20px;
   font-family: Fira Sans;
   font-weight: 400;

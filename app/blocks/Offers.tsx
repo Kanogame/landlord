@@ -31,7 +31,7 @@ const offers = [
 
 export default function Offers() {
   return (
-    <Block label="Предложения" link="Все">
+    <Block label="Предложения" link={{ label: 'Все', href: '/tips' }}>
       <div className="grid grid-cols-3 h-[100%] gap-[10px]">
         {offers.map((el, ind) => {
           return (

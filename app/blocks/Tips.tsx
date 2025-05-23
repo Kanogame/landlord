@@ -1,3 +1,4 @@
+import { href } from 'react-router';
 import Block from '~/components/Block';
 import TextCard from '~/components/TextCard';
 
@@ -26,7 +27,7 @@ const tips = [
 
 export default function Tips() {
   return (
-    <Block label="Советы" link="Все">
+    <Block label="Советы" link={{ label: 'Все', href: '/tips' }}>
       <div className="grid grid-cols-2 h-[100%] gap-[10px]">
         {tips.map((el, ind) => {
           return (

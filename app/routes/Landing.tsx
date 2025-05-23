@@ -1,3 +1,4 @@
+import { label } from 'motion/react-client';
 import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router';
 import DesktopWidth from '~/blocks/DesktopWidth';
@@ -18,14 +19,14 @@ export default function LandingPage() {
     <div>
       <SlideScroller />
       <DesktopWidth>
-        <ScrollBlock label="Аренда" link="Все">
+        <ScrollBlock label="Аренда" link={{ label: 'Все', href: '/search' }}>
           {Array(10)
             .fill(1)
             .map((_, ind) => {
               return <PropertyCard key={ind} />;
             })}
         </ScrollBlock>
-        <ScrollBlock label="Продажа" link="Все">
+        <ScrollBlock label="Продажа" link={{ label: 'Все', href: '/search' }}>
           {Array(10)
             .fill(1)
             .map((_, ind) => {
