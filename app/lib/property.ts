@@ -1,4 +1,5 @@
 import type { TMoney } from './money';
+import type { TUser } from './user';
 
 export enum TPropertyType {
   Rent,
@@ -8,6 +9,7 @@ export enum TPropertyType {
 export interface TProperty {
   type: TPropertyType;
   property: TRentProperty | TSellPropery;
+  owner: TUser;
 }
 
 export interface TGenericProperty {
@@ -16,6 +18,7 @@ export interface TGenericProperty {
   name: string;
   address: string;
   area: number;
+  desc: string;
   // hrefs
   images: string[];
 }

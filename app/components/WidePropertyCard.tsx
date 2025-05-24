@@ -14,42 +14,45 @@ import iconBookmark from '~/media/icons/icon-bookmark.svg';
 import ButtonAccent from './ButtonAccent';
 import CardDropdown from './CardDropdown';
 import { FormatMoney } from '~/lib/money';
+import { GetOwnerString } from '~/lib/user';
+import Link from './Link';
 
-export default function PropertyCard(props: { property: TProperty }) {
+export default function WidePropertyCard(props: { property: TProperty }) {
   const prop: TRentProperty | TSellPropery = props.property.property;
   return (
-    <div className="w-[200px] h-[290px] shrink-0 border-[1px] bg-white border-[#E3E3E3] rounded-[10px] p-[5px] flex flex-col items gap-[5px]">
-      <div className="flex-[1_1_100px] rounded-[5px]">
+    <div className="bg-white block-shadow rounded-[20px] p-[10px] flex gap-[5px]">
+      <div className="flex-[0_0_170px] rounded-[5px]">
         <ImageScroller images={prop.images} />
       </div>
-      <div>
+
+      <div className="flex flex-col flex-[1_0]">
         <div className="n1-def overflow-hidden text-ellipsis text-nowrap">
           {prop.name}
         </div>
+
         <div className="p-light overflow-hidden text-ellipsis text-nowrap">
           {prop.address}
         </div>
-      </div>
 
-      {props.property.type === TPropertyType.Rent && (
-        <>
+        {props.property.type === TPropertyType.Rent && (
           <div className="flex">
             <Stars raiting={(prop as TRentProperty).raiting} />
           </div>
-          <div className="flex justify-between">
-            <div className="n2-def">{FormatMoney(prop.cost)}</div>
-            <div className="p-def">{FormatArea(prop.area)}</div>
-          </div>
-        </>
-      )}
-      {props.property.type === TPropertyType.Sell && (
-        <>
-          <div className="flex justify-between">
-            <div className="n2-def">{FormatMoney(prop.cost)}</div>
-            <div className="p-def">{FormatArea(prop.area)}</div>
-          </div>
-        </>
-      )}
+        )}
+
+        <div className="p-light overflow-hidden text-ellipsis w-[100%]">
+          {prop.desc}
+        </div>
+
+        <div className="flex">{GetOwnerString(props.property.owner)}</div>
+        <Link
+          link={{
+            label: 'Профиль',
+            href: `/profile/${props.property.owner.id}`,
+          }}
+        />
+      </div>
+
       <div className="flex gap-[5px]">
         <ButtonAccent label="Написать" width="100%" />
         <ButtonIcon icon={iconBookmark} />

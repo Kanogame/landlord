@@ -40,6 +40,7 @@ export default function LandingPage() {
                       ownerId: 789,
                       name: '3х комнатная квартира',
                       address: 'Санкт-Петербург, ул. Невского, д. 20, кв. 5',
+                      desc: 'Уютная квартира с ремонтом под ключ в районе с развитой инфраструктурой. Рядом парк и детский сад. ',
                       area: 30,
                       images: [],
                       raiting: 3.8,
@@ -49,6 +50,14 @@ export default function LandingPage() {
                         currencySymbol: 'P',
                       },
                       period: TRentPeriod.Week,
+                    },
+                    owner: {
+                      id: 82,
+                      name: {
+                        name: 'Иван',
+                        surname: 'Иванов',
+                        patronym: 'Иванович',
+                      },
                     },
                   }}
                 />

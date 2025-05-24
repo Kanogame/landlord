@@ -3,11 +3,11 @@ import {
   index,
   layout,
   route,
-} from "@react-router/dev/routes";
+} from '@react-router/dev/routes';
 
 export default [
-  layout("./routes/Page.tsx", [
-    index("./routes/Landing.tsx"),
-    route("search/:id", "./routes/Search.tsx"),
+  layout('./routes/Page.tsx', [
+    index('./routes/Landing.tsx'),
+    route('search', './routes/Search.tsx'),
   ]),
 ] satisfies RouteConfig;
