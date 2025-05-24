@@ -51,7 +51,7 @@ export default function PropertyCard(props: { property: TProperty }) {
         </>
       )}
       <div className="flex gap-[5px]">
-        <ButtonAccent label="Написать" />
+        <ButtonAccent label="Написать" width="100%" />
         <ButtonIcon icon={iconBookmark} />
         <CardDropdown />
       </div>

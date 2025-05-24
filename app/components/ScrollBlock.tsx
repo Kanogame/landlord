@@ -41,8 +41,8 @@ export default function ScrollBlock(props: {
     >
       <div
         className={
-          'h3-def flex justify-between ' +
-          (props.isDesktop ? 'mx-[20px]' : 'mx-[16px]')
+          'flex justify-between ' +
+          (props.isDesktop ? 'h3-def mx-[20px]' : 'h4-def mx-[16px]')
         }
       >
         {props.label}

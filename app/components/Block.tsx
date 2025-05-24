@@ -6,10 +6,22 @@ export default function Block(props: {
   children: ReactNode;
   link?: TLink;
   label: string;
+  isDesktop: boolean;
 }) {
   return (
-    <div className="flex flex-col p-[20px] gap-[15px] h-[100%] bg-white block-shadow rounded-[20px]">
-      <div className="h3-def flex justify-between">
+    <div
+      className={
+        'flex flex-col gap-[15px] h-[100%] bg-white block-shadow rounded-[20px] ' +
+        (props.isDesktop
+          ? 'p-[20px] rounded-[20px]'
+          : 'p-[16px] rounded-[10px]')
+      }
+    >
+      <div
+        className={
+          'flex justify-between ' + (props.isDesktop ? 'h3-def' : 'h4-def')
+        }
+      >
         {props.label}
         {props.link && <Link link={props.link} />}
       </div>

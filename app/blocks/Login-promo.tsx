@@ -1,21 +1,27 @@
-import { useNavigate } from "react-router";
-import Block from "~/components/Block";
-import RegButtons from "~/components/RegButtons";
+import { useMediaQuery } from 'react-responsive';
+import { useNavigate } from 'react-router';
+import Block from '~/components/Block';
+import RegButtons from '~/components/RegButtons';
 
 export default function LoginPromo() {
   const navigate = useNavigate();
+  const isDesktop = useMediaQuery({ query: '(min-width: 1280px)' });
+
   return (
-    <Block label="Зарегистрируйтесь чтобы пользоваться всеми возможностями">
-      <div className="h5-light w-[450px]">
+    <Block
+      label="Зарегистрируйтесь чтобы пользоваться всеми возможностями"
+      isDesktop={isDesktop}
+    >
+      <div className="h5-light w-max-[450px]">
         Для полноценного использования сайта, необходима регистрация.
         Присоединяйтесь, создайте аккаунт прямо сейчас, это бесплатно!
       </div>
       <RegButtons
         onLogClick={() => {
-          navigate("/login");
+          navigate('/login');
         }}
         onRegClick={() => {
-          navigate("/registration");
+          navigate('/registration');
         }}
       />
     </Block>

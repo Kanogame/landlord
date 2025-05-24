@@ -1,15 +1,15 @@
 export interface ButtonTextProps {
   label: string;
-  width?: number;
-  height?: number;
+  width?: string;
+  height?: string;
   radius?: number;
   onClick?: () => void;
 }
 
 export function ProcessButtonProps(props: ButtonTextProps) {
   return {
-    width: (props.width ?? 120) + "px",
-    height: (props.height ?? 30) + "px",
-    borderRadius: (props.radius ?? 4) + "px",
+    width: props.width ?? '120px',
+    height: props.height ?? '30px',
+    borderRadius: (props.radius ?? 4) + 'px',
   };
 }

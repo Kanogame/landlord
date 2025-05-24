@@ -1,5 +1,7 @@
+import { useMediaQuery } from 'react-responsive';
 import { href } from 'react-router';
 import Block from '~/components/Block';
+import ScrollBlock from '~/components/ScrollBlock';
 import TextCard from '~/components/TextCard';
 
 const tips = [
@@ -26,20 +28,40 @@ const tips = [
 ];
 
 export default function Tips() {
+  const isDesktop = useMediaQuery({ query: '(min-width: 1280px)' });
+
   return (
-    <Block label="Советы" link={{ label: 'Все', href: '/tips' }}>
-      <div className="grid grid-cols-2 h-[100%] gap-[10px]">
-        {tips.map((el, ind) => {
-          return (
-            <TextCard
-              key={el.header}
-              header={el.header}
-              desc={el.desc}
-              link={el.link}
-            />
-          );
-        })}
-      </div>
-    </Block>
+    <>
+      {isDesktop ? (
+        <Block label="Советы" link={{ label: 'Все', href: '/tips' }} isDesktop>
+          <div className="grid grid-cols-2 h-[100%] gap-[10px]">
+            {tips.map((el, ind) => {
+              return (
+                <TextCard
+                  key={el.header}
+                  header={el.header}
+                  desc={el.desc}
+                  link={el.link}
+                />
+              );
+            })}
+          </div>
+        </Block>
+      ) : (
+        <ScrollBlock
+          label="Предложения"
+          link={{ label: 'Все', href: '/tips' }}
+          isDesktop={isDesktop}
+        >
+          {tips.map((el, ind) => {
+            return (
+              <div className="w-[288px] shrink-0" key={el.header}>
+                <TextCard header={el.header} desc={el.desc} link={el.link} />
+              </div>
+            );
+          })}
+        </ScrollBlock>
+      )}
+    </>
   );
 }

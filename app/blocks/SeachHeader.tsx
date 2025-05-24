@@ -29,7 +29,7 @@ export default function SearchHeader() {
             },
           ]}
         />
-        <ButtonArrow label="Больше фильтров" width={190} height={38} />
+        <ButtonArrow label="Больше фильтров" width="190px" height="38px" />
       </div>
     </div>
   );

@@ -1,4 +1,6 @@
+import { useMediaQuery } from 'react-responsive';
 import Block from '~/components/Block';
+import ScrollBlock from '~/components/ScrollBlock';
 import TextCard from '~/components/TextCard';
 
 const offers = [
@@ -30,17 +32,41 @@ const offers = [
 ];
 
 export default function Offers() {
+  const isDesktop = useMediaQuery({ query: '(min-width: 1280px)' });
+
   return (
-    <Block label="Предложения" link={{ label: 'Все', href: '/tips' }}>
-      <div className="grid grid-cols-3 h-[100%] gap-[10px]">
-        {offers.map((el, ind) => {
-          return (
-            <div className={ind === 2 ? 'row-span-2' : ''} key={el.header}>
-              <TextCard header={el.header} desc={el.desc} link={el.link} />
-            </div>
-          );
-        })}
-      </div>
-    </Block>
+    <>
+      {isDesktop ? (
+        <Block
+          label="Предложения"
+          link={{ label: 'Все', href: '/tips' }}
+          isDesktop
+        >
+          <div className="grid grid-cols-3 h-[100%] gap-[10px]">
+            {offers.map((el, ind) => {
+              return (
+                <div className={ind === 2 ? 'row-span-2' : ''} key={el.header}>
+                  <TextCard header={el.header} desc={el.desc} link={el.link} />
+                </div>
+              );
+            })}
+          </div>
+        </Block>
+      ) : (
+        <ScrollBlock
+          label="Предложения"
+          link={{ label: 'Все', href: '/tips' }}
+          isDesktop={isDesktop}
+        >
+          {offers.map((el, ind) => {
+            return (
+              <div className="w-[288px] shrink-0" key={el.header}>
+                <TextCard header={el.header} desc={el.desc} link={el.link} />
+              </div>
+            );
+          })}
+        </ScrollBlock>
+      )}
+    </>
   );
 }

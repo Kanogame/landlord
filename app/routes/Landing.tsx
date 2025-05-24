@@ -90,13 +90,19 @@ export default function LandingPage() {
       </DesktopWidth>
       <SearchBanner />
       <DesktopWidth isDesktop={isDesktop}>
-        <div className="grid grid-cols-[3fr_2fr] gap-[30px]">
-          <div className="flex flex-col gap-[30px] w-[100%]">
+        <div
+          className={
+            isDesktop
+              ? 'grid grid-cols-[3fr_2fr] gap-[20px]'
+              : 'flex flex-col gap-[20px]'
+          }
+        >
+          <div className="flex flex-col gap-[20px] w-[100%]">
             <Offers />
             <Tips />
           </div>
 
-          <div className="flex flex-col gap-[30px] w-[100%]">
+          <div className="flex flex-col gap-[20px] w-[100%]">
             <LoginPromo />
             <FrequentSearch />
           </div>

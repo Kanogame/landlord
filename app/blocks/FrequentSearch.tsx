@@ -1,3 +1,4 @@
+import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router';
 import Block from '~/components/Block';
 import ButtonArrow from '~/components/ButtonArrow';
@@ -32,20 +33,27 @@ const frequentSearch = [
 
 export default function FrequentSearch() {
   const navigate = useNavigate();
+  const isDesktop = useMediaQuery({ query: '(min-width: 1280px)' });
+
   return (
-    <Block label="Часто ищут">
+    <Block label="Часто ищут" isDesktop={isDesktop}>
       <div className="flex flex-col gap-[10px]">
         {frequentSearch.map((el, ind) => {
           return (
-            <SearchElement key={el.lable} label={el.lable} link={el.link} />
+            <SearchElement
+              key={el.lable}
+              label={el.lable}
+              link={el.link}
+              isDesktop={isDesktop}
+            />
           );
         })}
       </div>
       <div className="flex justify-center items-center">
         <ButtonArrow
           label="Перейти к поиску"
-          width={220}
-          height={50}
+          width="220px"
+          height="50px"
           onClick={() => {
             navigate('/search');
           }}

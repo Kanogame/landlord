@@ -106,7 +106,7 @@ export default function SlideScroller() {
           <div className="h1-def">{currentSlide.header}</div>
           <div className="h4-def w-[500px]">{currentSlide.desc}</div>
 
-          <ButtonAccent label="Узнать больше" width={180} height={40} />
+          <ButtonAccent label="Узнать больше" width="180px" height="40px" />
         </motion.div>
       </AnimatePresence>
     </div>
