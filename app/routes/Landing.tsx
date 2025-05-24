@@ -13,14 +13,20 @@ import PropertyCard from '~/components/PropertyCard';
 import ScrollBlock from '~/components/ScrollBlock';
 import SearchElement from '~/components/SearchElement';
 import TextCard from '~/components/TextCard';
+import { useMediaQuery } from 'react-responsive';
 
 export default function LandingPage() {
+  const isDesktop = useMediaQuery({ query: '(min-width: 1280px)' });
   const navigate = useNavigate();
   return (
     <div>
       <SlideScroller />
-      <DesktopWidth>
-        <ScrollBlock label="Аренда" link={{ label: 'Все', href: '/search' }}>
+      <DesktopWidth isDesktop={isDesktop}>
+        <ScrollBlock
+          label="Аренда"
+          isDesktop={isDesktop}
+          link={{ label: 'Все', href: '/search' }}
+        >
           {Array(10)
             .fill(1)
             .map((_, ind) => {
@@ -49,7 +55,11 @@ export default function LandingPage() {
               );
             })}
         </ScrollBlock>
-        <ScrollBlock label="Продажа" link={{ label: 'Все', href: '/search' }}>
+        <ScrollBlock
+          label="Продажа"
+          isDesktop={isDesktop}
+          link={{ label: 'Все', href: '/search' }}
+        >
           {Array(10)
             .fill(1)
             .map((_, ind) => {
@@ -79,7 +89,7 @@ export default function LandingPage() {
         </ScrollBlock>
       </DesktopWidth>
       <SearchBanner />
-      <DesktopWidth>
+      <DesktopWidth isDesktop={isDesktop}>
         <div className="grid grid-cols-[3fr_2fr] gap-[30px]">
           <div className="flex flex-col gap-[30px] w-[100%]">
             <Offers />

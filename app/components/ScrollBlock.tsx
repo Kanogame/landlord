@@ -8,6 +8,7 @@ export default function ScrollBlock(props: {
   link?: TLink;
   label: string;
   scrollStep?: number;
+  isDesktop: boolean;
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -30,8 +31,20 @@ export default function ScrollBlock(props: {
   }
 
   return (
-    <div className="flex flex-col py-[20px] gap-[15px] bg-white block-shadow rounded-[20px]">
-      <div className="h3-def flex justify-between mx-[20px]">
+    <div
+      className={
+        'flex flex-col gap-[15px] bg-white block-shadow ' +
+        (props.isDesktop
+          ? 'py-[20px] rounded-[20px]'
+          : 'py-[16px] rounded-[10px]')
+      }
+    >
+      <div
+        className={
+          'h3-def flex justify-between ' +
+          (props.isDesktop ? 'mx-[20px]' : 'mx-[16px]')
+        }
+      >
         {props.label}
         {props.link && (
           <div>
@@ -44,7 +57,10 @@ export default function ScrollBlock(props: {
         <ScrollerArrow right={true} onClick={scrollRight} />
         <div
           ref={ref}
-          className="flex gap-[10px] flex-[0_0] overflow-auto scrollbar-0 px-[20px]"
+          className={
+            'flex gap-[10px] flex-[0_0] overflow-auto scrollbar-0 ' +
+            (props.isDesktop ? 'px-[20px]' : 'px-[16px]')
+          }
         >
           {props.children}
         </div>
