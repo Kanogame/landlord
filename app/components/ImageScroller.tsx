@@ -25,10 +25,7 @@ const variants = {
   },
 };
 
-export default function ImageScroller(props: {
-  images: string[];
-  rounded: number;
-}) {
+export default function ImageScroller(props: { images: string[] }) {
   const [[page, direction], setPage] = useState([0, 0]);
 
   const images =
@@ -53,6 +50,7 @@ export default function ImageScroller(props: {
       setPage([page - 1, -1]);
     }
   }
+  console.log(currentSlide);
 
   return (
     <div className="w-[100%] h-[100%] overflow-hidden flex">
@@ -69,21 +67,15 @@ export default function ImageScroller(props: {
           custom={direction}
           variants={variants}
           className={
-            'flex flex-col h-[100%] w-[100%] justify-between rounded-[' +
-            props.rounded +
-            'px]'
+            'flex flex-col h-[100%] w-[100%] justify-between bg-center bg-cover bg-no-repeat rounded-[5px]'
           }
           initial="enter"
           animate="center"
           exit="exit"
+          style={{ backgroundImage: `url(${currentSlide})` }}
           transition={{
             x: { type: 'spring', stiffness: 300, damping: 30 },
             opacity: { duration: 0.2 },
-          }}
-          style={{
-            background: `url(${currentSlide})`,
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
           }}
         />
       </AnimatePresence>

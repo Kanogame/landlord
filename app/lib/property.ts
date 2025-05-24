@@ -1,3 +1,5 @@
+import type { TMoney } from './money';
+
 export enum TPropertyType {
   Rent,
   Sell,
@@ -27,10 +29,14 @@ export enum TRentPeriod {
 export interface TRentProperty extends TGenericProperty {
   raiting: number;
   // maybe some TMoney?
-  cost: string;
+  cost: TMoney;
   period: TRentPeriod;
 }
 
 export interface TSellPropery extends TGenericProperty {
-  cost: string;
+  cost: TMoney;
+}
+
+export function FormatArea(value: number): string {
+  return value + ' м²';
 }

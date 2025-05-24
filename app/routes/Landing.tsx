@@ -37,7 +37,11 @@ export default function LandingPage() {
                       area: 30,
                       images: [],
                       raiting: 3.8,
-                      cost: '20 000',
+                      cost: {
+                        amount: '30000',
+                        currency: 125,
+                        currencySymbol: 'P',
+                      },
                       period: TRentPeriod.Week,
                     },
                   }}
@@ -61,11 +65,12 @@ export default function LandingPage() {
                       address:
                         'Краснодарский край, г. Сочи, ул. Морская, д. 15',
                       area: 200,
-                      images: [
-                        'https://example.com/image6.jpg',
-                        'https://example.com/image7.jpg',
-                      ],
-                      cost: '25000000 руб.',
+                      images: [],
+                      cost: {
+                        amount: '200000000',
+                        currency: 125,
+                        currencySymbol: 'P',
+                      },
                     },
                   }}
                 />
