@@ -1,7 +1,7 @@
 import { useRef, type ReactNode } from 'react';
 import ScrollerArrow from './ScrollerArrow';
 import Link from './Link';
-import type { TLink } from '../utils/link';
+import type { TLink } from '../lib/link';
 
 export default function ScrollBlock(props: {
   children: ReactNode;

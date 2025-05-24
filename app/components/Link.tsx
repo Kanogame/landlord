@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router';
-import type { TLink } from '../utils/link';
+import type { TLink } from '../lib/link';
 
 const arrow = {
   init: { x: 0 },

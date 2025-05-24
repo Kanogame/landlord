@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import Link from './Link';
-import type { TLink } from '../utils/link';
+import type { TLink } from '../lib/link';
 
 export default function Block(props: {
   children: ReactNode;

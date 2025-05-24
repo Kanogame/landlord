@@ -8,7 +8,7 @@ import Offers from '~/blocks/Offers';
 import SearchBanner from '~/blocks/SearchBanner';
 import SlideScroller from '~/blocks/SlideScroller';
 import Tips from '~/blocks/Tips';
-import { TPropertyType, TRentPeriod } from '~/utils/property';
+import { TPropertyType, TRentPeriod } from '~/lib/property';
 import PropertyCard from '~/components/PropertyCard';
 import ScrollBlock from '~/components/ScrollBlock';
 import SearchElement from '~/components/SearchElement';

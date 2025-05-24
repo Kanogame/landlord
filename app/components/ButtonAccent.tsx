@@ -22,7 +22,6 @@ export default function ButtonAccent(props: ButtonTextProps) {
       style={ProcessButtonProps(props)}
       onClick={handleClick}
     >
-      {' '}
       {props.label}
     </motion.button>
   );
