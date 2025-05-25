@@ -16,11 +16,11 @@ import CardDropdown from './CardDropdown';
 import { FormatMoney } from '~/lib/money';
 
 export default function PropertyCard(props: { property: TProperty }) {
-  const prop: TRentProperty | TSellPropery = props.property.property;
+  const prop: TRentProperty | TSellPropery = props.property;
   return (
     <div className="w-[200px] h-[290px] shrink-0 border-[1px] bg-white border-[#E3E3E3] rounded-[10px] p-[5px] flex flex-col items gap-[5px]">
       <div className="flex-[1_1_100px] rounded-[5px]">
-        <ImageScroller images={prop.images} />
+        <ImageScroller images={prop.imageLinks} />
       </div>
       <div>
         <div className="n1-def overflow-hidden text-ellipsis text-nowrap">

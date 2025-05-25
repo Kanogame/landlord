@@ -1,7 +1,14 @@
 import { useMediaQuery } from 'react-responsive';
 import DesktopWidth from '~/blocks/DesktopWidth';
 import SearchList from '~/blocks/SearchList';
-import { TPropertyType, TRentPeriod } from '~/lib/property';
+import { Post } from '~/lib/api';
+import {
+  TPropertyType,
+  TRentPeriod,
+  type TGenericProperty,
+  type TProperty,
+} from '~/lib/property';
+import type { Route } from '../+types/root';
 
 const some = Array(10).fill({
   type: TPropertyType.Rent,
@@ -31,15 +38,27 @@ const some = Array(10).fill({
   },
 });
 
-export default function SeachPage() {
+export async function clientLoader({ param }) {
+  console.log('here');
+  const resp = await Post<TProperty[]>('api/Property/get_properties_search', {
+    pageNumber: 1,
+    pageSize: 10,
+    offerType: 0,
+  });
+  return resp;
+}
+
+export default function SeachPage({ loaderData }: Route.ComponentProps) {
   const isDesktop = useMediaQuery({ query: '(min-width: 1280px)' });
+
+  console.log(loaderData);
 
   return (
     <DesktopWidth isDesktop={isDesktop}>
       <div className="flex gap-[20px] w-[100%]">
         <div className="flex-[2_1]"></div>
         <div className="flex-[10_1]">
-          <SearchList propertyList={some} />
+          <SearchList propertyList={loaderData} />
         </div>
       </div>
     </DesktopWidth>

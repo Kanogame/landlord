@@ -6,21 +6,17 @@ export enum TPropertyType {
   Sell,
 }
 
-export interface TProperty {
-  type: TPropertyType;
-  property: TRentProperty | TSellPropery;
-  owner: TUser;
-}
+export type TProperty = TRentProperty | TSellPropery;
 
 export interface TGenericProperty {
   id: number;
+  type: TPropertyType;
   ownerId: number;
   name: string;
   address: string;
   area: number;
   desc: string;
-  // hrefs
-  images: string[];
+  imageLinks: string[];
 }
 
 export enum TRentPeriod {
