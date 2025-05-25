@@ -32,7 +32,7 @@ export default function WidePropertyCard(props: { property: TProperty }) {
         </div>
 
         <div className="p-light overflow-hidden text-ellipsis text-nowrap">
-          {prop.address.city}
+          {prop.address.displayAddress}
         </div>
 
         {props.property.type === TPropertyType.Rent && (
