@@ -2,6 +2,7 @@ import { useMediaQuery } from 'react-responsive';
 import Block from '~/components/Block';
 import ScrollBlock from '~/components/ScrollBlock';
 import TextCard from '~/components/TextCard';
+import { useDesktop } from '~/hooks/useDesktop';
 
 const offers = [
   {
@@ -32,7 +33,7 @@ const offers = [
 ];
 
 export default function Offers() {
-  const isDesktop = useMediaQuery({ query: '(min-width: 1280px)' });
+  const isDesktop = useDesktop();
 
   return (
     <>

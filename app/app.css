@@ -137,6 +137,13 @@ body {
   font-weight: 700;
 }
 
+.hint {
+  color: var(--text-black);
+  font-size: 8px;
+  font-family: Fira Sans;
+  font-weight: 400;
+}
+
 .scrollbar-0 {
   scrollbar-width: none;
 }

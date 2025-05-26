@@ -9,5 +9,6 @@ export default [
   layout('./routes/Page.tsx', [
     index('./routes/Landing.tsx'),
     route('search', './routes/Search.tsx'),
+    route('chat', './routes/Chat.tsx'),
   ]),
 ] satisfies RouteConfig;

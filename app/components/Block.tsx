@@ -17,14 +17,16 @@ export default function Block(props: {
           : 'p-[16px] rounded-[10px]')
       }
     >
-      <div
-        className={
-          'flex justify-between ' + (props.isDesktop ? 'h3-def' : 'h4-def')
-        }
-      >
-        {props.label}
-        {props.link && <Link link={props.link} />}
-      </div>
+      {props.label != '' && (
+        <div
+          className={
+            'flex justify-between ' + (props.isDesktop ? 'h3-def' : 'h4-def')
+          }
+        >
+          {props.label}
+          {props.link && <Link link={props.link} />}
+        </div>
+      )}
       {props.children}
     </div>
   );

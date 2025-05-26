@@ -14,9 +14,10 @@ import ScrollBlock from '~/components/ScrollBlock';
 import SearchElement from '~/components/SearchElement';
 import TextCard from '~/components/TextCard';
 import { useMediaQuery } from 'react-responsive';
+import { useDesktop } from '~/hooks/useDesktop';
 
 export default function LandingPage() {
-  const isDesktop = useMediaQuery({ query: '(min-width: 1280px)' });
+  const isDesktop = useDesktop();
   const navigate = useNavigate();
   return (
     <div>

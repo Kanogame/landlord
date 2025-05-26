@@ -1,9 +1,10 @@
 import { useMediaQuery } from 'react-responsive';
 import ButtonArrow from '~/components/ButtonArrow';
 import banner from '~/media/images/banner2.png';
+import { useDesktop } from '~/hooks/useDesktop';
 
 export default function SearchBanner() {
-  const isDesktop = useMediaQuery({ query: '(min-width: 1280px)' });
+  const isDesktop = useDesktop();
 
   return (
     <div

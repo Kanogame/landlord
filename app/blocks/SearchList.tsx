@@ -1,9 +1,10 @@
 import { useMediaQuery } from 'react-responsive';
 import WidePropertyCard from '~/components/WidePropertyCard';
 import type { TGenericProperty, TProperty } from '~/lib/property';
+import { useDesktop } from '~/hooks/useDesktop';
 
 export default function SearchList(props: { propertyList: TProperty[] }) {
-  const isDesktop = useMediaQuery({ query: '(min-width: 1280px)' });
+  const isDesktop = useDesktop();
 
   console.log('here', props.propertyList);
   return (

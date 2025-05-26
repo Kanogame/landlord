@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import {
   FormatArea,
   TPropertyType,
@@ -10,10 +10,39 @@ import ImageScroller from './ImageScroller';
 import { Stars } from './stars';
 import ButtonIcon from './ButtonIcon';
 import iconBookmark from '~/media/icons/icon-bookmark.svg';
-
+import IconMore from '~/media/icons/icon-more.svg';
 import ButtonAccent from './ButtonAccent';
-import CardDropdown from './CardDropdown';
+import ButtonIconDropdown from './ButtonIconDropdown';
 import { FormatMoney } from '~/lib/money';
+import iconCalendar from '~/media/icons/icon-calendar.svg';
+import iconShare from '~/media/icons/icon-share.svg';
+import iconPosition from '~/media/icons/icon-position.svg';
+import iconWarn from '~/media/icons/icon-warn.svg';
+import iconBan from '~/media/icons/icon-ban.svg';
+import DropdownElement from './DropdownElement';
+
+const dropdownOptions = [
+  {
+    label: 'Календарь',
+    icon: iconCalendar,
+  },
+  {
+    label: 'Поделиться',
+    icon: iconShare,
+  },
+  {
+    label: 'На карте',
+    icon: iconPosition,
+  },
+  {
+    label: 'Пожаловаться',
+    icon: iconWarn,
+  },
+  {
+    label: 'Скрыть',
+    icon: iconBan,
+  },
+];
 
 export default function PropertyCard(props: { property: TProperty }) {
   const prop: TRentProperty | TSellPropery = props.property;
@@ -53,7 +82,11 @@ export default function PropertyCard(props: { property: TProperty }) {
       <div className="flex gap-[5px]">
         <ButtonAccent label="Написать" width="100%" />
         <ButtonIcon icon={iconBookmark} />
-        <CardDropdown />
+        <ButtonIconDropdown icon={IconMore}>
+          {dropdownOptions.map(el => {
+            return <DropdownElement label={el.label} icon={el.icon} />;
+          })}
+        </ButtonIconDropdown>
       </div>
     </div>
   );

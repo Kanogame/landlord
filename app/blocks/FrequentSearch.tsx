@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import Block from '~/components/Block';
 import ButtonArrow from '~/components/ButtonArrow';
 import SearchElement from '~/components/SearchElement';
+import { useDesktop } from '~/hooks/useDesktop';
 
 const frequentSearch = [
   {
@@ -33,7 +34,7 @@ const frequentSearch = [
 
 export default function FrequentSearch() {
   const navigate = useNavigate();
-  const isDesktop = useMediaQuery({ query: '(min-width: 1280px)' });
+  const isDesktop = useDesktop();
 
   return (
     <Block label="Часто ищут" isDesktop={isDesktop}>

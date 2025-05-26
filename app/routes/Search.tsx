@@ -9,6 +9,7 @@ import {
   type TProperty,
 } from '~/lib/property';
 import type { Route } from '../+types/root';
+import { useDesktop } from '~/hooks/useDesktop';
 
 const some = Array(10).fill({
   type: TPropertyType.Rent,
@@ -49,7 +50,7 @@ export async function clientLoader({ param }) {
 }
 
 export default function SeachPage({ loaderData }: Route.ComponentProps) {
-  const isDesktop = useMediaQuery({ query: '(min-width: 1280px)' });
+  const isDesktop = useDesktop();
 
   console.log(loaderData);
 

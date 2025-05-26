@@ -2,10 +2,11 @@ import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router';
 import Block from '~/components/Block';
 import RegButtons from '~/components/RegButtons';
+import { useDesktop } from '~/hooks/useDesktop';
 
 export default function LoginPromo() {
   const navigate = useNavigate();
-  const isDesktop = useMediaQuery({ query: '(min-width: 1280px)' });
+  const isDesktop = useDesktop();
 
   return (
     <Block

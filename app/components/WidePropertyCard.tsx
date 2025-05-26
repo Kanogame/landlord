@@ -12,7 +12,7 @@ import ButtonIcon from './ButtonIcon';
 import iconBookmark from '~/media/icons/icon-bookmark.svg';
 
 import ButtonAccent from './ButtonAccent';
-import CardDropdown from './CardDropdown';
+import ButtonIconDropdown from './ButtonIconDropdown';
 import { FormatMoney } from '~/lib/money';
 import { GetOwnerString } from '~/lib/user';
 import Link from './Link';
@@ -57,7 +57,7 @@ export default function WidePropertyCard(props: { property: TProperty }) {
       <div className="flex gap-[5px]">
         <ButtonAccent label="Написать" width="100%" />
         <ButtonIcon icon={iconBookmark} />
-        <CardDropdown />
+        <ButtonIconDropdown />
       </div>
     </div>
   );

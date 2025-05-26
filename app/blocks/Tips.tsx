@@ -3,6 +3,7 @@ import { href } from 'react-router';
 import Block from '~/components/Block';
 import ScrollBlock from '~/components/ScrollBlock';
 import TextCard from '~/components/TextCard';
+import { useDesktop } from '~/hooks/useDesktop';
 
 const tips = [
   {
@@ -28,7 +29,7 @@ const tips = [
 ];
 
 export default function Tips() {
-  const isDesktop = useMediaQuery({ query: '(min-width: 1280px)' });
+  const isDesktop = useDesktop();
 
   return (
     <>

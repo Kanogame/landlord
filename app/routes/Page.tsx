@@ -8,6 +8,7 @@ import { useState } from 'react';
 import SidePage from '~/blocks/mobileSidepage';
 import { AnimatePresence } from 'motion/react';
 import Footer from '~/blocks/Footer';
+import { useDesktop } from '~/hooks/useDesktop';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -17,7 +18,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Page() {
-  const isDesktop = useMediaQuery({ query: '(min-width: 1280px)' });
+  const isDesktop = useDesktop();
   const [sidePage, setSidepage] = useState<boolean>(false);
 
   function openSidepage() {
