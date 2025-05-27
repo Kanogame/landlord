@@ -18,7 +18,7 @@ import DropdownElement from './DropdownElement';
 import { propertyCardDropdownOptions } from './common/propertyCard';
 
 export default function PropertyCard(props: { property: TProperty }) {
-  const prop: TRentProperty | TSellProperty = props.property;
+  const prop: TRentProperty | TSellProperty = props.property.property;
   return (
     <div className="w-[200px] h-[290px] shrink-0 border-[1px] bg-white border-[#E3E3E3] rounded-[10px] p-[5px] flex flex-col items gap-[5px]">
       <div className="flex-[1_1_100px] rounded-[5px]">

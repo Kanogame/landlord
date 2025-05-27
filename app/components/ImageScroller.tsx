@@ -50,10 +50,9 @@ export default function ImageScroller(props: { images: string[] }) {
       setPage([page - 1, -1]);
     }
   }
-  console.log(currentSlide);
 
   return (
-    <div className="w-[100%] h-[100%] overflow-hidden flex">
+    <div className="w-[100%] h-[100%] overflow-hidden flex relative">
       {showArrows && (
         <>
           <ScrollerArrow right={false} onClick={prevImage} />

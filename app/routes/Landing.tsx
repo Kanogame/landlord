@@ -8,95 +8,58 @@ import Offers from '~/blocks/Offers';
 import SearchBanner from '~/blocks/SearchBanner';
 import SlideScroller from '~/blocks/SlideScroller';
 import Tips from '~/blocks/Tips';
-import { TOfferType, TRentPeriod } from '~/lib/property';
+import { TOfferType, TRentPeriod, type TSearchResult } from '~/lib/property';
 import PropertyCard from '~/components/PropertyCard';
 import ScrollBlock from '~/components/ScrollBlock';
 import SearchElement from '~/components/SearchElement';
 import TextCard from '~/components/TextCard';
 import { useMediaQuery } from 'react-responsive';
 import { useDesktop } from '~/hooks/useDesktop';
+import CardFetchScroller from '~/blocks/CardFetchScroller';
+import { Post } from '~/lib/api';
+import type { Route } from '../+types/root';
 
-export default function LandingPage() {
+export async function clientLoader(): Promise<{
+  rent: TSearchResult;
+  sell: TSearchResult;
+}> {
+  console.log('hi');
+  const rent = await Post<TSearchResult>('api/Property/get_properties_search', {
+    pageNumber: 1,
+    pageSize: 10,
+    offerType: TOfferType.Rent,
+  });
+
+  const sell = await Post<TSearchResult>('api/Property/get_properties_search', {
+    pageNumber: 1,
+    pageSize: 10,
+    offerType: TOfferType.Sell,
+  });
+  return { rent: rent, sell: sell };
+}
+
+export default function LandingPage({ loaderData }: Route.ComponentProps) {
   const isDesktop = useDesktop();
   const navigate = useNavigate();
+
+  const { rent, sell } = loaderData as {
+    rent: TSearchResult;
+    sell: TSearchResult;
+  };
   return (
     <div>
       <SlideScroller />
       <DesktopWidth isDesktop={isDesktop}>
-        <ScrollBlock
+        <CardFetchScroller
           label="Аренда"
-          isDesktop={isDesktop}
           link={{ label: 'Все', href: '/search' }}
-        >
-          {Array(10)
-            .fill(1)
-            .map((_, ind) => {
-              return (
-                <PropertyCard
-                  key={ind}
-                  property={{
-                    type: TOfferType.Rent,
-                    property: {
-                      id: 3,
-                      ownerId: 789,
-                      name: '3х комнатная квартира',
-                      address: 'Санкт-Петербург, ул. Невского, д. 20, кв. 5',
-                      desc: 'Уютная квартира с ремонтом под ключ в районе с развитой инфраструктурой. Рядом парк и детский сад. ',
-                      area: 30,
-                      images: [],
-                      raiting: 3.8,
-                      cost: {
-                        amount: '30000',
-                        currency: 125,
-                        currencySymbol: 'P',
-                      },
-                      period: TRentPeriod.Week,
-                    },
-                    owner: {
-                      id: 82,
-                      name: {
-                        name: 'Иван',
-                        surname: 'Иванов',
-                        patronym: 'Иванович',
-                      },
-                    },
-                  }}
-                />
-              );
-            })}
-        </ScrollBlock>
-        <ScrollBlock
+          loaded={rent}
+        />
+        <CardFetchScroller
           label="Продажа"
-          isDesktop={isDesktop}
           link={{ label: 'Все', href: '/search' }}
-        >
-          {Array(10)
-            .fill(1)
-            .map((_, ind) => {
-              return (
-                <PropertyCard
-                  key={ind}
-                  property={{
-                    type: TOfferType.Sell,
-                    property: {
-                      id: 4,
-                      ownerId: 321,
-                      name: 'Коттедж в Сочи',
-                      address:
-                        'Краснодарский край, г. Сочи, ул. Морская, д. 15',
-                      area: 200,
-                      images: [],
-                      cost: {
-                        amount: '200000000',
-                        currency: 125,
-                        currencySymbol: 'P',
-                      },
-                    },
-                  }}
-                />
-              );
-            })}
-        </ScrollBlock>
+          loaded={sell}
+        />
       </DesktopWidth>
       <SearchBanner />
       <DesktopWidth isDesktop={isDesktop}>

@@ -13,6 +13,7 @@ export default function ScrollBlock(props: {
   const ref = useRef<HTMLDivElement | null>(null);
 
   function scrollLeft() {
+    console.log('scroll left');
     if (ref.current) {
       ref.current.scrollBy({
         left: -(props.scrollStep ?? 200),
@@ -22,6 +23,7 @@ export default function ScrollBlock(props: {
   }
 
   function scrollRight() {
+    console.log('scroll right');
     if (ref.current) {
       ref.current.scrollBy({
         left: props.scrollStep ?? 200,
@@ -52,7 +54,7 @@ export default function ScrollBlock(props: {
           </div>
         )}
       </div>
-      <div className="relative">
+      <div className="relative pointer-events-auto">
         <ScrollerArrow right={false} onClick={scrollLeft} />
         <ScrollerArrow right={true} onClick={scrollRight} />
         <div
