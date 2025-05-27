@@ -89,6 +89,13 @@ body {
   font-weight: 400;
 }
 
+.h2-def {
+  color: var(--text-black);
+  font-size: 36px;
+  font-family: Fira Sans;
+  font-weight: 400;
+}
+
 .h3-def {
   color: var(--text-black);
   font-size: 24px;
@@ -125,6 +132,13 @@ body {
 
 .n1-def {
   color: var(--text-black);
+  font-size: 15px;
+  font-family: Fira Sans;
+  font-weight: 700;
+}
+
+.n1-light {
+  color: var(--text-light);
   font-size: 15px;
   font-family: Fira Sans;
   font-weight: 700;

@@ -35,7 +35,12 @@ export default function ChatEntry({
       }`}
       onClick={onClick}
     >
-      <Profile name={chat.name} avatar={chat.avatar} subtitle={chat.adTitle} />
+      <Profile
+        isBig={false}
+        name={chat.name}
+        avatar={chat.avatar}
+        subtitle={chat.adTitle}
+      />
 
       <ButtonIconDropdown icon={iconMore}>
         {dropdownOptions.map(el => {

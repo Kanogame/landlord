@@ -1,8 +1,7 @@
 export async function Post<T>(path: string, requestObject: {}): Promise<T> {
-  console.log(import.meta.env.VITE_BACKEND_ENDPOINT + path);
   const resp = await req('POST', path, requestObject, undefined);
   if (!resp.ok) {
-    console.log('error, ' + resp);
+    console.log('error, ', resp);
   }
   return resp as T;
 }
@@ -21,7 +20,6 @@ async function req(
     null,
     signal
   );
-  console.log(resp, JSON.stringify(body));
   return await resp.json();
 }
 

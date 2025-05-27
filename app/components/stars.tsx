@@ -1,4 +1,4 @@
-export function Stars(props: { raiting: number }) {
+export function Stars(props: { rating: number }) {
   return (
     <div className="flex gap-[5px] py-[2px] px-[5px] bg-[#D9D9D9] items-center rounded-[4px]">
       <svg
@@ -15,7 +15,7 @@ export function Stars(props: { raiting: number }) {
           />
         </g>
       </svg>
-      <div className="p-def">{props.raiting}</div>
+      <div className="p-def">{props.rating}</div>
     </div>
   );
 }

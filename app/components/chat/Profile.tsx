@@ -1,24 +1,36 @@
-export default function Profile(props: {
+interface ProfileProps {
   name: string;
   avatar: string;
   subtitle: string;
-}) {
+  isBig: boolean;
+}
+
+export default function Profile({
+  name,
+  avatar,
+  subtitle,
+  isBig,
+}: ProfileProps) {
   return (
     <div className="flex gap-[10px] min-w-0">
-      <div className="w-10 h-10 rounded-full flex-shrink-0">
-        <img
-          src={props.avatar}
-          alt={props.name}
-          className="w-full h-full rounded-full"
-        />
+      <div
+        className={`${
+          isBig ? 'w-11 h-11' : 'w-10 h-10'
+        } rounded-full flex-shrink-0`}
+      >
+        <img src={avatar} alt={name} className="w-full h-full rounded-full" />
       </div>
 
       <div className="flex-1 ml-2 min-w-0">
-        <div className="n1-def overflow-hidden text-ellipsis text-nowrap">
-          {props.name}
+        <div
+          className={`${
+            isBig ? 'h4-def' : 'n1-def'
+          } overflow-hidden text-ellipsis text-nowrap`}
+        >
+          {name}
         </div>
         <div className="p-def overflow-hidden text-ellipsis text-nowrap">
-          {props.subtitle}
+          {subtitle}
         </div>
       </div>
     </div>

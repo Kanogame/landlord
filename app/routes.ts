@@ -10,5 +10,6 @@ export default [
     index('./routes/Landing.tsx'),
     route('search', './routes/Search.tsx'),
     route('chat', './routes/Chat.tsx'),
+    route('property/:id', './routes/PropertyPage.tsx'),
   ]),
 ] satisfies RouteConfig;

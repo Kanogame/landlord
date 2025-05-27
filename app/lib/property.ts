@@ -21,8 +21,8 @@ export interface TAddress {
 
 export interface TProperty {
   type: TOfferType;
-
   property: TRentProperty | TSellProperty;
+  owner: TOwner;
 }
 
 export interface TOwner {

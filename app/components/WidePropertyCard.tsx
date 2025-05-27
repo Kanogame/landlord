@@ -42,7 +42,7 @@ export default function WidePropertyCard(props: { property: TProperty }) {
 
         {type === TOfferType.Rent && (
           <div className="flex">
-            <Stars raiting={(prop as TRentProperty).raiting} />
+            <Stars rating={(prop as TRentProperty).raiting} />
           </div>
         )}
 

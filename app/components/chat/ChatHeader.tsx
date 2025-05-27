@@ -27,7 +27,12 @@ export default function ChatHeader({ chat }: ChatHeaderProps) {
   const navigate = useNavigate();
   return (
     <div className="flex items-center justify-between border-b pb-[10px] border-[#E3E3E3]">
-      <Profile name={chat.name} avatar={chat.avatar} subtitle={chat.adTitle} />
+      <Profile
+        isBig={false}
+        name={chat.name}
+        avatar={chat.avatar}
+        subtitle={chat.adTitle}
+      />
 
       <div className="flex items-center gap-2">
         <ButtonEmpty
