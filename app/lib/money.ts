@@ -5,15 +5,19 @@ export interface TMoney {
 }
 
 export function FormatMoneyAmountWithSpaces(value: string): string {
-  return value
-    .split('')
-    .reverse()
-    .map((el, ind) => {
-      return el + (ind % 3 == 0 ? ' ' : '');
-    })
-    .reverse()
-    .join('')
-    .slice(0, -1);
+  const tmp: string = value.split('.')[0];
+  return (
+    tmp
+      .split('')
+      .reverse()
+      .map((el, ind) => {
+        return el + (ind % 3 == 0 ? ' ' : '');
+      })
+      .reverse()
+      .join('')
+      .slice(0, -1) +
+    (value.split('.')[0].length > 0 ? ',' + value.split('.')[1] : ',00')
+  );
 }
 
 export function FormatMoney(value: TMoney): string {

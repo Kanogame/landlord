@@ -8,7 +8,7 @@ import Offers from '~/blocks/Offers';
 import SearchBanner from '~/blocks/SearchBanner';
 import SlideScroller from '~/blocks/SlideScroller';
 import Tips from '~/blocks/Tips';
-import { TPropertyType, TRentPeriod } from '~/lib/property';
+import { TOfferType, TRentPeriod } from '~/lib/property';
 import PropertyCard from '~/components/PropertyCard';
 import ScrollBlock from '~/components/ScrollBlock';
 import SearchElement from '~/components/SearchElement';
@@ -35,7 +35,7 @@ export default function LandingPage() {
                 <PropertyCard
                   key={ind}
                   property={{
-                    type: TPropertyType.Rent,
+                    type: TOfferType.Rent,
                     property: {
                       id: 3,
                       ownerId: 789,
@@ -77,7 +77,7 @@ export default function LandingPage() {
                 <PropertyCard
                   key={ind}
                   property={{
-                    type: TPropertyType.Sell,
+                    type: TOfferType.Sell,
                     property: {
                       id: 4,
                       ownerId: 321,
