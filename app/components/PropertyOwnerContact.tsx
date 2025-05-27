@@ -3,7 +3,7 @@ import Block from './Block';
 import ButtonAccent from './ButtonAccent';
 import ButtonIcon from './ButtonIcon';
 import PropertyInfoLine from './PropertyInfoLine';
-import FormatPrice from '~/lib/property';
+import FormatPrice, { TOfferType } from '~/lib/property';
 import type { TProperty } from '~/lib/property';
 import iconBookmark from '~/media/icons/icon-bookmark.svg';
 import iconCalendar from '~/media/icons/icon-calendar.svg';
@@ -41,8 +41,10 @@ export default function PropertySummary({
     <Block label="" isDesktop={isDesktop}>
       <div className="flex flex-col gap-[15px]">
         <div className="flex justify-between">
-          <span className="n1-def">Название</span>
-          <span className="p-def">Аренда</span>
+          <span className="n1-def">{property.property.name}</span>
+          <span className="p-def">
+            {property.type == TOfferType.Rent ? 'Аренда' : 'Продажа'}
+          </span>
         </div>
 
         <div className="flex justify-between items-center">
@@ -88,7 +90,7 @@ export default function PropertySummary({
             />
           </div>
 
-          <div className="flex flex-wrap gap-[10px]">
+          <div className="flex flex-wrap gap-[10px] justify-center">
             {quickMessages.map((msg, index) => (
               <button
                 key={index}

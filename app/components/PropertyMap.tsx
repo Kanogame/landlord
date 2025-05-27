@@ -1,3 +1,4 @@
+import { useDesktop } from '~/hooks/useDesktop';
 import Block from './Block';
 import type { TAddress } from '~/lib/property';
 
@@ -6,25 +7,25 @@ interface PropertyMapProps {
 }
 
 export default function PropertyMap({ address }: PropertyMapProps) {
+  const isDesktop = useDesktop();
+
   return (
-    <Block label="На карте" isDesktop={true}>
+    <Block label="" isDesktop={isDesktop}>
+      <div
+        className={
+          'flex items-center gap-[10px] ' + (isDesktop ? 'h3-def' : 'h4-def')
+        }
+      >
+        Описание
+        <div className="p-light">{address.displayAddress}</div>
+      </div>
+
       <div className="flex flex-col gap-[15px]">
         <img
           src="/app/media/images/map-placeholder.png"
           alt="Map"
-          className="w-[740px] h-[298px] rounded-[10px] object-cover"
+          className="w-[100%] h-[100%] rounded-[10px] object-cover"
         />
-        <div className="text-[12px] text-[#707070]">
-          {address.displayAddress}
-        </div>
-        <div className="flex items-center gap-[5px] cursor-pointer">
-          <span className="text-[12px] text-[#2D2D2D]">Показать полностью</span>
-          <img
-            src="/app/media/icons/icon-chevron-down.svg"
-            alt="expand"
-            className="w-[19px] h-[16px]"
-          />
-        </div>
       </div>
     </Block>
   );

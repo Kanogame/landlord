@@ -20,22 +20,18 @@ export default function PropertyCalendar() {
     )} - ${range.to.toLocaleDateString('ru-RU')}`;
   };
 
-  // Custom range selection handler to fix dragging behavior
   const handleRangeSelect = (range: DateRange | undefined) => {
     if (!range) {
       setSelectedRange(undefined);
       return;
     }
 
-    // If only 'from' is set, this is the start of a new selection
     if (range.from && !range.to) {
       setSelectedRange({ from: range.from, to: undefined });
       return;
     }
 
-    // If both 'from' and 'to' are set, complete the range
     if (range.from && range.to) {
-      // Ensure 'from' is always before 'to'
       const from = range.from <= range.to ? range.from : range.to;
       const to = range.from <= range.to ? range.to : range.from;
       setSelectedRange({ from, to });
@@ -47,41 +43,40 @@ export default function PropertyCalendar() {
 
   return (
     <Block label="Календарь" isDesktop={isDesktop}>
-      <div className="flex gap-[12px] h-[328px]">
+      <div className="flex gap-[12px] h-[328px] self-end">
         <div className="flex-shrink-0" style={{ width: 370 }}>
           <Calendar
             mode="range"
             selected={selectedRange}
             onSelect={handleRangeSelect}
             numberOfMonths={1}
-            className="w-[370px] bg-white flex flex-col"
+            className="w-[100%] bg-white flex flex-col"
             classNames={{
               months: 'flex flex-col',
               month: 'space-y-0',
               caption:
-                'flex justify-center pt-[6px] relative items-center h-[44px]',
-              caption_label: 'h4-def absolute left-4 top-[9px]',
-              nav: 'space-x-1 flex items-center',
+                'flex justify-between pt-[6px] items-center h-[44px] px-[12px]',
+              caption_label: 'h4-def left-4 top-[9px]',
+              nav: 'flex items-center gap-[40px]',
               nav_button:
-                'h-[18px] w-[10px] bg-transparent p-0 hover:opacity-70 absolute top-[11px]',
-              nav_button_previous: 'left-[298px]',
-              nav_button_next: 'left-[344px]',
+                'h-[18px] w-[10px] bg-transparent p-0 hover:opacity-70 top-[11px]',
+              nav_button_previous: '',
+              nav_button_next: '',
               table: 'w-full border-collapse',
               head_row: 'flex justify-between items-center px-4 h-5',
               head_cell:
                 'w-8 h-[18px] text-center flex justify-center items-center text-[rgba(60,60,67,0.30)] n1-light',
-              row: 'flex justify-between items-start px-4 relative',
-              cell: 'w-[44px] h-[44px] text-center p-0 relative',
-              day: 'h-[44px] w-[44px] p-0 h4-def hover:bg-gray-100 transition-colors flex items-center justify-center',
-              day_selected:
-                'text-[#8B2635] text-[24px] bg-[rgba(139,38,53,0.12)] rounded-full',
+              row: 'flex justify-between items-center ',
+              cell: 'w-[100%] h-[44px] flex items-center',
+              day: 'h-[30px] h4-def hover:bg-[#DCBEC2] flex flex-1 items-center justify-center',
+              day_selected: 'text-[#8B2635]  bg-[rgba(139,38,53,0.12)]',
               day_range_start:
-                'text-[#2D2D2D] text-[20px] bg-[#DCBEC2] relative z-10',
+                'text-[#2D2D2D] bg-[#DCBEC2] z-10 rounded-bl-full rounded-l-full',
               day_range_end:
-                'text-[#2D2D2D] text-[20px] bg-[#DCBEC2] relative z-10',
-              day_range_middle:
-                'text-[#2D2D2D] text-[20px] bg-[#DCBEC2] relative z-10',
-              day_today: 'text-[#8B2635] border border-[#8B2635] rounded-full',
+                'text-[#2D2D2D] bg-[#DCBEC2] z-10 rounded-br-full rounded-r-full',
+              day_range_middle: 'text-[#2D2D2D] bg-[#DCBEC2] z-10',
+              day_today:
+                'h-[44px] text-[#8B2635] border border-[#8B2635] rounded-full',
               day_outside: 'text-[#D9D9D9]',
               day_disabled: 'text-[#D9D9D9] opacity-50 cursor-not-allowed',
               day_hidden: 'invisible',
@@ -123,31 +118,56 @@ export default function PropertyCalendar() {
           />
         </div>
         <div className="w-[1px] bg-[#E3E3E3]" />
-        <div className="flex-1 flex flex-col">
-          <div className="text-[20px] text-black mb-[20px]">
-            События за выбранный период
-          </div>
-          <div className="text-[15px] font-bold text-black mb-[15px]">
+        <div className="flex-1 flex flex-col gap-[8px]">
+          <div className="h4-def">События за выбранный период</div>
+          <div className="n1-def">
             {selectedRange?.from && selectedRange?.to
               ? `Ремонт ${formatDateRange(selectedRange)}`
               : 'Выберите период'}
           </div>
           <div className="flex-1 text-[12px] text-[#2D2D2D] overflow-hidden relative">
-            <div className="absolute inset-0 bg-gradient-to-b from-[#D9D9D9] to-transparent opacity-50" />
-            <p>
+            <div className="absolute inset-0 bg-gradient-to-b to-transparent from-[#fff] rotate-180" />
+            <p className="p-def overflow-hidden">
               {selectedRange?.from && selectedRange?.to
                 ? `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 Quisque rhoncus accumsan aliquam accumsan eleifend vehicula eget
-                finibus ut ex turp...`
+                finibus ut ex turp Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Quisque rhoncus accumsan aliquam accumsan eleifend vehicula eget
+                finibus ut ex turp
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Quisque rhoncus accumsan aliquam accumsan eleifend vehicula eget
+                finibus ut ex turp
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Quisque rhoncus accumsan aliquam accumsan eleifend vehicula eget
+                finibus ut ex turp
+                finibus ut ex turp
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Quisque rhoncus accumsan aliquam accumsan eleifend vehicula eget
+                finibus ut ex turp
+                finibus ut ex turp
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Quisque rhoncus accumsan aliquam accumsan eleifend vehicula eget
+                finibus ut ex turp
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Quisque rhoncus accumsan aliquam accumsan eleifend vehicula eget
+                finibus ut ex turp`
                 : 'Выберите период на календаре, чтобы увидеть события'}
             </p>
           </div>
-          <ButtonAccent
-            label="Увидеть полный календарь"
-            width="200px"
-            height="30px"
-          />
+          <div className="flex justify-center">
+            <ButtonAccent
+              label="Увидеть полный календарь"
+              width="200px"
+              height="30px"
+            />
+          </div>
         </div>
       </div>
     </Block>

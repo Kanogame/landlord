@@ -1,6 +1,7 @@
 import Block from './Block';
 import PropertyInfoLine from './PropertyInfoLine';
 import type { TProperty } from '~/lib/property';
+import ArrowDown from '~/media/icons/icon-arrow-down.svg';
 
 interface PropertyDetailsProps {
   property: TProperty;
@@ -34,11 +35,7 @@ export default function PropertyDetails({
 
       <div className="flex items-center justify-center gap-[5px] cursor-pointer mt-[15px]">
         <span className="text-[12px] text-[#2D2D2D]">Показать полностью</span>
-        <img
-          src="/app/media/icons/icon-chevron-down.svg"
-          alt="expand"
-          className="w-[19px] h-[16px]"
-        />
+        <img src={ArrowDown} alt="expand" className="w-[19px] h-[16px]" />
       </div>
     </Block>
   );
