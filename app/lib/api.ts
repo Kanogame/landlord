@@ -1,9 +1,7 @@
 export async function Post<T>(path: string, requestObject: {}): Promise<T> {
   const resp = await req('POST', path, requestObject, undefined);
-  if (!resp.ok) {
-    console.log('error, ', resp);
-  }
-  return resp as T;
+  console.log(resp);
+  return resp;
 }
 
 async function req(
@@ -13,14 +11,19 @@ async function req(
   signal?: AbortSignal | undefined
 ) {
   const body = requestObject ?? null;
-  const resp = await doFetch(
-    `${import.meta.env.VITE_BACKEND_ENDPOINT}${url}`,
-    method,
-    body,
-    null,
-    signal
-  );
-  return await resp.json();
+  try {
+    const resp = await doFetch(
+      `${import.meta.env.VITE_BACKEND_ENDPOINT}${url}`,
+      method,
+      body,
+      null,
+      signal
+    );
+    return await resp.json();
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
 }
 
 async function doFetch(

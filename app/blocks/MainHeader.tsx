@@ -8,33 +8,45 @@ export default function MainHeader(props: any) {
   return (
     <div className="bg-white flex justify-center items-center border-b-[1px] border-b-[#EFEFEF] py-[5px]">
       <div className="flex flex-[0_1_1600px] justify-between items-center px-[50px]">
-        <div>
+        <div onClick={() => navigate('/')} className="cursor-pointer">
           <img src={logo} alt="logo" className="block w-full" />
         </div>
         <div className="flex align-center gap-[15px]">
-          <a href="" className="p-def">
+          <span onClick={() => navigate('/')} className="cursor-pointer p-def">
             Главная
-          </a>
-          <a href="" className="p-def">
+          </span>
+          <span
+            onClick={() => navigate('/search?offerType=1')}
+            className="cursor-pointer p-def"
+          >
             Покупка
-          </a>
-          <a href="" className="p-def">
+          </span>
+          <span
+            onClick={() => navigate('/search?offerType=0')}
+            className="cursor-pointer p-def"
+          >
             Аренда
-          </a>
+          </span>
           <span className="p-def">|</span>
-          <a href="" className="p-def">
+          <span
+            onClick={() => navigate('/chat')}
+            className="cursor-pointer p-def"
+          >
             Чаты
-          </a>
-          <a href="" className="p-def">
+          </span>
+          <span
+            onClick={() => navigate('/profile/monitoring')}
+            className="cursor-pointer p-def"
+          >
             Мониторинг
-          </a>
+          </span>
         </div>
         <RegButtons
           onLogClick={() => {
             navigate('/login');
           }}
           onRegClick={() => {
-            navigate('/registration');
+            navigate('/register');
           }}
         />
       </div>

@@ -5,6 +5,7 @@ import ChatEntry from './ChatEntry';
 import { chatListData } from './chatData';
 import { useDesktop } from '~/hooks/useDesktop';
 import iconSearch from '~/media/icons/icon-search.svg';
+import { Input } from '../ui/input';
 
 interface ChatSidebarProps {
   selectedChatId: string;
@@ -32,18 +33,18 @@ export default function ChatSidebar({
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-[5px]">
           <div className="w-[100%]">
-            <input
+            <Input
               type="text"
               placeholder="Шаблон"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="w-full h-7 px-2 text-xs border border-neutral-300 rounded-sm font-['Fira_Sans']"
+              className="w-full p-def"
             />
           </div>
         </div>
 
         <div className="flex items-center gap-[5px]">
-          <input
+          <Input
             type="checkbox"
             id="showInactive"
             checked={showInactiveChats}

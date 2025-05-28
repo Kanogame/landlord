@@ -3,6 +3,8 @@ export interface ButtonTextProps {
   width?: string;
   height?: string;
   radius?: number;
+  disabled?: boolean;
+  type?: "submit" | "reset" | "button";
   onClick?: () => void;
 }
 

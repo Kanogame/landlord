@@ -18,7 +18,7 @@ const ButtonIcon = forwardRef<HTMLButtonElement, ButtonIconProps>(
         initial="rest"
         whileHover="hover"
         variants={buttonVariants}
-        className="p text-center flex flex-[0_0_30px] items-center justify-center bg-[#F3E7E7] p-[7px] rounded-[4px]"
+        className="cursor-pointer p text-center flex flex-[0_0_30px] items-center justify-center bg-[#F3E7E7] p-[7px] rounded-[4px]"
         {...(props as HTMLMotionProps<'button'>)}
       >
         <img src={icon} alt="" className="w-[100%] h-[100%]" />

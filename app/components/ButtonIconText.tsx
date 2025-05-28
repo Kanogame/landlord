@@ -20,7 +20,7 @@ const ButtonIconText = forwardRef<HTMLButtonElement, ButtonIconProps>(
         initial="rest"
         whileHover="hover"
         variants={buttonVariants}
-        className="text-center flex flex-col items-center justify-center bg-[#F3E7E7] p-[7px] rounded-[4px] h-[46px]"
+        className="cursor-pointer text-center flex flex-col items-center justify-center bg-[#F3E7E7] p-[7px] rounded-[4px] h-[46px]"
         style={{ width }}
         {...(props as HTMLMotionProps<'button'>)}
       >

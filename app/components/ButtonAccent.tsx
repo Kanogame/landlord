@@ -8,7 +8,7 @@ const buttonVariants = {
 
 export default function ButtonAccent(props: ButtonTextProps) {
   function handleClick() {
-    if (props.onClick) {
+    if (props.onClick && !(props.disabled ?? false)) {
       props.onClick();
     }
   }
@@ -17,8 +17,9 @@ export default function ButtonAccent(props: ButtonTextProps) {
     <motion.button
       initial="rest"
       whileHover="hover"
+      type={props.type ?? "button"}
       variants={buttonVariants}
-      className="p text-center flex items-center justify-center text-[white] bg-[#8b2635] px-4 py-2"
+      className={"cursor-pointer p text-center flex items-center justify-center text-[white] bg-[#8b2635] px-4 py-2" + (props.disabled ? "bg-[#76222E]" : "")}
       style={ProcessButtonProps(props)}
       onClick={handleClick}
     >

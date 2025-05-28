@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ButtonIcon from '../ButtonIcon';
 import ButtonAccent from '../ButtonAccent';
+import { Input } from '../ui/input';
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
@@ -31,13 +32,13 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
       />
 
       <div className="flex-1">
-        <input
+        <Input
           type="text"
           placeholder="Шаблон"
           value={message}
           onChange={e => setMessage(e.target.value)}
           onKeyPress={handleKeyPress}
-          className="w-[100%] h-[100%] px-2 p-def border border-[#E3E3E3] rounded-sm font-['Fira_Sans']"
+          className="w-[100%] h-[30px] p-def"
         />
       </div>
 

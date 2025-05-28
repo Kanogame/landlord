@@ -22,7 +22,7 @@ export default function LoginPromo() {
           navigate('/login');
         }}
         onRegClick={() => {
-          navigate('/registration');
+          navigate('/register');
         }}
       />
     </Block>

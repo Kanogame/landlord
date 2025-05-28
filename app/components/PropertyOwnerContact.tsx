@@ -12,6 +12,7 @@ import iconMore from '~/media/icons/icon-more.svg';
 import Profile from './chat/Profile';
 import ButtonIconText from './ButtonIconText';
 import { useDesktop } from '~/hooks/useDesktop';
+import { Input } from './ui/input';
 
 interface PropertyOwnerContactProps {
   property: TProperty;
@@ -71,12 +72,12 @@ export default function PropertySummary({
 
           <div className="flex gap-[10px]">
             <div className="flex-1">
-              <input
+              <Input
                 type="text"
                 value={message}
                 onChange={e => setMessage(e.target.value)}
                 placeholder="Начните печатать"
-                className="w-full h-[36px] px-[8px] py-[11px] border border-[#D4D4D4] rounded-[4px] text-[12px] text-[#707070]"
+                className="w-[100%] p-def"
               />
             </div>
             <ButtonAccent
