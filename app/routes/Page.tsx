@@ -26,7 +26,7 @@ export default function Page() {
   }
 
   return (
-    <div className="bg-[#F8F8F8]">
+    <div className="bg-[#F8F8F8] flex flex-col min-h-[100vh]">
       {isDesktop ? (
         <MainHeader />
       ) : (
@@ -37,7 +37,9 @@ export default function Page() {
       )}
       {isDesktop && <SearchHeader />}
       <AnimatePresence>{sidePage && <SidePage />}</AnimatePresence>
-      <Outlet />
+      <div className="flex-1 flex">
+        <Outlet />
+      </div>
       <Footer isDesktop={isDesktop} />
     </div>
   );
