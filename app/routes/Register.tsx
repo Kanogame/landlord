@@ -11,6 +11,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from '~/components/ui/input-otp';
+import { useAuth } from '~/hooks/useAuth';
 import { UseLocalStorage } from '~/hooks/useLocalStorage';
 import { Post } from '~/lib/api';
 
@@ -33,7 +34,7 @@ export async function clientAction({ request }: ActionFunctionArgs) {
       const { success, verificationId } = await Post<{
         success: boolean;
         verificationId: number;
-      }>('api/User/verification_number', { number: phone });
+      }>('api/User/register/send-code', { number: phone });
 
       if (success) {
         return { success: true, stage: 1, verificationId: verificationId };
@@ -48,7 +49,7 @@ export async function clientAction({ request }: ActionFunctionArgs) {
       console.log(verificationId, code);
 
       const { success } = await Post<{ success: boolean }>(
-        'api/User/verification_code',
+        'api/User/register/verify-code',
         { verificationId, code }
       );
 
@@ -69,7 +70,7 @@ export async function clientAction({ request }: ActionFunctionArgs) {
       const { success, token } = await Post<{
         success: boolean;
         token: string;
-      }>('api/User/verification_personal', {
+      }>('api/User/register/complete', {
         verificationId,
         firstName,
         lastName,
@@ -96,12 +97,12 @@ export default function Register() {
 
   const [currentStage, setCurrentStage] = useState(actionData?.stage || 0);
   const [verificationId, setVerificationId] = useState(0);
-  const [token, setToken] = UseLocalStorage('token', '');
+  const {login } = useAuth(); 
 
   // Update local state when action data changes
   if (actionData?.stage !== undefined && actionData.stage !== currentStage) {
     if (actionData.stage === 3) {
-      setToken(actionData?.token ?? '');
+      login(actionData?.token ?? '');
       navigate('/');
     }
     setCurrentStage(actionData.stage);

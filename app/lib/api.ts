@@ -4,6 +4,12 @@ export async function Post<T>(path: string, requestObject: {}): Promise<T> {
   return resp;
 }
 
+export async function Get<T>(path: string, signal?: AbortSignal): Promise<T> {
+  const resp = await req('GET', path, undefined, signal);
+  console.log(resp);
+  return resp;
+}
+
 async function req(
   method: string,
   url: string,
@@ -16,7 +22,7 @@ async function req(
       `${import.meta.env.VITE_BACKEND_ENDPOINT}${url}`,
       method,
       body,
-      null,
+      getAuthToken(),
       signal
     );
     return await resp.json();
@@ -64,4 +70,12 @@ function makeOptions(
     options.signal = signal;
   }
   return options;
+}
+
+function getAuthToken(): string | null {
+  if (typeof window !== 'undefined') {
+    const stored = localStorage.getItem('auth_token');
+    return stored ? JSON.parse(stored) : null;
+  }
+  return null;
 }
