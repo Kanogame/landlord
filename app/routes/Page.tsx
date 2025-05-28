@@ -36,7 +36,13 @@ export default function Page() {
         />
       )}
       {isDesktop && <SearchHeader />}
-      <AnimatePresence>{sidePage && <SidePage />}</AnimatePresence>
+      <AnimatePresence>
+        {sidePage && (
+          <div className="flex-1 flex">
+            <SidePage />
+          </div>
+        )}
+      </AnimatePresence>
       <div className="flex-1 flex">
         <Outlet />
       </div>

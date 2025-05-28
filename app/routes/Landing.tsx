@@ -47,7 +47,7 @@ export default function LandingPage({ loaderData }: Route.ComponentProps) {
     sell: TSearchResult;
   };
   return (
-    <div>
+    <div className="w-[100%]">
       <SlideScroller />
       <DesktopWidth isDesktop={isDesktop}>
         <CardFetchScroller

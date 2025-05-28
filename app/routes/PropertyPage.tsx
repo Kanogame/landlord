@@ -22,8 +22,6 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
   const isDesktop = useDesktop();
   const property = loaderData as TProperty;
 
-  console.log(property);
-
   return (
     <DesktopWidth isDesktop={isDesktop}>
       <div
