@@ -53,7 +53,7 @@ export default function ChatSimplified() {
   return (
     <DesktopWidth isDesktop={isDesktop}>
       <div className="flex items-start gap-[20px] w-[100%]">
-        {!isDesktop && mobileSidePage && (
+        {(isDesktop || mobileSidePage) && (
           <div className="flex-[3_1]">
             <ChatSidebar
               chats={chats}
@@ -63,7 +63,7 @@ export default function ChatSimplified() {
             />
           </div>
         )}
-        {!isDesktop && !mobileSidePage && (
+        {(isDesktop || !mobileSidePage) && (
           <div className="flex-[9_1]">
             <ChatWindow
               chatId={selectedChatId}

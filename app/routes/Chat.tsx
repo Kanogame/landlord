@@ -47,11 +47,15 @@ export default function Chat() {
   // Check for new messages and show notifications
   useEffect(() => {
     const currentUnreadCount = getTotalUnreadCount(chats);
-    
+
     if (currentUnreadCount > previousUnreadCount && previousUnreadCount > 0) {
       // Find chats with new messages
       chats.forEach(chat => {
-        if (chat.unreadCount > 0 && chat.lastMessage && chat.id !== selectedChatId) {
+        if (
+          chat.unreadCount > 0 &&
+          chat.lastMessage &&
+          chat.id !== selectedChatId
+        ) {
           showChatNotification(
             chat.otherUserName,
             chat.lastMessage.content,
@@ -60,7 +64,7 @@ export default function Chat() {
         }
       });
     }
-    
+
     setPreviousUnreadCount(currentUnreadCount);
   }, [chats, selectedChatId, previousUnreadCount, showChatNotification]);
 
@@ -119,7 +123,7 @@ export default function Chat() {
       <DesktopWidth isDesktop={isDesktop}>
         <div className="flex flex-col items-center justify-center p-8 gap-4">
           <div className="text-red-500">{error}</div>
-          <button 
+          <button
             onClick={loadChats}
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >
@@ -142,10 +146,7 @@ export default function Chat() {
           />
         </div>
         <div className="flex-[9_1]">
-          <ChatWindow 
-            chatId={selectedChatId} 
-            onChatUpdate={handleChatUpdate}
-          />
+          <ChatWindow chatId={selectedChatId} onChatUpdate={handleChatUpdate} />
         </div>
       </div>
     </DesktopWidth>

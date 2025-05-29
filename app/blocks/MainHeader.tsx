@@ -1,14 +1,21 @@
 import logo from '~/media/icons/logo.svg';
 import RegButtons from '~/components/RegButtons';
 import { useNavigate } from 'react-router';
+import { useAuth } from '~/hooks/useAuth';
+import ButtonAccent from '~/components/ButtonAccent';
+import ButtonEmpty from '~/components/ButtonEmpty';
 
 export default function MainHeader(props: any) {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   return (
     <div className="bg-white flex justify-center items-center border-b-[1px] border-b-[#EFEFEF] py-[5px]">
-      <div className="flex flex-[0_1_1600px] justify-between items-center px-[50px]">
-        <div onClick={() => navigate('/')} className="cursor-pointer">
+      <div className="flex flex-[0_1_1600px] justify-center items-center px-[50px] h-[30px] relative">
+        <div
+          onClick={() => navigate('/')}
+          className="cursor-pointer absolute left-[50px]"
+        >
           <img src={logo} alt="logo" className="block w-full" />
         </div>
         <div className="flex align-center gap-[15px]">
@@ -41,14 +48,28 @@ export default function MainHeader(props: any) {
             Мониторинг
           </span>
         </div>
-        <RegButtons
-          onLogClick={() => {
-            navigate('/login');
-          }}
-          onRegClick={() => {
-            navigate('/register');
-          }}
-        />
+        {isAuthenticated ? (
+          <div className="flex gap-[5px] absolute right-[50px]">
+            <ButtonAccent
+              label="Мой аккаунт"
+              onClick={() => navigate('/profile/account')}
+            />
+            <ButtonEmpty
+              label="Создать объявление"
+              onClick={() => navigate('/editor')}
+              width="170px"
+            />
+          </div>
+        ) : (
+          <RegButtons
+            onLogClick={() => {
+              navigate('/login');
+            }}
+            onRegClick={() => {
+              navigate('/register');
+            }}
+          />
+        )}
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ export default function FullscreenBlock(props: {
         'w-[100%] h-[100%] self-center flex justify-center items-center'
       }
     >
-      <div className="w-[100%] max-w-[400px]">
+      <div className="w-[100%] max-w-[350px]">
         <Block isDesktop={isDesktop} label={props.label}>
           {props.children}
         </Block>

@@ -18,7 +18,7 @@ export default function ButtonEmpty(props: ButtonTextProps) {
       initial="rest"
       whileHover="hover"
       variants={buttonVariants}
-      className="cursor-pointer text-xs text-center flex items-center justify-center text-[#2D2D2D] border-[1px] border-[#8b2635] px-4 py-2"
+      className="cursor-pointer text-xs text-center flex items-center justify-center text-[#2D2D2D] border-[1px] border-[#8b2635] text-[#8b2635] px-4 py-2"
       style={ProcessButtonProps(props)}
       onClick={handleClick}
     >

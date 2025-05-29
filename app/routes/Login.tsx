@@ -30,15 +30,17 @@ export async function clientAction({ request }: ActionFunctionArgs) {
     case 'send-code': {
       const phone = formData.get('phone') as string;
 
-      const { success, verificationId } = await Post<{
+      const { success, verificationId, message } = await Post<{
         success: boolean;
-        verificationId: number;
+        verificationId?: number;
+        message?: string;
       }>('api/User/login/send-code', { number: phone });
 
+      console.log(success);
       if (success) {
         return { success: true, stage: 1, verificationId: verificationId };
       } else {
-        return { error: 'Ошибка отправки SMS', stage: 0 };
+        return { error: message, stage: 0 };
       }
     }
 
