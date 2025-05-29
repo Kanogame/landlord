@@ -18,7 +18,7 @@ import { GetOwnerString } from '~/lib/user';
 import iconCalendar from '~/media/icons/icon-calendar.svg';
 import iconShare from '~/media/icons/icon-share.svg';
 import iconPosition from '~/media/icons/icon-position.svg';
-import Link from './Link';
+import ArrowLink from './Link';
 import { widePropertyCardDropdownOptions } from './common/propertyCard';
 import DropdownElement from './DropdownElement';
 
@@ -51,7 +51,7 @@ export default function WidePropertyCard(props: { property: TProperty }) {
         </div>
 
         <div className="flex">{prop.username}, хозяин</div>
-        <Link
+        <ArrowLink
           link={{
             label: 'Профиль',
             href: prop.profileLink,

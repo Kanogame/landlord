@@ -79,3 +79,45 @@ export function isMessageFromYesterday(dateString: string): boolean {
 
   return messageDate.toDateString() === yesterday.toDateString();
 }
+
+// used
+
+export const formatMessageTime = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleTimeString('ru-RU', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};
+
+export const formatMessageDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffInDays = Math.floor(
+    (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
+  );
+
+  if (diffInDays === 0) {
+    return 'Сегодня';
+  } else if (diffInDays === 1) {
+    return 'Вчера';
+  } else {
+    return date.toLocaleDateString('ru-RU', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
+  }
+};
+
+export const shouldShowDate = (
+  currentMessage: ChatMessage,
+  previousMessage?: ChatMessage
+) => {
+  if (!previousMessage) return true;
+
+  const currentDate = new Date(currentMessage.sentDate).toDateString();
+  const previousDate = new Date(previousMessage.sentDate).toDateString();
+
+  return currentDate !== previousDate;
+};

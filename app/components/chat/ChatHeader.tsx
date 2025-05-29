@@ -7,9 +7,9 @@ import iconBan from '~/media/icons/icon-ban.svg';
 import DropdownElement from '../DropdownElement';
 import Profile from './Profile';
 import type { Chat } from '~/lib/chat';
-import iconArrowLeft from '~/media/icons/leftArrow.svg';
 import { useDesktop } from '~/hooks/useDesktop';
 import ButtonIcon from '../ButtonIcon';
+import iconArrowLeft from '~/media/icons/icon-arrow-left.svg';
 
 interface ChatHeaderProps {
   chat: Chat;
@@ -54,13 +54,15 @@ export default function ChatHeader({
 
   return (
     <div className="flex items-center justify-between border-b pb-[10px] border-[#E3E3E3]">
-      <ButtonIcon icon={iconArrowLeft} onClick={onBack} />
-      <Profile
-        isBig={false}
-        name={chat.otherUserName}
-        avatar={`https://placehold.co/36x36`} // Using placeholder for now
-        subtitle={chat.propertyAddress}
-      />
+      <div className="flex gap-2">
+        <img src={iconArrowLeft} onClick={onBack} />
+        <Profile
+          isBig={false}
+          name={chat.otherUserName}
+          avatar={`https://placehold.co/36x36`} // Using placeholder for now
+          subtitle={chat.propertyAddress}
+        />
+      </div>
 
       <div className="flex items-center gap-2">
         <ButtonEmpty

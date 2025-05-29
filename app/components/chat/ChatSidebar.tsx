@@ -1,28 +1,23 @@
 import { useState } from 'react';
 import Block from '../Block';
 import ChatEntry from './ChatEntry';
-import ButtonAccent from '../ButtonAccent';
 import { useDesktop } from '~/hooks/useDesktop';
 import { Input } from '../ui/input';
 import type { Chat } from '~/lib/chat';
 import { sortChatsByLastUpdate, getTotalUnreadCount } from '~/lib/chatUtils';
+import { Link, useParams } from 'react-router';
 
 interface ChatSidebarProps {
   chats: Chat[];
-  selectedChatId: number | null;
-  onChatSelect: (chatId: number) => void;
   onChatUpdate: () => void;
 }
 
-export default function ChatSidebar({
-  chats,
-  selectedChatId,
-  onChatSelect,
-  onChatUpdate,
-}: ChatSidebarProps) {
+export default function ChatSidebar({ chats, onChatUpdate }: ChatSidebarProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [showArchivedChats, setShowArchivedChats] = useState(false);
   const isDesktop = useDesktop();
+  const params = useParams();
+  const selectedChatId = params.id ? parseInt(params.id) : null;
 
   const filteredChats = chats.filter(chat => {
     const matchesSearch =
@@ -78,12 +73,13 @@ export default function ChatSidebar({
             </div>
           ) : (
             sortedChats.map(chat => (
-              <ChatEntry
-                key={chat.id}
-                chat={chat}
-                isSelected={selectedChatId === chat.id}
-                onClick={() => onChatSelect(chat.id)}
-              />
+              <Link key={chat.id} to={`/chat/${chat.id}`}>
+                <ChatEntry
+                  chat={chat}
+                  isSelected={selectedChatId === chat.id}
+                  onClick={() => {}} // No longer needed since Link handles navigation
+                />
+              </Link>
             ))
           )}
         </div>

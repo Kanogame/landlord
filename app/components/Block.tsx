@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import Link from './Link';
+import ArrowLink from './Link';
 import type { TLink } from '../lib/link';
 
 export default function Block(props: {
@@ -24,7 +24,7 @@ export default function Block(props: {
           }
         >
           {props.label}
-          {props.link && <Link link={props.link} />}
+          {props.link && <ArrowLink link={props.link} />}
         </div>
       )}
       {props.children}

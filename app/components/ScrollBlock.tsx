@@ -1,6 +1,6 @@
 import { useRef, type ReactNode } from 'react';
 import ScrollerArrow from './ScrollerArrow';
-import Link from './Link';
+import ArrowLink from './Link';
 import type { TLink } from '../lib/link';
 
 export default function ScrollBlock(props: {
@@ -50,7 +50,7 @@ export default function ScrollBlock(props: {
         {props.label}
         {props.link && (
           <div>
-            <Link link={props.link} />
+            <ArrowLink link={props.link} />
           </div>
         )}
       </div>

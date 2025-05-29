@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import ChatSidebar from '../components/chat/ChatSidebar';
 import ChatWindow from '../components/chat/ChatWindow';
 import DesktopWidth from '~/blocks/DesktopWidth';
@@ -6,28 +6,33 @@ import { useDesktop } from '~/hooks/useDesktop';
 import { useAuth } from '~/hooks/useAuth';
 import { useChat } from '~/hooks/useChat';
 import ButtonAccent from '~/components/ButtonAccent';
-import type { Route } from './+types/ChatSimplified';
+import type { Route } from './+types/ChatDetail';
+import { useNavigate } from 'react-router';
+import { sendMessage } from '~/lib/chatApi';
 
-export default function ChatSimplified({ params }: Route.ComponentProps) {
+export default function ChatDetail({ params }: Route.ComponentProps) {
+  const navigate = useNavigate();
   const {
     chats,
-    selectedChatId,
     selectedChat,
+    selectedChatId,
     selectedChatMessages,
     error,
     loadChats,
     selectChat,
+    sendChatMessage,
   } = useChat();
-
-  if (params?.id != null && +params?.id > 0 && selectedChatId != +params.id) {
-    selectChat(+params.id);
-    loadChats();
-  }
-
-  const [mobileSidePage, setMobileSidePage] = useState(false);
 
   const { isAuthenticated } = useAuth();
   const isDesktop = useDesktop();
+  const chatId = params.id ? parseInt(params.id) : null;
+
+  // Select chat when route changes
+  useEffect(() => {
+    if (chatId && chatId > 0) {
+      selectChat(chatId);
+    }
+  }, [chatId]);
 
   // Set up polling for chat updates
   useEffect(() => {
@@ -39,6 +44,10 @@ export default function ChatSimplified({ params }: Route.ComponentProps) {
 
     return () => clearInterval(interval);
   }, [isAuthenticated, loadChats]);
+
+  const handleBackToSidebar = () => {
+    navigate('/chat');
+  };
 
   if (!isAuthenticated) {
     return (
@@ -65,29 +74,23 @@ export default function ChatSimplified({ params }: Route.ComponentProps) {
 
   return (
     <DesktopWidth isDesktop={isDesktop}>
-      <div className="flex items-start gap-[20px] w-[100%]">
-        {(isDesktop || mobileSidePage) && (
+      <div className="flex items-start gap-[20px] h-[100%]">
+        {isDesktop && (
           <div className="flex-[3_1]">
-            <ChatSidebar
-              chats={chats}
-              selectedChatId={selectedChatId}
-              onChatSelect={ch => {
-                selectChat(ch);
-              }}
-              onChatUpdate={loadChats}
-            />
+            <ChatSidebar chats={chats} onChatUpdate={loadChats} />
           </div>
         )}
-        {(isDesktop || !mobileSidePage) && (
-          <div className="flex-[9_1]">
-            <ChatWindow
-              messages={selectedChatMessages}
-              chat={selectedChat}
-              onChatUpdate={loadChats}
-              onBack={() => setMobileSidePage(true)}
-            />
-          </div>
-        )}
+        <div className={isDesktop ? 'flex-[9_1]' : 'flex-1  h-[100%]'}>
+          <ChatWindow
+            messages={selectedChatMessages}
+            chat={selectedChat}
+            onChatUpdate={loadChats}
+            onBack={handleBackToSidebar}
+            onMessageSend={message => {
+              sendChatMessage(selectedChatId ?? -1, message);
+            }}
+          />
+        </div>
       </div>
     </DesktopWidth>
   );

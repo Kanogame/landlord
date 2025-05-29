@@ -12,12 +12,18 @@ import {
 import type { Chat, ChatMessage } from '~/lib/chat';
 import ButtonAccent from '../ButtonAccent';
 import type { label } from 'motion/react-client';
+import {
+  formatMessageDate,
+  formatMessageTime,
+  shouldShowDate,
+} from '~/lib/chatUtils';
 
 interface ChatWindowProps {
   chat: Chat | null;
   messages: ChatMessage[];
   onChatUpdate: () => void;
   onBack: () => void;
+  onMessageSend: (message: string) => void;
 }
 
 export default function ChatWindow({
@@ -25,63 +31,20 @@ export default function ChatWindow({
   chat,
   onChatUpdate,
   onBack,
+  onMessageSend,
 }: ChatWindowProps) {
   const [sending, setSending] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [hasMoreMessages, setHasMoreMessages] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const isDesktop = useDesktop();
 
-  const scrollToBottom = () => {
-    setTimeout(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-  };
-
-  const formatMessageTime = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString('ru-RU', {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
-
-  const formatMessageDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffInDays = Math.floor(
-      (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
-    );
-
-    if (diffInDays === 0) {
-      return 'Сегодня';
-    } else if (diffInDays === 1) {
-      return 'Вчера';
-    } else {
-      return date.toLocaleDateString('ru-RU', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-      });
-    }
-  };
-
-  const shouldShowDate = (
-    currentMessage: ChatMessage,
-    previousMessage?: ChatMessage
-  ) => {
-    if (!previousMessage) return true;
-
-    const currentDate = new Date(currentMessage.sentDate).toDateString();
-    const previousDate = new Date(previousMessage.sentDate).toDateString();
-
-    return currentDate !== previousDate;
-  };
-
   return (
     <Block label="" isDesktop={isDesktop}>
-      <div className="flex flex-col h-[600px]">
+      <div
+        className={
+          isDesktop ? 'flex flex-col h-[100%]' : 'flex flex-col w-[100%]'
+        }
+      >
         {chat != null && (
           <>
             <ChatHeader
@@ -90,10 +53,7 @@ export default function ChatWindow({
               onBack={onBack}
             />
 
-            <div
-              ref={messagesContainerRef}
-              className="flex-1 overflow-auto py-[16px] px-2"
-            >
+            <div ref={messagesContainerRef} className="flex-1 py-[16px] px-2">
               {messages.map((message, index) => {
                 const previousMessage =
                   index > 0 ? messages[index - 1] : undefined;
@@ -124,11 +84,10 @@ export default function ChatWindow({
                   </div>
                 );
               })}
-
-              <div ref={messagesEndRef} />
+              <div ref={messagesEndRef} className="flex-1 h-[100%]" />
             </div>
 
-            <ChatInput onSendMessage={() => {}} disabled={sending} />
+            <ChatInput onSendMessage={onMessageSend} disabled={sending} />
           </>
         )}
       </div>

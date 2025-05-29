@@ -2,13 +2,17 @@ import { useState } from 'react';
 import ButtonIcon from '../ButtonIcon';
 import ButtonAccent from '../ButtonAccent';
 import { Input } from '../ui/input';
+import IconAttach from '~/media/icons/icon-attach.svg';
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
   disabled?: boolean;
 }
 
-export default function ChatInput({ onSendMessage, disabled = false }: ChatInputProps) {
+export default function ChatInput({
+  onSendMessage,
+  disabled = false,
+}: ChatInputProps) {
   const [message, setMessage] = useState('');
 
   const handleSend = () => {
@@ -28,7 +32,7 @@ export default function ChatInput({ onSendMessage, disabled = false }: ChatInput
   return (
     <div className="flex gap-[5px] pt-[10px] border-t border-[#E3E3E3]">
       <ButtonIcon
-        icon="/icons/attach.svg"
+        icon={IconAttach}
         onClick={() => console.log('Attach file')}
         disabled={disabled}
       />
@@ -36,7 +40,7 @@ export default function ChatInput({ onSendMessage, disabled = false }: ChatInput
       <div className="flex-1">
         <Input
           type="text"
-          placeholder={disabled ? "Отправка..." : "Введите сообщение..."}
+          placeholder={disabled ? 'Отправка...' : 'Введите сообщение...'}
           value={message}
           onChange={e => setMessage(e.target.value)}
           onKeyPress={handleKeyPress}
@@ -46,7 +50,7 @@ export default function ChatInput({ onSendMessage, disabled = false }: ChatInput
       </div>
 
       <ButtonAccent
-        label={disabled ? "Отправка..." : "Отправить"}
+        label={disabled ? 'Отправка...' : 'Отправить'}
         width="112px"
         height="28px"
         onClick={handleSend}
@@ -55,4 +59,3 @@ export default function ChatInput({ onSendMessage, disabled = false }: ChatInput
     </div>
   );
 }
-

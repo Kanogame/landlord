@@ -7,7 +7,7 @@ const arrow = {
   hover: { x: -3 },
 };
 
-export default function Link(props: { link: TLink }) {
+export default function ArrowLink(props: { link: TLink }) {
   const navigate = useNavigate();
 
   return (
