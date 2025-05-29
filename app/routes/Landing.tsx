@@ -1,5 +1,3 @@
-import { label } from 'motion/react-client';
-import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router';
 import DesktopWidth from '~/blocks/DesktopWidth';
 import FrequentSearch from '~/blocks/FrequentSearch';
@@ -8,16 +6,11 @@ import Offers from '~/blocks/Offers';
 import SearchBanner from '~/blocks/SearchBanner';
 import SlideScroller from '~/blocks/SlideScroller';
 import Tips from '~/blocks/Tips';
-import { TOfferType, TRentPeriod, type TSearchResult } from '~/lib/property';
-import PropertyCard from '~/components/PropertyCard';
-import ScrollBlock from '~/components/ScrollBlock';
-import SearchElement from '~/components/SearchElement';
-import TextCard from '~/components/TextCard';
-import { useMediaQuery } from 'react-responsive';
+import { TOfferType, type TSearchResult } from '~/lib/property';
 import { useDesktop } from '~/hooks/useDesktop';
 import CardFetchScroller from '~/blocks/CardFetchScroller';
 import { Post } from '~/lib/api';
-import type { Route } from '../+types/root';
+import type { Route } from './+types/Landing';
 
 export async function clientLoader(): Promise<{
   rent: TSearchResult;

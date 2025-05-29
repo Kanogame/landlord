@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import {
   FormatArea,
+  InitiateChat,
   TOfferType,
   type TProperty,
   type TRentProperty,
@@ -16,9 +17,19 @@ import ButtonIconDropdown from './ButtonIconDropdown';
 import { FormatMoney } from '~/lib/money';
 import DropdownElement from './DropdownElement';
 import { propertyCardDropdownOptions } from './common/propertyCard';
+import { useNavigate } from 'react-router';
 
 export default function PropertyCard(props: { property: TProperty }) {
   const prop: TRentProperty | TSellProperty = props.property.property;
+  const navigate = useNavigate();
+
+  async function startChat() {
+    const { success, chatId } = await InitiateChat(props.property, '');
+    if (success) {
+      navigate(`/chat/${chatId}`);
+    }
+  }
+
   return (
     <div className="w-[200px] h-[290px] shrink-0 border-[1px] bg-white border-[#E3E3E3] rounded-[10px] p-[5px] flex flex-col items gap-[5px]">
       <div className="flex-[1_1_100px] rounded-[5px]">
@@ -53,7 +64,7 @@ export default function PropertyCard(props: { property: TProperty }) {
         </>
       )}
       <div className="flex gap-[5px]">
-        <ButtonAccent label="Написать" width="100%" />
+        <ButtonAccent label="Написать" width="100%" onClick={startChat} />
         <ButtonIcon icon={iconBookmark} />
         <ButtonIconDropdown icon={IconMore}>
           {propertyCardDropdownOptions.map(el => {

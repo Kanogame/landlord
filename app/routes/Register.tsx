@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Form, useActionData, useNavigate, useNavigation } from 'react-router';
-import type { ActionFunctionArgs } from 'react-router';
 import FullscreenBlock from '~/blocks/FullscreenBlock';
 import ButtonAccent from '~/components/ButtonAccent';
 import ButtonEmpty from '~/components/ButtonEmpty';
@@ -12,8 +11,8 @@ import {
   InputOTPSlot,
 } from '~/components/ui/input-otp';
 import { useAuth } from '~/hooks/useAuth';
-import { UseLocalStorage } from '~/hooks/useLocalStorage';
 import { Post } from '~/lib/api';
+import type { Route } from './+types/Register';
 
 interface ActionData {
   error?: string;
@@ -23,7 +22,7 @@ interface ActionData {
   token?: string;
 }
 
-export async function clientAction({ request }: ActionFunctionArgs) {
+export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
   const intent = formData.get('intent') as string;
 
@@ -97,7 +96,7 @@ export default function Register() {
 
   const [currentStage, setCurrentStage] = useState(actionData?.stage || 0);
   const [verificationId, setVerificationId] = useState(0);
-  const {login } = useAuth(); 
+  const { login } = useAuth();
 
   // Update local state when action data changes
   if (actionData?.stage !== undefined && actionData.stage !== currentStage) {

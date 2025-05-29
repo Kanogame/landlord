@@ -1,3 +1,4 @@
+import { createChat } from './chatApi';
 import { FormatMoney, type TMoney } from './money';
 
 export enum TOfferType {
@@ -22,7 +23,6 @@ export interface TAddress {
 export interface TProperty {
   type: TOfferType;
   property: TRentProperty | TSellProperty;
-  owner: TOwner;
 }
 
 export interface TOwner {
@@ -102,4 +102,15 @@ export default function FormatPrice(p: TProperty): string {
 
 export function GetOwnerDisplayName(owner: TOwner): string {
   return `${owner.name.surname} ${owner.name.name} ${owner.name.patronym}`;
+}
+
+export async function InitiateChat(
+  property: TProperty,
+  initialMessage: string
+): Promise<{ success: boolean; chatId: number }> {
+  return await createChat({
+    otherUserId: property.property.ownerId,
+    propertyId: property.property.id,
+    initialMessage: initialMessage,
+  });
 }

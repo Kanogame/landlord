@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Form, useActionData, useNavigate, useNavigation } from 'react-router';
-import type { ActionFunctionArgs } from 'react-router';
 import FullscreenBlock from '~/blocks/FullscreenBlock';
 import ButtonAccent from '~/components/ButtonAccent';
 import ButtonEmpty from '~/components/ButtonEmpty';
@@ -8,11 +7,11 @@ import { Input } from '~/components/ui/input';
 import {
   InputOTP,
   InputOTPGroup,
-  InputOTPSeparator,
   InputOTPSlot,
 } from '~/components/ui/input-otp';
 import { useAuth } from '~/hooks/useAuth';
 import { Post } from '~/lib/api';
+import type { Route } from './+types/Login';
 
 interface ActionData {
   error?: string;
@@ -22,7 +21,7 @@ interface ActionData {
   token?: string;
 }
 
-export async function clientAction({ request }: ActionFunctionArgs) {
+export async function clientAction({ request }: Route.ActionArgs) {
   const formData = await request.formData();
   const intent = formData.get('intent') as string;
 

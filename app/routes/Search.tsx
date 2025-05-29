@@ -9,10 +9,10 @@ import {
   type TProperty,
   type TSearchResult,
 } from '~/lib/property';
-import type { Route } from '../+types/root';
 import { useDesktop } from '~/hooks/useDesktop';
+import type { Route } from './+types/Search';
 
-export async function clientLoader({ param }): Promise<TSearchResult> {
+export async function clientLoader(): Promise<TSearchResult> {
   const resp = await Post<TSearchResult>('api/Property/get_properties_search', {
     pageNumber: 1,
     pageSize: 10,
@@ -31,7 +31,7 @@ export default function SeachPage({ loaderData }: Route.ComponentProps) {
       <div className="flex gap-[20px] w-[100%]">
         <div className="flex-[2_1]"></div>
         <div className="flex-[10_1]">
-          <SearchList propertyList={(loaderData as TSearchResult).properties} />
+          <SearchList propertyList={loaderData.properties} />
         </div>
       </div>
     </DesktopWidth>

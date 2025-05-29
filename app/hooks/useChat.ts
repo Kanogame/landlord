@@ -1,12 +1,19 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getChatList, getChatMessages, sendMessage, markMessagesAsRead } from '~/lib/chatApi';
+import {
+  getChatList,
+  getChatMessages,
+  sendMessage,
+  markMessagesAsRead,
+} from '~/lib/chatApi';
 import type { Chat, ChatMessage } from '~/lib/chat';
 import { useAuth } from './useAuth';
 
 export function useChat() {
   const [chats, setChats] = useState<Chat[]>([]);
   const [selectedChatId, setSelectedChatId] = useState<number | null>(null);
-  const [messages, setMessages] = useState<{ [chatId: number]: ChatMessage[] }>({});
+  const [messages, setMessages] = useState<{ [chatId: number]: ChatMessage[] }>(
+    {}
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { isAuthenticated } = useAuth();
@@ -37,7 +44,10 @@ export function useChat() {
       if (response.success) {
         setMessages(prev => ({
           ...prev,
-          [chatId]: page === 1 ? response.messages : [...(prev[chatId] || []), ...response.messages]
+          [chatId]:
+            page === 1
+              ? response.messages
+              : [...(prev[chatId] || []), ...response.messages],
         }));
       }
     } catch (err) {
@@ -46,50 +56,57 @@ export function useChat() {
   }, []);
 
   // Send a message
-  const sendChatMessage = useCallback(async (chatId: number, content: string) => {
-    try {
-      const response = await sendMessage({ chatId, content });
-      if (response.success) {
-        setMessages(prev => ({
-          ...prev,
-          [chatId]: [...(prev[chatId] || []), response.message]
-        }));
-        // Refresh chats to update last message
-        loadChats();
-        return response.message;
+  const sendChatMessage = useCallback(
+    async (chatId: number, content: string) => {
+      try {
+        const response = await sendMessage({ chatId, content });
+        if (response.success) {
+          setMessages(prev => ({
+            ...prev,
+            [chatId]: [...(prev[chatId] || []), response.message],
+          }));
+          // Refresh chats to update last message
+          loadChats();
+          return response.message;
+        }
+      } catch (err) {
+        console.error('Error sending message:', err);
+        throw err;
       }
-    } catch (err) {
-      console.error('Error sending message:', err);
-      throw err;
-    }
-  }, [loadChats]);
+    },
+    [loadChats]
+  );
 
   // Mark messages as read
   const markAsRead = useCallback(async (chatId: number) => {
     try {
       await markMessagesAsRead({ chatId });
       // Update local state
-      setChats(prev => prev.map(chat => 
-        chat.id === chatId ? { ...chat, unreadCount: 0 } : chat
-      ));
+      setChats(prev =>
+        prev.map(chat =>
+          chat.id === chatId ? { ...chat, unreadCount: 0 } : chat
+        )
+      );
     } catch (err) {
       console.error('Error marking messages as read:', err);
     }
   }, []);
 
   // Select a chat
-  const selectChat = useCallback((chatId: number | null) => {
-    setSelectedChatId(chatId);
-    if (chatId && !messages[chatId]) {
-      loadMessages(chatId);
-    }
-    if (chatId) {
-      markAsRead(chatId);
-    }
-  }, [messages, loadMessages, markAsRead]);
+  const selectChat = useCallback(
+    (chatId: number | null) => {
+      setSelectedChatId(chatId);
+      if (chatId) {
+        loadMessages(chatId);
+      }
+    },
+    [messages, loadMessages, markAsRead]
+  );
 
   // Get messages for selected chat
-  const selectedChatMessages = selectedChatId ? messages[selectedChatId] || [] : [];
+  const selectedChatMessages = selectedChatId
+    ? messages[selectedChatId] || []
+    : [];
   const selectedChat = chats.find(chat => chat.id === selectedChatId) || null;
 
   // Auto-load chats on mount
@@ -113,4 +130,3 @@ export function useChat() {
     selectChat,
   };
 }
-

@@ -6,10 +6,23 @@ import { useDesktop } from '~/hooks/useDesktop';
 import { useAuth } from '~/hooks/useAuth';
 import { useChat } from '~/hooks/useChat';
 import ButtonAccent from '~/components/ButtonAccent';
+import type { Route } from './+types/ChatSimplified';
 
-export default function ChatSimplified() {
-  const { chats, selectedChatId, loading, error, loadChats, selectChat } =
-    useChat();
+export default function ChatSimplified({ params }: Route.ComponentProps) {
+  const {
+    chats,
+    selectedChatId,
+    selectedChat,
+    selectedChatMessages,
+    error,
+    loadChats,
+    selectChat,
+  } = useChat();
+
+  if (params?.id != null && +params?.id > 0 && selectedChatId != +params.id) {
+    selectChat(+params.id);
+    loadChats();
+  }
 
   const [mobileSidePage, setMobileSidePage] = useState(false);
 
@@ -58,7 +71,9 @@ export default function ChatSimplified() {
             <ChatSidebar
               chats={chats}
               selectedChatId={selectedChatId}
-              onChatSelect={selectChat}
+              onChatSelect={ch => {
+                selectChat(ch);
+              }}
               onChatUpdate={loadChats}
             />
           </div>
@@ -66,7 +81,8 @@ export default function ChatSimplified() {
         {(isDesktop || !mobileSidePage) && (
           <div className="flex-[9_1]">
             <ChatWindow
-              chatId={selectedChatId}
+              messages={selectedChatMessages}
+              chat={selectedChat}
               onChatUpdate={loadChats}
               onBack={() => setMobileSidePage(true)}
             />

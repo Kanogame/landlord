@@ -21,21 +21,24 @@ export function formatLastMessageTime(dateString: string): string {
     const diffInMinutes = Math.floor(diffInHours * 60);
     return diffInMinutes <= 1 ? 'только что' : `${diffInMinutes} мин назад`;
   } else if (diffInHours < 24) {
-    return date.toLocaleTimeString('ru-RU', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
+    return date.toLocaleTimeString('ru-RU', {
+      hour: '2-digit',
+      minute: '2-digit',
     });
   } else if (diffInHours < 48) {
     return 'Вчера';
   } else {
-    return date.toLocaleDateString('ru-RU', { 
-      day: 'numeric', 
-      month: 'short' 
+    return date.toLocaleDateString('ru-RU', {
+      day: 'numeric',
+      month: 'short',
     });
   }
 }
 
-export function truncateMessage(message: string, maxLength: number = 50): string {
+export function truncateMessage(
+  message: string,
+  maxLength: number = 50
+): string {
   if (message.length <= maxLength) return message;
   return message.substring(0, maxLength) + '...';
 }
@@ -45,7 +48,7 @@ export function groupMessagesByDate(messages: ChatMessage[]): Array<{
   messages: ChatMessage[];
 }> {
   const groups: { [key: string]: ChatMessage[] } = {};
-  
+
   messages.forEach(message => {
     const date = new Date(message.sentDate).toDateString();
     if (!groups[date]) {
@@ -56,16 +59,16 @@ export function groupMessagesByDate(messages: ChatMessage[]): Array<{
 
   return Object.entries(groups).map(([date, messages]) => ({
     date,
-    messages: messages.sort((a, b) => 
-      new Date(a.sentDate).getTime() - new Date(b.sentDate).getTime()
-    )
+    messages: messages.sort(
+      (a, b) => new Date(a.sentDate).getTime() - new Date(b.sentDate).getTime()
+    ),
   }));
 }
 
 export function isMessageFromToday(dateString: string): boolean {
   const messageDate = new Date(dateString);
   const today = new Date();
-  
+
   return messageDate.toDateString() === today.toDateString();
 }
 
@@ -73,6 +76,6 @@ export function isMessageFromYesterday(dateString: string): boolean {
   const messageDate = new Date(dateString);
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
-  
+
   return messageDate.toDateString() === yesterday.toDateString();
 }

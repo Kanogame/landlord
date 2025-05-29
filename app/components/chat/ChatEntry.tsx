@@ -12,24 +12,13 @@ interface ChatEntryProps {
   chat: Chat;
   isSelected: boolean;
   onClick: () => void;
-  onChatUpdate: () => void;
 }
 
 export default function ChatEntry({
   chat,
   isSelected,
   onClick,
-  onChatUpdate,
 }: ChatEntryProps) {
-  const handleArchive = async () => {
-    try {
-      //await archiveChat({ chatId: chat.id, isArchived: !chat.isArchived });
-      onChatUpdate();
-    } catch (error) {
-      console.error('Error archiving chat:', error);
-    }
-  };
-
   const handleReport = () => {
     // TODO: Implement report functionality
     console.log('Report chat:', chat.id);
@@ -44,7 +33,7 @@ export default function ChatEntry({
     {
       label: chat.isArchived ? 'Разархивировать' : 'Архивировать',
       icon: iconBan,
-      onClick: handleArchive,
+      onClick: () => {},
     },
   ];
 
@@ -62,34 +51,14 @@ export default function ChatEntry({
           avatar={`https://placehold.co/36x36`} // Using placeholder for now
           subtitle={chat.propertyAddress}
         />
-        
-        {chat.lastMessage && (
-          <div className="ml-12 mt-1">
-            <div className={`text-sm truncate ${
-              chat.unreadCount > 0 ? 'font-semibold text-gray-900' : 'text-gray-600'
-            }`}>
-              {truncateMessage(chat.lastMessage.content, 40)}
-            </div>
-            <div className="flex justify-between items-center mt-1">
-              <span className="text-xs text-gray-400">
-                {formatLastMessageTime(chat.lastMessage.sentDate)}
-              </span>
-              {chat.unreadCount > 0 && (
-                <span className="bg-blue-500 text-white text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
-                  {chat.unreadCount > 99 ? '99+' : chat.unreadCount}
-                </span>
-              )}
-            </div>
-          </div>
-        )}
       </div>
 
-      <div className="ml-2" onClick={(e) => e.stopPropagation()}>
+      <div className="ml-2" onClick={e => e.stopPropagation()}>
         <ButtonIconDropdown icon={iconMore}>
           {dropdownOptions.map((el, index) => (
-            <DropdownElement 
+            <DropdownElement
               key={index}
-              label={el.label} 
+              label={el.label}
               icon={el.icon}
               onClick={el.onClick}
             />

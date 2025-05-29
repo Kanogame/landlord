@@ -9,9 +9,11 @@ import PropertyDetails from '~/components/PropertyDetails';
 import PropertySummary from '~/components/PropertyOwnerContact';
 import { Post } from '~/lib/api';
 import type { TProperty, TRentProperty } from '~/lib/property';
-import type { Route } from '../+types/root';
+import type { Route } from './+types/PropertyPage';
 
-export async function clientLoader({ params }): Promise<TProperty> {
+export async function clientLoader({
+  params,
+}: Route.ClientLoaderArgs): Promise<TProperty> {
   const resp = await Post<TProperty>('api/Property/get_property_by_id', {
     propertyId: params.id,
   });

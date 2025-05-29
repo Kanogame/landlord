@@ -39,6 +39,7 @@ export interface SendMessageResponse {
 export interface CreateChatRequest {
   otherUserId: number;
   propertyId: number;
+  initialMessage: string;
 }
 
 export interface SendMessageRequest {
