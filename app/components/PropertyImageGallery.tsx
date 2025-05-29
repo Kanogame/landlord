@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import ImageScroller from './ImageScroller';
 import ButtonIcon from './ButtonIcon';
 import ScrollerArrow from './ScrollerArrow';

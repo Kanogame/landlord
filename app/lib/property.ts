@@ -38,11 +38,26 @@ export interface TOwner {
   totalListings?: number;
 }
 
+export enum PropertyAttributeType {
+  Text,
+  Number,
+  Boolean,
+}
+
+export interface TPropertyAttributes {
+  id: number;
+  propertyId: number;
+  attributeName: string;
+  attributeValue: string;
+  attributeType: PropertyAttributeType;
+}
+
 export interface TGenericProperty {
   id: number;
   ownerId: number;
   offerTypeId: TOfferType;
   PropertyTypeId: TPropertyType;
+  PropertyAttribues: TPropertyAttributes;
   name: string;
   desc: string;
   address: TAddress;

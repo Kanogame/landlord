@@ -11,6 +11,7 @@ import {
 } from '~/lib/property';
 import { useDesktop } from '~/hooks/useDesktop';
 import type { Route } from './+types/Search';
+import SearchFilters from '~/blocks/SearchFilters';
 
 export async function clientLoader(): Promise<TSearchResult> {
   const resp = await Post<TSearchResult>('api/Property/get_properties_search', {
@@ -29,7 +30,9 @@ export default function SeachPage({ loaderData }: Route.ComponentProps) {
   return (
     <DesktopWidth isDesktop={isDesktop}>
       <div className="flex gap-[20px] w-[100%]">
-        <div className="flex-[2_1]"></div>
+        <div className="flex-[2_1]">
+          <SearchFilters isDesktop={isDesktop} onFiltersChange={console.log} />
+        </div>
         <div className="flex-[10_1]">
           <SearchList propertyList={loaderData.properties} />
         </div>
