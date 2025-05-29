@@ -7,15 +7,23 @@ import iconBan from '~/media/icons/icon-ban.svg';
 import DropdownElement from '../DropdownElement';
 import Profile from './Profile';
 import type { Chat } from '~/lib/chat';
-import { archiveChat } from '~/lib/chatApi';
+import iconArrowLeft from '~/media/icons/leftArrow.svg';
+import { useDesktop } from '~/hooks/useDesktop';
+import ButtonIcon from '../ButtonIcon';
 
 interface ChatHeaderProps {
   chat: Chat;
   onChatUpdate?: () => void;
+  onBack: () => void;
 }
 
-export default function ChatHeader({ chat, onChatUpdate }: ChatHeaderProps) {
+export default function ChatHeader({
+  chat,
+  onChatUpdate,
+  onBack,
+}: ChatHeaderProps) {
   const navigate = useNavigate();
+  const isDesktop = useDesktop();
 
   const handleArchive = async () => {
     try {
@@ -46,6 +54,7 @@ export default function ChatHeader({ chat, onChatUpdate }: ChatHeaderProps) {
 
   return (
     <div className="flex items-center justify-between border-b pb-[10px] border-[#E3E3E3]">
+      <ButtonIcon icon={iconArrowLeft} onClick={onBack} />
       <Profile
         isBig={false}
         name={chat.otherUserName}
@@ -62,9 +71,9 @@ export default function ChatHeader({ chat, onChatUpdate }: ChatHeaderProps) {
         />
         <ButtonIconDropdown icon={iconMore}>
           {dropdownOptions.map((el, index) => (
-            <DropdownElement 
+            <DropdownElement
               key={index}
-              label={el.label} 
+              label={el.label}
               icon={el.icon}
               onClick={el.onClick}
             />

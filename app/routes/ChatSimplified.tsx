@@ -1,21 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ChatSidebar from '../components/chat/ChatSidebar';
 import ChatWindow from '../components/chat/ChatWindow';
 import DesktopWidth from '~/blocks/DesktopWidth';
 import { useDesktop } from '~/hooks/useDesktop';
 import { useAuth } from '~/hooks/useAuth';
 import { useChat } from '~/hooks/useChat';
+import ButtonAccent from '~/components/ButtonAccent';
 
 export default function ChatSimplified() {
-  const {
-    chats,
-    selectedChatId,
-    loading,
-    error,
-    loadChats,
-    selectChat,
-  } = useChat();
-  
+  const { chats, selectedChatId, loading, error, loadChats, selectChat } =
+    useChat();
+
+  const [mobileSidePage, setMobileSidePage] = useState(false);
+
   const { isAuthenticated } = useAuth();
   const isDesktop = useDesktop();
 
@@ -30,12 +27,11 @@ export default function ChatSimplified() {
     return () => clearInterval(interval);
   }, [isAuthenticated, loadChats]);
 
-
   if (!isAuthenticated) {
     return (
       <DesktopWidth isDesktop={isDesktop}>
         <div className="flex items-center justify-center p-8">
-          <div className="text-gray-500">
+          <div className="h3-light">
             Пожалуйста, войдите в систему для доступа к чатам
           </div>
         </div>
@@ -48,12 +44,7 @@ export default function ChatSimplified() {
       <DesktopWidth isDesktop={isDesktop}>
         <div className="flex flex-col items-center justify-center p-8 gap-4">
           <div className="text-red-500">{error}</div>
-          <button 
-            onClick={loadChats}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Попробовать снова
-          </button>
+          <ButtonAccent onClick={loadChats} label="Попробовать снова" />
         </div>
       </DesktopWidth>
     );
@@ -62,20 +53,25 @@ export default function ChatSimplified() {
   return (
     <DesktopWidth isDesktop={isDesktop}>
       <div className="flex items-start gap-[20px] w-[100%]">
-        <div className="flex-[3_1]">
-          <ChatSidebar
-            chats={chats}
-            selectedChatId={selectedChatId}
-            onChatSelect={selectChat}
-            onChatUpdate={loadChats}
-          />
-        </div>
-        <div className="flex-[9_1]">
-          <ChatWindow 
-            chatId={selectedChatId} 
-            onChatUpdate={loadChats}
-          />
-        </div>
+        {!isDesktop && mobileSidePage && (
+          <div className="flex-[3_1]">
+            <ChatSidebar
+              chats={chats}
+              selectedChatId={selectedChatId}
+              onChatSelect={selectChat}
+              onChatUpdate={loadChats}
+            />
+          </div>
+        )}
+        {!isDesktop && !mobileSidePage && (
+          <div className="flex-[9_1]">
+            <ChatWindow
+              chatId={selectedChatId}
+              onChatUpdate={loadChats}
+              onBack={() => setMobileSidePage(true)}
+            />
+          </div>
+        )}
       </div>
     </DesktopWidth>
   );
