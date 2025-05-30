@@ -1,16 +1,18 @@
-import { motion } from 'motion/react';
 import Block from '~/components/Block';
 import TypeSwitcher from '~/components/TypeSwitcher';
 import ComboBox from '~/components/ComboBox';
-import PriceRangeInput from '~/components/PriceRangeInput';
+import PriceRangeInput from '~/components/RangeInput';
 import FloorRangeInput from '~/components/FloorRangeInput';
-import AreaInput from '~/components/AreaInput';
-import Toggle from '~/components/Toggle';
 import { TPropertyType } from '~/lib/property';
 import {
   useSearchFilters,
   type SearchFiltersAPI,
 } from '~/hooks/useSearchFilters';
+import ToggleLabel from '~/components/ToggleLabel';
+import NumberInput from '~/components/NumberInput';
+import RangeInput from '~/components/RangeInput';
+import ButtonAccent from '~/components/ButtonAccent';
+import ButtonEmpty from '~/components/ButtonEmpty';
 
 const propertyTypeOptions = [
   { value: TPropertyType.Flat, label: 'Квартира' },
@@ -58,37 +60,20 @@ export default function SearchFilters({
 
   const handleFilterChange = (updates: Parameters<typeof updateFilters>[0]) => {
     updateFilters(updates);
-    // Convert to API format and notify parent
     const apiFilters = toAPIFormat();
     onFiltersChange?.(apiFilters);
   };
 
   return (
     <Block label="Фильтры" isDesktop={isDesktop}>
-      <motion.div
-        className="flex flex-col gap-4"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, staggerChildren: 0.1 }}
-      >
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <TypeSwitcher
-            value={filters.offerType}
-            onChange={value => handleFilterChange({ offerType: value })}
-          />
-        </motion.div>
+      <div className="flex flex-col gap-4">
+        <TypeSwitcher
+          value={filters.offerType}
+          onChange={value => handleFilterChange({ offerType: value })}
+        />
 
-        <motion.div
-          className="flex justify-between items-center"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-        >
-          <span className="text-sm font-medium text-gray-700">Тип</span>
+        <div className="flex justify-between items-center">
+          <span className="h5-def">Тип</span>
           <ComboBox
             options={propertyTypeOptions}
             value={filters.propertyType}
@@ -96,15 +81,10 @@ export default function SearchFilters({
             placeholder="Выберите тип"
             className="w-40"
           />
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="flex justify-between items-center"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3, delay: 0.2 }}
-        >
-          <span className="text-sm font-medium text-gray-700">Город</span>
+        <div className="flex justify-between items-center">
+          <span className="h5-def">Город</span>
           <ComboBox
             options={cityOptions}
             value={filters.city}
@@ -112,15 +92,10 @@ export default function SearchFilters({
             placeholder="Выберите город"
             className="w-40"
           />
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="flex justify-between items-center"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3, delay: 0.3 }}
-        >
-          <span className="text-sm font-medium text-gray-700">Район</span>
+        <div className="flex justify-between items-center">
+          <span className="h5-def">Район</span>
           <ComboBox
             options={districtOptions}
             value={filters.district}
@@ -128,58 +103,49 @@ export default function SearchFilters({
             placeholder="Выберите район"
             className="w-40"
           />
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3, delay: 0.4 }}
-        >
-          <PriceRangeInput
-            fromValue={filters.priceFrom}
-            toValue={filters.priceTo}
-            onFromChange={value => handleFilterChange({ priceFrom: value })}
-            onToChange={value => handleFilterChange({ priceTo: value })}
-            isDesktop={isDesktop}
-          />
-        </motion.div>
+        <RangeInput
+          label="Цена"
+          fromValue={filters.priceFrom}
+          toValue={filters.priceTo}
+          fromName="От"
+          toName="До"
+          min={10000}
+          max={4000000}
+          onFromChange={value => handleFilterChange({ priceFrom: value })}
+          onToChange={value => handleFilterChange({ priceTo: value })}
+          isDesktop={isDesktop}
+        />
+        <RangeInput
+          label="Этаж"
+          fromValue={filters.floorFrom}
+          toValue={filters.floorTo}
+          fromName="От"
+          toName="До"
+          min={1}
+          max={100}
+          step={1}
+          onFromChange={value => handleFilterChange({ floorFrom: value })}
+          onToChange={value => handleFilterChange({ floorTo: value })}
+          isDesktop={isDesktop}
+        />
 
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3, delay: 0.5 }}
-        >
-          <FloorRangeInput
-            fromValue={filters.floorFrom}
-            toValue={filters.floorTo}
-            onFromChange={value => handleFilterChange({ floorFrom: value })}
-            onToChange={value => handleFilterChange({ floorTo: value })}
-            isDesktop={isDesktop}
-          />
-        </motion.div>
-
-        <motion.div
-          className="flex justify-between items-center"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3, delay: 0.6 }}
-        >
-          <span className="text-sm font-medium text-gray-700">
-            Площадь (м²)
-          </span>
-          <AreaInput
+        <div className="flex justify-between items-center">
+          <span className="h5-def">Площадь (м²)</span>
+          <NumberInput
             value={filters.area}
             onChange={value => handleFilterChange({ area: value })}
+            placeholder="Площадь"
+            className="w-40"
+            min={10}
+            max={1000}
+            step={5}
           />
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="flex justify-between items-center"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3, delay: 0.7 }}
-        >
-          <span className="text-sm font-medium text-gray-700">Комнат</span>
+        <div className="flex justify-between items-center">
+          <span className="h5-def">Комнат</span>
           <ComboBox
             options={roomOptions}
             value={filters.rooms}
@@ -187,15 +153,10 @@ export default function SearchFilters({
             placeholder="Количество"
             className="w-40"
           />
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="flex justify-between items-center"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3, delay: 0.8 }}
-        >
-          <span className="text-sm font-medium text-gray-700">Ремонт</span>
+        <div className="flex justify-between items-center">
+          <span className="h5-def">Ремонт</span>
           <ComboBox
             options={renovationOptions}
             value={filters.renovation}
@@ -203,48 +164,32 @@ export default function SearchFilters({
             placeholder="Тип ремонта"
             className="w-40"
           />
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="flex justify-between items-center"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3, delay: 0.9 }}
-        >
-          <span className="text-sm font-medium text-gray-700">Лифт</span>
-          <Toggle
-            checked={filters.hasElevator}
-            onChange={checked => handleFilterChange({ hasElevator: checked })}
-          />
-        </motion.div>
+        <ToggleLabel
+          label="Лифт"
+          checked={filters.hasElevator}
+          onChange={checked => handleFilterChange({ hasElevator: checked })}
+        />
+        <ToggleLabel
+          label="Парковка"
+          checked={filters.hasParking}
+          onChange={checked => handleFilterChange({ hasParking: checked })}
+        />
 
-        <motion.div
-          className="flex justify-between items-center"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3, delay: 1.0 }}
-        >
-          <span className="text-sm font-medium text-gray-700">Парковка</span>
-          <Toggle
-            checked={filters.hasParking}
-            onChange={checked => handleFilterChange({ hasParking: checked })}
-          />
-        </motion.div>
-
-        <motion.div
-          className="pt-4 border-t border-gray-200"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 1.1 }}
-        >
-          <button
-            onClick={resetFilters}
-            className="w-full text-center text-red-600 text-sm font-medium hover:text-red-700 transition-colors"
-          >
-            Сбросить все фильтры
-          </button>
-        </motion.div>
-      </motion.div>
+        <ButtonEmpty
+          label="Сбросить все фильтры"
+          onClick={resetFilters}
+          width="100%"
+          height="40px"
+        />
+        <ButtonAccent
+          label="Больше фильтров"
+          onClick={resetFilters}
+          width="100%"
+          height="40px"
+        />
+      </div>
     </Block>
   );
 }

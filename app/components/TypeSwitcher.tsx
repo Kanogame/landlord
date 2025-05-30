@@ -10,7 +10,7 @@ export default function TypeSwitcher({ value, onChange }: TypeSwitcherProps) {
   return (
     <div className="relative h-8 bg-white border border-gray-300 rounded-md overflow-hidden">
       <motion.div
-        className="absolute top-0 h-full w-1/2 bg-white border border-red-600 rounded-md z-10"
+        className="absolute top-0 h-full w-1/2 bg-white border border-[#8B2635] rounded-md z-10"
         animate={{
           x: value === TOfferType.Rent ? 0 : '100%',
         }}

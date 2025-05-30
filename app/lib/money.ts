@@ -16,7 +16,7 @@ export function FormatMoneyAmountWithSpaces(value: string): string {
       .reverse()
       .join('')
       .slice(0, -1) +
-    (value.split('.')[0].length > 0 ? ',' + value.split('.')[1] : ',00')
+    (value.split('.').length > 1 ? ',' + value.split('.')[1] : ',00')
   );
 }
 

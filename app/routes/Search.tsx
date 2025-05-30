@@ -29,11 +29,11 @@ export default function SeachPage({ loaderData }: Route.ComponentProps) {
 
   return (
     <DesktopWidth isDesktop={isDesktop}>
-      <div className="flex gap-[20px] w-[100%]">
-        <div className="flex-[2_1]">
+      <div className="flex gap-[20px] w-[100%] items-start">
+        <div className="flex-[3_1]">
           <SearchFilters isDesktop={isDesktop} onFiltersChange={console.log} />
         </div>
-        <div className="flex-[10_1]">
+        <div className="flex-[9_1]">
           <SearchList propertyList={loaderData.properties} />
         </div>
       </div>

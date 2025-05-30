@@ -38,7 +38,6 @@ export default function ComboBox({
 
   const selectedOption = options.find(option => option.value === value);
 
-  // Filter options based on search query
   const filteredOptions = useMemo(() => {
     if (!searchQuery.trim()) return options;
 
@@ -50,13 +49,13 @@ export default function ComboBox({
   const handleSelect = (optionValue: any) => {
     onChange(optionValue);
     setOpen(false);
-    setSearchQuery(''); // Clear search when selecting
+    setSearchQuery('');
   };
 
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
     if (!newOpen) {
-      setSearchQuery(''); // Clear search when closing
+      setSearchQuery('');
     }
   };
 
@@ -64,9 +63,9 @@ export default function ComboBox({
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <button
-          className={`flex items-center justify-between h-8 px-3 bg-white border border-gray-300 rounded text-xs hover:border-gray-400 transition-colors ${className}`}
+          className={`flex items-center justify-between h-8 px-3 bg-white border border-gray-300 rounded h5-def transition-colors ${className}`}
         >
-          <span className={selectedOption ? 'text-gray-900' : 'text-gray-500'}>
+          <span className={selectedOption ? 'h5-def' : 'h5-light'}>
             {selectedOption?.label || placeholder}
           </span>
           <motion.div
@@ -86,7 +85,6 @@ export default function ComboBox({
             transition={{ duration: 0.15 }}
             className="flex flex-col"
           >
-            {/* Search input */}
             <div className="p-2 border-b border-gray-100">
               <div className="relative">
                 <img
@@ -104,7 +102,6 @@ export default function ComboBox({
               </div>
             </div>
 
-            {/* Options list */}
             <div className="max-h-48 overflow-y-auto">
               {filteredOptions.length > 0 ? (
                 <motion.div
@@ -115,10 +112,8 @@ export default function ComboBox({
                   {filteredOptions.map((option, index) => (
                     <motion.button
                       key={option.value}
-                      className={`w-full text-left px-3 py-2 text-xs hover:bg-gray-50 transition-colors ${
-                        option.value === value
-                          ? 'bg-red-50 text-red-700'
-                          : 'text-gray-700'
+                      className={`w-full text-left px-3 py-2 h5-def hover:bg-gray-50 transition-colors ${
+                        option.value === value ? 'bg-[#F3E7E7]' : ''
                       }`}
                       onClick={() => handleSelect(option.value)}
                       initial={{ opacity: 0, x: -10 }}
@@ -127,16 +122,6 @@ export default function ComboBox({
                       whileHover={{ backgroundColor: '#f9fafb' }}
                     >
                       <span className="block truncate">{option.label}</span>
-                      {option.value === value && (
-                        <motion.div
-                          className="absolute right-2 top-1/2 transform -translate-y-1/2"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <div className="w-1.5 h-1.5 bg-red-600 rounded-full" />
-                        </motion.div>
-                      )}
                     </motion.button>
                   ))}
                 </motion.div>
@@ -152,7 +137,6 @@ export default function ComboBox({
               )}
             </div>
 
-            {/* Clear selection option */}
             {selectedOption && (
               <motion.div
                 className="border-t border-gray-100"
