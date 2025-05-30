@@ -96,7 +96,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
           </div>
         </div>
 
-        <div className="flex-[9_1]">
+        <div className="flex-[9_1] min-w-[0]">
           <SearchList propertyList={searchResult.properties} />
         </div>
       </div>

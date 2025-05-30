@@ -2,32 +2,37 @@ import type { ReactNode } from 'react';
 import ArrowLink from './Link';
 import type { TLink } from '../lib/link';
 
-export default function Block(props: {
+interface BlockProps {
   children: ReactNode;
   link?: TLink;
   label: string;
   isDesktop: boolean;
-}) {
+}
+
+export default function Block({
+  children,
+  link,
+  label,
+  isDesktop,
+}: BlockProps) {
   return (
     <div
       className={
         'flex flex-col gap-[15px] h-[100%] bg-white block-shadow rounded-[20px] ' +
-        (props.isDesktop
-          ? 'p-[20px] rounded-[20px]'
-          : 'p-[16px] rounded-[10px]')
+        (isDesktop ? 'p-[20px] rounded-[20px]' : 'p-[16px] rounded-[10px]')
       }
     >
-      {props.label != '' && (
+      {label != '' && (
         <div
           className={
-            'flex justify-between ' + (props.isDesktop ? 'h3-def' : 'h4-def')
+            'flex justify-between ' + (isDesktop ? 'h3-def' : 'h4-def')
           }
         >
-          {props.label}
-          {props.link && <ArrowLink link={props.link} />}
+          {label}
+          {link && <ArrowLink link={link} big={isDesktop} />}
         </div>
       )}
-      {props.children}
+      {children}
     </div>
   );
 }

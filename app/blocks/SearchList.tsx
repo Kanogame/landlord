@@ -7,7 +7,7 @@ export default function SearchList(props: { propertyList: TProperty[] }) {
   const isDesktop = useDesktop();
 
   return (
-    <div className="flex flex-col gap-[20px]">
+    <div className="flex min-w-[0] flex-col gap-[20px]">
       {props.propertyList.map((el, ind) => {
         return <WidePropertyCard key={el.property.desc} property={el} />;
       })}

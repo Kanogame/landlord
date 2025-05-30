@@ -25,7 +25,13 @@ const variants = {
   },
 };
 
-export default function ImageScroller(props: { images: string[] }) {
+export interface TImageLink {
+  id: string;
+  propertyId: string;
+  link: string;
+}
+
+export default function ImageScroller(props: { images: TImageLink[] }) {
   const [[page, direction], setPage] = useState([0, 0]);
 
   const images =
@@ -33,7 +39,7 @@ export default function ImageScroller(props: { images: string[] }) {
       ? ['/app/media/images/placeholder.png']
       : props.images;
   const showArrows = props.images.length > 1;
-  const currentSlide = images[page];
+  const currentSlide = images[page].link;
 
   function nextImage() {
     if (page === images.length - 1) {
@@ -66,7 +72,7 @@ export default function ImageScroller(props: { images: string[] }) {
           custom={direction}
           variants={variants}
           className={
-            'flex flex-col h-[100%] w-[100%] justify-between bg-center bg-cover bg-no-repeat rounded-[5px]'
+            'absolute flex flex-col h-[100%] w-[100%] justify-between bg-center bg-cover bg-no-repeat rounded-[5px]'
           }
           initial="enter"
           animate="center"

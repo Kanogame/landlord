@@ -61,14 +61,16 @@ export default function MainHeader(props: any) {
             />
           </div>
         ) : (
-          <RegButtons
-            onLogClick={() => {
-              navigate('/login');
-            }}
-            onRegClick={() => {
-              navigate('/register');
-            }}
-          />
+          <div className="absolute right-[50px]">
+            <RegButtons
+              onLogClick={() => {
+                navigate('/login');
+              }}
+              onRegClick={() => {
+                navigate('/register');
+              }}
+            />
+          </div>
         )}
       </div>
     </div>
