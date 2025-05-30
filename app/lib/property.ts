@@ -63,6 +63,7 @@ export interface TGenericProperty {
   imageLinks: TImageLink[];
   username: string;
   profileLink: string;
+  isBookmarked: boolean | null;
 }
 
 export enum TRentPeriod {

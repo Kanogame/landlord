@@ -10,12 +10,10 @@ import ImageScroller from './ImageScroller';
 import { Stars } from './stars';
 import ButtonIcon from './ButtonIcon';
 import iconBookmark from '~/media/icons/icon-bookmark.svg';
+import iconBookmarkChecked from '~/media/icons/icon-bookmark-checked.svg';
 import IconMore from '~/media/icons/icon-more.svg';
-
 import ButtonAccent from './ButtonAccent';
 import ButtonIconDropdown from './ButtonIconDropdown';
-import { FormatMoney } from '~/lib/money';
-import { GetOwnerString } from '~/lib/user';
 import iconCalendar from '~/media/icons/icon-calendar.svg';
 import iconShare from '~/media/icons/icon-share.svg';
 import iconPosition from '~/media/icons/icon-position.svg';
@@ -23,16 +21,35 @@ import ArrowLink from './Link';
 import { widePropertyCardDropdownOptions } from './common/propertyCard';
 import DropdownElement from './DropdownElement';
 import { useNavigate } from 'react-router';
+import { useState } from 'react';
+import { addBookmark, removeBookmark } from '~/lib/bookmarkApi';
 
 export default function WidePropertyCard(props: { property: TProperty }) {
   const type = props.property.type;
   const prop: TRentProperty | TSellProperty = props.property.property;
+  const [isBookmarked, setIsBookmarked] = useState(prop.isBookmarked);
   const navigate = useNavigate();
 
   async function startChat() {
     const { success, chatId } = await InitiateChat(props.property, '');
     if (success) {
       navigate(`/chat/${chatId}`);
+    }
+  }
+
+  async function bookmark(e: any) {
+    e.stopPropagation();
+    let response;
+    if (isBookmarked) {
+      response = await removeBookmark(prop.id);
+    } else {
+      response = await addBookmark(prop.id);
+    }
+
+    if (response.success) {
+      setIsBookmarked(!isBookmarked);
+    } else {
+      console.error('Bookmark operation failed:', response.message);
     }
   }
 
@@ -91,7 +108,10 @@ export default function WidePropertyCard(props: { property: TProperty }) {
             }}
           />
           <div className="flex gap-[5px]">
-            <ButtonIcon icon={iconBookmark} />
+            <ButtonIcon
+              icon={isBookmarked ? iconBookmarkChecked : iconBookmark}
+              onClick={bookmark}
+            />
             <ButtonIcon icon={iconCalendar} />
             <ButtonIcon icon={iconShare} />
             <ButtonIcon icon={iconPosition} />
