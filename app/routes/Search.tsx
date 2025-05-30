@@ -14,12 +14,15 @@ import ButtonAccent from '~/components/ButtonAccent';
 import {
   useSearchFilters,
   type TSearchFilters,
+  type TSortOption,
 } from '~/hooks/useSearchFilters';
+import SearchSortHeader from '~/blocks/SearchSortHeader';
 
 interface LoaderData {
   searchResult: TSearchResult;
   attributes: SearchAttribute[];
 }
+
 export async function clientLoader({
   request,
 }: Route.ClientLoaderArgs): Promise<LoaderData> {
@@ -40,10 +43,32 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
   const isDesktop = useDesktop();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isAttributeModalOpen, setIsAttributeModalOpen] = useState(false);
-  const { filters, resetFilters, updateFiltersAndUrl } = useSearchFilters();
+  const [showMap, setShowMap] = useState(false);
+  const { filters, resetFilters, updateFiltersAndUrl, setPage } =
+    useSearchFilters();
 
   const handleFilterChange = (updates: Partial<TSearchFilters>) => {
     updateFiltersAndUrl(updates, setSearchParams);
+  };
+
+  const handleSortingChange = (sorting: TSortOption) => {
+    handleFilterChange({ sorting });
+  };
+
+  const handleMapToggle = (newShowMap: boolean) => {
+    setShowMap(newShowMap);
+  };
+
+  const handleMonitorRequest = () => {
+    // TODO: Implement monitoring functionality
+    console.log('Monitor request clicked');
+  };
+
+  const handlePageChange = (page: number, size: number) => {
+    setPage(page, size);
+    updateFiltersAndUrl({ pageNumber: page, pageSize: size }, setSearchParams);
+    // Scroll to top when page changes
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const { searchResult, attributes } = loaderData;
@@ -57,10 +82,20 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
     key.startsWith('attr_')
   ).length;
 
+  // Calculate pagination values
+  const totalPages = Math.ceil(searchResult.count / filters.pageSize);
+  const currentPage = filters.pageNumber;
+
   return (
     <DesktopWidth isDesktop={isDesktop}>
       <div className="flex gap-[20px] w-[100%] items-start">
         <div className="flex-[3_1] sticky top-0">
+          <div>
+            <div className="h4-def pb-[20px]">
+              Найдено <br />
+              {searchResult.count} объявлений
+            </div>
+          </div>
           <SearchFilters
             isDesktop={isDesktop}
             onFilterChange={handleFilterChange}
@@ -97,7 +132,21 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
         </div>
 
         <div className="flex-[9_1] min-w-[0]">
-          <SearchList propertyList={searchResult.properties} />
+          <SearchSortHeader
+            sorting={filters.sorting || 'recent'}
+            onSortingChange={handleSortingChange}
+            showMap={showMap}
+            onMapToggle={handleMapToggle}
+            onMonitorRequest={handleMonitorRequest}
+          />
+          <SearchList
+            propertyList={searchResult.properties}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalCount={searchResult.count}
+            pageSize={filters.pageSize}
+            onPageChange={handlePageChange}
+          />
         </div>
       </div>
     </DesktopWidth>

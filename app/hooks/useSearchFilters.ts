@@ -5,6 +5,8 @@ import {
   type TPropertyAttribute,
 } from '~/lib/property';
 
+export type TSortOption = 'recent' | 'price' | 'area';
+
 export interface TSearchFilters {
   pageNumber: number;
   pageSize: number;
@@ -18,6 +20,7 @@ export interface TSearchFilters {
   floorTo?: number;
   area?: number;
   attributes: TPropertyAttribute[];
+  sorting?: TSortOption;
 }
 
 export function useSearchFilters(initialFilters?: Partial<TSearchFilters>) {
@@ -25,6 +28,7 @@ export function useSearchFilters(initialFilters?: Partial<TSearchFilters>) {
     offerType: TOfferType.Rent,
     pageNumber: 1,
     pageSize: 10,
+    sorting: 'recent',
     ...initialFilters,
     attributes: [],
   });
@@ -70,6 +74,7 @@ export function useSearchFilters(initialFilters?: Partial<TSearchFilters>) {
       offerType: TOfferType.Rent,
       pageNumber: 1,
       pageSize: 10,
+      sorting: 'recent',
       attributes: [],
     });
   }

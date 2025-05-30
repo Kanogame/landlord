@@ -1,52 +1,74 @@
-import { useState } from "react";
-import iconDown from "./dropdown/lcon-down.svg";
+import { useState } from 'react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '~/components/ui/dropdown-menu';
+import iconDown from './dropdown/lcon-down.svg';
 
-export default function DropDown(props: {
+interface DropdownProps {
   values: string[];
   onChosen: (choose: string) => void;
   width?: number;
   offsetY?: number;
-}) {
+  placeholder?: string;
+  selectedValue?: string;
+}
+
+export default function Dropdown({
+  values,
+  onChosen,
+  width,
+  offsetY,
+  placeholder = 'Выберите опцию',
+  selectedValue,
+}: DropdownProps) {
   const [open, setOpen] = useState<boolean>(false);
 
-  const width: string = props.width ? props.width + "px" : "auto";
-  const offsetY: string = props.offsetY ? props.offsetY + "px" : "auto";
+  const displayValue = selectedValue || placeholder;
+  const widthStyle = width ? `${width}px` : 'auto';
 
   return (
-    <div
-      className="relative"
-      onMouseEnter={() => {
-        setOpen(true);
-      }}
-      onMouseLeave={() => {
-        setOpen(false);
-      }}
-    >
-      <img src={iconDown} alt="logo" className="block w-full" />
-      {open ? (
-        <div
-          className="absolute cursor-pointer bg-white rounded-[10px] px-2 py-2"
-          style={{
-            width: width,
-            right: offsetY,
-          }}
+    <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger asChild>
+        <button
+          className="flex items-center justify-between gap-2 px-3 py-2 text-sm font-medium text-[#2D2D2D] bg-white border border-[#EFEFEF] rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#8B2635] focus:ring-opacity-20 transition-colors"
+          style={{ width: widthStyle }}
         >
-          {props.values.map((a) => {
-            return (
-              <div>
-                <a
-                  className="p-def border-b-[#EFEFEF]  border-b-[1px] flex"
-                  onClick={() => {
-                    props.onChosen(a);
-                  }}
-                >
-                  {a}
-                </a>
-              </div>
-            );
-          })}
-        </div>
-      ) : null}
-    </div>
+          <span className="truncate">{displayValue}</span>
+          <img
+            src={iconDown}
+            alt="dropdown arrow"
+            className={`w-4 h-4 transition-transform duration-200 ${
+              open ? 'rotate-180' : ''
+            }`}
+          />
+        </button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent
+        className="min-w-[var(--radix-dropdown-menu-trigger-width)] bg-white border border-[#EFEFEF] rounded-lg shadow-lg p-1"
+        align="start"
+        sideOffset={4}
+        style={{
+          marginRight: offsetY ? `${offsetY}px` : undefined,
+          width: width ? `${width}px` : undefined,
+        }}
+      >
+        {values.map((value, index) => (
+          <DropdownMenuItem
+            key={index}
+            className="px-3 py-2 text-sm text-[#2D2D2D] cursor-pointer hover:bg-[#F8F8F8] focus:bg-[#F3E7E7] rounded-md transition-colors"
+            onClick={() => {
+              onChosen(value);
+              setOpen(false);
+            }}
+          >
+            {value}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
