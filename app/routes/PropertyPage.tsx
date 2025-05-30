@@ -8,21 +8,34 @@ import PropertyMap from '~/components/PropertyMap';
 import PropertyDetails from '~/components/PropertyDetails';
 import PropertySummary from '~/components/PropertyOwnerContact';
 import { Post } from '~/lib/api';
-import type { TProperty, TRentProperty } from '~/lib/property';
+import type { TProperty, TRentProperty, TSearchResult } from '~/lib/property';
 import type { Route } from './+types/PropertyPage';
+import CardFetchScroller from '~/blocks/CardFetchScroller';
 
 export async function clientLoader({
   params,
-}: Route.ClientLoaderArgs): Promise<TProperty> {
+}: Route.ClientLoaderArgs): Promise<{
+  property: TProperty;
+  similar: TSearchResult;
+}> {
   const resp = await Post<TProperty>('api/Property/get_property_by_id', {
     propertyId: params.id,
   });
-  return resp;
+
+  const similar = await Post<TSearchResult>(
+    'api/Property/get_properties_search',
+    {
+      pageNumber: 1,
+      pageSize: 10,
+      offerType: resp.type,
+    }
+  );
+  return { property: resp, similar: similar };
 }
 
 export default function PropertyPage({ loaderData }: Route.ComponentProps) {
   const isDesktop = useDesktop();
-  const property = loaderData as TProperty;
+  const property = loaderData.property;
 
   return (
     <DesktopWidth isDesktop={isDesktop}>
@@ -39,7 +52,7 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
           }
         >
           <PropertyImageGallery images={property.property.imageLinks} />
-          {isDesktop! && (
+          {!isDesktop && (
             <div className="flex flex-[1_0] flex-col gap-[20px]">
               <PropertySummary property={property} />
             </div>
@@ -62,6 +75,12 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
           </div>
         )}
       </div>
+
+      <CardFetchScroller
+        label="Похожие"
+        link={{ label: 'Все', href: `/search?OfferType=${property.type}` }}
+        loaded={loaderData.similar}
+      />
     </DesktopWidth>
   );
 }

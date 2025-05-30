@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import Block from './Block';
 import ScrollerArrow from './ScrollerArrow';
 import type { TImageLink } from './ImageScroller';
+import { useDesktop } from '~/hooks/useDesktop';
 
 interface PropertyImageGalleryProps {
   images: TImageLink[];
@@ -30,6 +31,7 @@ export default function PropertyImageGallery({
   const [scrollPosition, setScrollPosition] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const isDesktop = useDesktop();
 
   const displayImages =
     images.length > 0
@@ -94,7 +96,12 @@ export default function PropertyImageGallery({
     <>
       <div className="flex flex-col gap-[20px]">
         {/* Main Image Display */}
-        <div className="flex-[1_0_400px] h-[100px] relative rounded-[20px] overflow-hidden">
+        <div
+          className={
+            (isDesktop ? 'rounded-[20px]' : 'rounded-[16px]') +
+            ' flex-[1_0_400px] h-[100px] relative  overflow-hidden'
+          }
+        >
           {showMainArrows && !isFullscreen && (
             <>
               <ScrollerArrow right={false} onClick={prevImage} />
@@ -146,43 +153,45 @@ export default function PropertyImageGallery({
         </div>
 
         {/* Thumbnail Gallery */}
-        <Block label="" isDesktop={true}>
-          <div className="overflow-auto scrollbar-0 relative">
-            <motion.div
-              className="flex gap-[12px]"
-              animate={{
-                x: -scrollPosition * itemWidth,
-              }}
-              transition={{
-                type: 'spring',
-                stiffness: 300,
-                damping: 30,
-              }}
-            >
-              {displayImages.map((image, index) => (
-                <motion.img
-                  key={image.id}
-                  src={image.link}
-                  alt=""
-                  className={`w-[100px] h-[60px] rounded-[10px] cursor-pointer object-cover flex-shrink-0 transition-all duration-200 ${
-                    selectedImage === index
-                      ? 'border-2 border-blue-500'
-                      : 'border-2 border-transparent hover:border-gray-300'
-                  }`}
-                  onClick={() => handleThumbnailClick(index)}
-                />
-              ))}
-            </motion.div>
+        {isDesktop && (
+          <Block label="" isDesktop={true}>
+            <div className="overflow-auto scrollbar-0 relative">
+              <motion.div
+                className="flex gap-[12px]"
+                animate={{
+                  x: -scrollPosition * itemWidth,
+                }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 300,
+                  damping: 30,
+                }}
+              >
+                {displayImages.map((image, index) => (
+                  <motion.img
+                    key={image.id}
+                    src={image.link}
+                    alt=""
+                    className={`w-[100px] h-[60px] rounded-[10px] cursor-pointer object-cover flex-shrink-0 transition-all duration-200 ${
+                      selectedImage === index
+                        ? 'border-2 border-blue-500'
+                        : 'border-2 border-transparent hover:border-gray-300'
+                    }`}
+                    onClick={() => handleThumbnailClick(index)}
+                  />
+                ))}
+              </motion.div>
 
-            {canScrollLeft && (
-              <ScrollerArrow right={false} onClick={scrollLeft} />
-            )}
+              {canScrollLeft && (
+                <ScrollerArrow right={false} onClick={scrollLeft} />
+              )}
 
-            {canScrollRight && (
-              <ScrollerArrow right={true} onClick={scrollRight} />
-            )}
-          </div>
-        </Block>
+              {canScrollRight && (
+                <ScrollerArrow right={true} onClick={scrollRight} />
+              )}
+            </div>
+          </Block>
+        )}
       </div>
 
       {/* Fullscreen Overlay */}
