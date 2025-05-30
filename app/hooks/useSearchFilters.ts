@@ -1,7 +1,13 @@
 import { useState, useCallback } from 'react';
-import { TOfferType, TPropertyType } from '~/lib/property';
+import {
+  TOfferType,
+  TPropertyType,
+  type TPropertyAttribute,
+} from '~/lib/property';
 
-export interface SearchFiltersState {
+export interface TSearchFilters {
+  pageNumber: number;
+  pageSize: number;
   offerType: TOfferType;
   propertyType?: TPropertyType;
   city?: string;
@@ -11,103 +17,68 @@ export interface SearchFiltersState {
   floorFrom?: number;
   floorTo?: number;
   area?: number;
-  rooms?: number;
-  renovation?: string;
-  hasElevator: boolean;
-  hasParking: boolean;
+  attributes: TPropertyAttribute[];
 }
 
-export interface SearchFiltersAPI {
-  offerTypeId: TOfferType;
-  propertyTypeId?: TPropertyType;
-  city?: string;
-  district?: string;
-  priceMin?: number;
-  priceMax?: number;
-  floorMin?: number;
-  floorMax?: number;
-  areaMin?: number;
-  rooms?: number;
-  attributes?: Array<{
-    name: string;
-    value: string;
-    type: 'boolean' | 'string' | 'number';
-  }>;
-}
-
-export function useSearchFilters(initialFilters?: Partial<SearchFiltersState>) {
-  const [filters, setFilters] = useState<SearchFiltersState>({
+export function useSearchFilters(initialFilters?: Partial<TSearchFilters>) {
+  const [filters, setFilters] = useState<TSearchFilters>({
     offerType: TOfferType.Rent,
-    hasElevator: false,
-    hasParking: false,
+    pageNumber: 1,
+    pageSize: 10,
     ...initialFilters,
+    attributes: [],
   });
 
-  const updateFilters = useCallback((updates: Partial<SearchFiltersState>) => {
-    setFilters(prev => ({ ...prev, ...updates }));
-  }, []);
+  function setPage(page: number, size: number) {
+    setFilters(prev => ({ ...prev, pageNumber: page, pageSize: size }));
+  }
 
-  const resetFilters = useCallback(() => {
+  function applyUrl(filter: TSearchFilters): URLSearchParams {
+    const newParams = new URLSearchParams();
+
+    Object.entries(filter).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        newParams.set(key, value.toString());
+      }
+
+      if (key === 'attributes') {
+        for (const attribute of value) {
+          newParams.set(`attr_${attribute.attribute}`, attribute.value);
+        }
+      }
+    });
+    return newParams;
+  }
+
+  function updateFiltersAndUrl(
+    updates: Partial<TSearchFilters>,
+    setUrl: (param: URLSearchParams) => void
+  ) {
+    setFilters(prevFilters => {
+      const newFilters = { ...prevFilters, ...updates };
+      setUrl(applyUrl(newFilters));
+      return newFilters;
+    });
+  }
+
+  function updateFilters(updates: Partial<TSearchFilters>) {
+    setFilters(prevFilters => ({ ...prevFilters, ...updates }));
+  }
+
+  function resetFilters() {
     setFilters({
       offerType: TOfferType.Rent,
-      hasElevator: false,
-      hasParking: false,
+      pageNumber: 1,
+      pageSize: 10,
+      attributes: [],
     });
-  }, []);
-
-  const toAPIFormat = useCallback((): SearchFiltersAPI => {
-    const attributes: Array<{
-      name: string;
-      value: string;
-      type: 'boolean' | 'string' | 'number';
-    }> = [];
-
-    // Add renovation as attribute
-    if (filters.renovation) {
-      attributes.push({
-        name: 'renovation',
-        value: filters.renovation,
-        type: 'string',
-      });
-    }
-
-    // Add elevator as attribute
-    if (filters.hasElevator) {
-      attributes.push({
-        name: 'hasElevator',
-        value: 'true',
-        type: 'boolean',
-      });
-    }
-
-    // Add parking as attribute
-    if (filters.hasParking) {
-      attributes.push({
-        name: 'hasParking',
-        value: 'true',
-        type: 'boolean',
-      });
-    }
-
-    return {
-      offerTypeId: filters.offerType,
-      propertyTypeId: filters.propertyType,
-      city: filters.city,
-      district: filters.district,
-      priceMin: filters.priceFrom,
-      priceMax: filters.priceTo,
-      floorMin: filters.floorFrom,
-      floorMax: filters.floorTo,
-      areaMin: filters.area,
-      rooms: filters.rooms,
-      attributes: attributes.length > 0 ? attributes : undefined,
-    };
-  }, [filters]);
+  }
 
   return {
     filters,
     updateFilters,
+    updateFiltersAndUrl,
     resetFilters,
-    toAPIFormat,
+    setPage,
   };
 }

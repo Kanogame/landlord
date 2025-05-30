@@ -1,40 +1,103 @@
-import { useMediaQuery } from 'react-responsive';
+import { useState } from 'react';
+import { useSearchParams, useNavigate } from 'react-router';
 import DesktopWidth from '~/blocks/DesktopWidth';
 import SearchList from '~/blocks/SearchList';
-import { Post } from '~/lib/api';
-import {
-  TOfferType,
-  TRentPeriod,
-  type TGenericProperty,
-  type TProperty,
-  type TSearchResult,
-} from '~/lib/property';
+import { getSearchFromUrl, searchProperties } from '~/lib/searchApi';
+import { getSearchAttributes, type SearchAttribute } from '~/lib/attributeApi';
+import { TOfferType, type TProperty, type TSearchResult } from '~/lib/property';
 import { useDesktop } from '~/hooks/useDesktop';
 import type { Route } from './+types/Search';
 import SearchFilters from '~/blocks/SearchFilters';
+import Modal from '~/components/Modal';
+import AttributeSearch from '~/blocks/AttributeSearch';
+import ButtonAccent from '~/components/ButtonAccent';
+import {
+  useSearchFilters,
+  type TSearchFilters,
+} from '~/hooks/useSearchFilters';
 
-export async function clientLoader(): Promise<TSearchResult> {
-  const resp = await Post<TSearchResult>('api/Property/get_properties_search', {
-    pageNumber: 1,
-    pageSize: 10,
-    offerType: 0,
-  });
-  return resp;
+interface LoaderData {
+  searchResult: TSearchResult;
+  attributes: SearchAttribute[];
+}
+export async function clientLoader({
+  request,
+}: Route.ClientLoaderArgs): Promise<LoaderData> {
+  const url = new URL(request.url);
+  const searchParams = url.searchParams;
+  const [searchResult, attributesResponse] = await Promise.all([
+    searchProperties(getSearchFromUrl(searchParams)),
+    getSearchAttributes(),
+  ]);
+
+  return {
+    searchResult,
+    attributes: attributesResponse,
+  };
 }
 
-export default function SeachPage({ loaderData }: Route.ComponentProps) {
+export default function SearchPage({ loaderData }: Route.ComponentProps) {
   const isDesktop = useDesktop();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [isAttributeModalOpen, setIsAttributeModalOpen] = useState(false);
+  const { filters, resetFilters, updateFiltersAndUrl } = useSearchFilters();
 
-  console.log(loaderData);
+  const handleFilterChange = (updates: Partial<TSearchFilters>) => {
+    updateFiltersAndUrl(updates, setSearchParams);
+  };
+
+  const { searchResult, attributes } = loaderData;
+
+  const handleAttributeParamsChange = (newParams: URLSearchParams) => {
+    setSearchParams(newParams);
+  };
+
+  // Count active attribute filters
+  const activeAttributeCount = Array.from(searchParams.keys()).filter(key =>
+    key.startsWith('attr_')
+  ).length;
 
   return (
     <DesktopWidth isDesktop={isDesktop}>
       <div className="flex gap-[20px] w-[100%] items-start">
-        <div className="flex-[3_1]">
-          <SearchFilters isDesktop={isDesktop} onFiltersChange={console.log} />
+        <div className="flex-[3_1] sticky top-0">
+          <SearchFilters
+            isDesktop={isDesktop}
+            onFilterChange={handleFilterChange}
+            onResetFilters={resetFilters}
+            filters={filters}
+          />
+
+          <div className="mt-4">
+            <Modal
+              trigger={
+                <ButtonAccent
+                  label={`Дополнительные фильтры${
+                    activeAttributeCount > 0 ? ` (${activeAttributeCount})` : ''
+                  }`}
+                  onClick={() => {}}
+                  width="100%"
+                  height="40px"
+                />
+              }
+              title="Дополнительные фильтры"
+              isDesktop={isDesktop}
+              open={isAttributeModalOpen}
+              onOpenChange={setIsAttributeModalOpen}
+            >
+              <AttributeSearch
+                attributes={attributes}
+                searchParams={searchParams}
+                isDesktop={isDesktop}
+                onApply={handleAttributeParamsChange}
+                onClose={() => setIsAttributeModalOpen(false)}
+              />
+            </Modal>
+          </div>
         </div>
+
         <div className="flex-[9_1]">
-          <SearchList propertyList={loaderData.properties} />
+          <SearchList propertyList={searchResult.properties} />
         </div>
       </div>
     </DesktopWidth>

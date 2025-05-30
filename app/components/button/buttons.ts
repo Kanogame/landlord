@@ -1,17 +1,20 @@
-export interface ButtonTextProps {
+import type { HTMLMotionProps } from 'motion/react';
+
+export interface ButtonTextProps extends HTMLMotionProps<'button'> {
   label: string;
   width?: string;
   height?: string;
   radius?: number;
-  disabled?: boolean;
-  type?: "submit" | "reset" | "button";
-  onClick?: () => void;
 }
 
-export function ProcessButtonProps(props: ButtonTextProps) {
+export function ProcessButtonProps(
+  width?: string,
+  height?: string,
+  radius?: number
+) {
   return {
-    width: props.width ?? '120px',
-    height: props.height ?? '30px',
-    borderRadius: (props.radius ?? 4) + 'px',
+    width: width ?? '120px',
+    height: height ?? '30px',
+    borderRadius: (radius ?? 4) + 'px',
   };
 }

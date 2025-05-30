@@ -44,12 +44,9 @@ export enum PropertyAttributeType {
   Boolean,
 }
 
-export interface TPropertyAttributes {
-  id: number;
-  propertyId: number;
-  attributeName: string;
-  attributeValue: string;
-  attributeType: PropertyAttributeType;
+export interface TPropertyAttribute {
+  name: string;
+  value: string;
 }
 
 export interface TGenericProperty {
@@ -57,7 +54,7 @@ export interface TGenericProperty {
   ownerId: number;
   offerTypeId: TOfferType;
   PropertyTypeId: TPropertyType;
-  PropertyAttribues: TPropertyAttributes;
+  PropertyAttribues: TPropertyAttribute;
   name: string;
   desc: string;
   address: TAddress;
