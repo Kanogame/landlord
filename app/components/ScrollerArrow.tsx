@@ -7,7 +7,7 @@ export default function ScrollerArrow(props: {
   return (
     <div
       className={
-        'z-[100] absolute top-[50%] -translate-y-[50%] bg-[#00000075] rounded-full py-[3px] px-[6px] ' +
+        'z-[20] absolute top-[50%] -translate-y-[50%] bg-[#00000075] rounded-full py-[3px] px-[6px] ' +
         (props.right ? 'right-[10px]' : 'left-[10px]')
       }
       onClick={e => {

@@ -5,11 +5,14 @@ import iconLogin from '../media/icons/icon-login.svg';
 import iconSearch from '../media/icons/icon-search.svg';
 import iconExit from '../media/icons/icon-exit.svg';
 import SimpleIconButton from '~/components/SimpleIconButton';
+import { useNavigate } from 'react-router';
 
 export default function MobileHeader(props: {
   onSidepageClicked: () => void;
   sidepageOpened: boolean;
 }) {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-white flex justify-between items-center border-b-[1px] border-b-[#EFEFEF] p-[5px]">
       <div className="flex items-center gap-[10px]">
@@ -17,14 +20,20 @@ export default function MobileHeader(props: {
           img={props.sidepageOpened ? iconExit : iconBurger}
           onClick={props.onSidepageClicked}
         />
-        <div>
+        <div onClick={() => navigate('/')}>
           <img src={logo} alt="logo" className="block w-full" />
         </div>
       </div>
-      <div className="flex items-center gap-[10px]">
-        <SimpleIconButton img={iconSearch} />
-        <SimpleIconButton img={iconBookmark} />
-        <SimpleIconButton img={iconLogin} />
+      <div className="flex items-center gap-[10px] cursor-pointer">
+        <SimpleIconButton
+          img={iconSearch}
+          onClick={() => navigate('/search')}
+        />
+        <SimpleIconButton
+          img={iconBookmark}
+          onClick={() => navigate('/profile/bookmarks')}
+        />
+        <SimpleIconButton img={iconLogin} onClick={() => navigate('/login')} />
       </div>
     </div>
   );

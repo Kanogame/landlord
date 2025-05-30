@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router';
 import { useAuth } from '~/hooks/useAuth';
 import ButtonAccent from '~/components/ButtonAccent';
 import ButtonEmpty from '~/components/ButtonEmpty';
+import ButtonIcon from '~/components/ButtonIcon';
+import iconBookmark from '~/media/icons/icon-bookmark.svg';
 
 export default function MainHeader(props: any) {
   const navigate = useNavigate();
@@ -50,6 +52,12 @@ export default function MainHeader(props: any) {
         </div>
         {isAuthenticated ? (
           <div className="flex gap-[5px] absolute right-[50px]">
+            <ButtonIcon
+              onClick={() => {
+                navigate('/profile/bookmarks');
+              }}
+              icon={iconBookmark}
+            />
             <ButtonAccent
               label="Мой аккаунт"
               onClick={() => navigate('/profile/account')}

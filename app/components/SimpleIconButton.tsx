@@ -10,7 +10,7 @@ export default function SimpleIconButton(props: {
 
   return (
     <div
-      className="w-[30px] h-[30px] flex items-center justify-center"
+      className="w-[30px] h-[30px] flex items-center justify-center cursor-pointer"
       onClick={handleClick}
     >
       <img src={props.img} alt="" />

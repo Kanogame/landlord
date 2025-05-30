@@ -39,7 +39,7 @@ export default function Page() {
       <AnimatePresence>
         {sidePage && (
           <div className="flex-1 flex">
-            <SidePage />
+            <SidePage onClose={() => setSidepage(false)} />
           </div>
         )}
       </AnimatePresence>
