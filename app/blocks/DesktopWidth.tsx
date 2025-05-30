@@ -14,7 +14,7 @@ export default function DesktopWidth(props: {
     );
   }
   return (
-    <div className="flex flex-col py-[20px] gap-[20px] flex-1">
+    <div className="flex flex-col py-[20px] gap-[20px] flex-1 w-[100%]">
       {props.children}
     </div>
   );

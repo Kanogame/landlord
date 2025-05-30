@@ -31,8 +31,19 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
           isDesktop ? 'flex gap-[20px] items-start' : 'flex flex-col gap-[20px]'
         }
       >
-        <div className="flex flex-[2_0] flex-col gap-[20px]">
+        <div
+          className={
+            isDesktop
+              ? 'flex flex-[2_0] flex-col gap-[20px]'
+              : 'flex flex-col gap-[20px]'
+          }
+        >
           <PropertyImageGallery images={property.property.imageLinks} />
+          {isDesktop! && (
+            <div className="flex flex-[1_0] flex-col gap-[20px]">
+              <PropertySummary property={property} />
+            </div>
+          )}
           <PropertyDescription
             description={property.property.desc}
             rating={
@@ -45,10 +56,11 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
           <PropertyMap address={property.property.address} />
           <PropertyDetails property={property} isDesktop={isDesktop} />
         </div>
-
-        <div className="flex flex-[1_0] flex-col gap-[20px]">
-          <PropertySummary property={property} />
-        </div>
+        {isDesktop && (
+          <div className="flex flex-[1_0] flex-col gap-[20px]">
+            <PropertySummary property={property} />
+          </div>
+        )}
       </div>
     </DesktopWidth>
   );

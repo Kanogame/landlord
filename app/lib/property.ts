@@ -1,3 +1,4 @@
+import type { TImageLink } from '~/components/ImageScroller';
 import { createChat } from './chatApi';
 import { FormatMoney, type TMoney } from './money';
 
@@ -59,7 +60,7 @@ export interface TGenericProperty {
   desc: string;
   address: TAddress;
   area: number;
-  imageLinks: string[];
+  imageLinks: TImageLink[];
   username: string;
   profileLink: string;
 }
