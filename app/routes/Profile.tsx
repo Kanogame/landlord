@@ -20,7 +20,7 @@ export default function ProfilePage() {
             <ProfileSidebar />
           </div>
 
-          <div className="flex flex-col gap-[20px] w-[100%]">
+          <div className="flex flex-col min-w-0 gap-[20px] w-[100%]">
             <Outlet />
           </div>
         </div>
