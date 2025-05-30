@@ -1,5 +1,6 @@
 import FormatPrice, {
   FormatArea,
+  InitiateChat,
   TOfferType,
   type TProperty,
   type TRentProperty,
@@ -21,22 +22,35 @@ import iconPosition from '~/media/icons/icon-position.svg';
 import ArrowLink from './Link';
 import { widePropertyCardDropdownOptions } from './common/propertyCard';
 import DropdownElement from './DropdownElement';
+import { useNavigate } from 'react-router';
 
 export default function WidePropertyCard(props: { property: TProperty }) {
   const type = props.property.type;
   const prop: TRentProperty | TSellProperty = props.property.property;
+  const navigate = useNavigate();
+
+  async function startChat() {
+    const { success, chatId } = await InitiateChat(props.property, '');
+    if (success) {
+      navigate(`/chat/${chatId}`);
+    }
+  }
+
   return (
-    <div className="bg-white block-shadow rounded-[20px] p-[10px] flex gap-[5px]">
+    <div
+      className="bg-white block-shadow rounded-[15px] p-[10px] h-[170px] flex gap-[5px] cursor-pointer min-w-[0]"
+      onClick={() => navigate('/property/' + prop.id)}
+    >
       <div className="flex-[0_0_170px] rounded-[5px]">
-        <ImageScroller images={[]} />
+        <ImageScroller images={prop.imageLinks} />
       </div>
 
-      <div className="flex flex-col flex-[1_0]">
+      <div className="min-w-[0]  flex flex-col flex-[1_0] gap-[5px]">
         <div className="n1-def overflow-hidden text-ellipsis text-nowrap">
           {prop.name}
         </div>
 
-        <div className="p-light overflow-hidden text-ellipsis text-nowrap">
+        <div className="p-light flex-[1_0] overflow-hidden text-ellipsis text-nowrap ">
           {prop.address.displayAddress}
         </div>
 
@@ -45,17 +59,17 @@ export default function WidePropertyCard(props: { property: TProperty }) {
             <Stars rating={(prop as TRentProperty).raiting} />
           </div>
         )}
-
-        <div className="p-light overflow-hidden text-ellipsis w-[100%]">
+        <div className="min-w-[0] p-light overflow-hidden text-ellipsis text-nowrap">
           {prop.desc}
         </div>
 
-        <div className="flex">{prop.username}, хозяин</div>
+        <div className="flex p-def">{prop.username}, хозяин</div>
         <ArrowLink
           link={{
             label: 'Профиль',
             href: prop.profileLink,
           }}
+          big={false}
         />
       </div>
 
@@ -68,7 +82,14 @@ export default function WidePropertyCard(props: { property: TProperty }) {
           <div className="p-def">{FormatArea(prop.area)}</div>
         </div>
         <div className="flex flex-col gap-[5px]">
-          <ButtonAccent label="Написать" width="100%" />
+          <ButtonAccent
+            label="Написать"
+            width="100%"
+            onClick={e => {
+              e.stopPropagation();
+              startChat();
+            }}
+          />
           <div className="flex gap-[5px]">
             <ButtonIcon icon={iconBookmark} />
             <ButtonIcon icon={iconCalendar} />

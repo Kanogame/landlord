@@ -7,7 +7,12 @@ const arrow = {
   hover: { x: -3 },
 };
 
-export default function ArrowLink(props: { link: TLink }) {
+interface ArrowLinkProps {
+  link: TLink;
+  big: boolean;
+}
+
+export default function ArrowLink({ link, big }: ArrowLinkProps) {
   const navigate = useNavigate();
 
   return (
@@ -15,17 +20,22 @@ export default function ArrowLink(props: { link: TLink }) {
       initial="init"
       whileHover="hover"
       className="items-center flex gap-[10px] cursor-pointer"
-      onClick={() => {
-        navigate(props.link.href);
+      onClick={e => {
+        e.stopPropagation();
+        navigate(link.href);
       }}
     >
-      <div className="h4 text-[#008DE5]">{props.link.label}</div>
+      <div className={big ? 'h4 text-[#008DE5]' : 'p text-[#008DE5]'}>
+        {link.label}
+      </div>
       <motion.svg
         variants={arrow}
         width="8"
         height="14"
         viewBox="0 0 8 14"
-        className="rotate-180 w-[12px] h-[20px]"
+        className={
+          big ? 'rotate-180 w-[12px] h-[20px]"' : 'rotate-180 w-[6px] h-[10px]"'
+        }
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
