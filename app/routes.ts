@@ -17,6 +17,7 @@ export default [
       route('profile/history', './routes/History.tsx'),
       route('profile/settings', './routes/Settings.tsx'),
     ]),
+    route('editor', './routes/Editor.tsx'),
     route('property/:id', './routes/PropertyPage.tsx'),
     route('register', './routes/Register.tsx'),
     route('login', './routes/Login.tsx'),
