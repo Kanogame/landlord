@@ -6,6 +6,7 @@ import { Calendar } from '~/components/ui/calendar';
 import { getCalendarPeriods } from '~/lib/calendarApi';
 import { ErrorToast } from '~/lib/api';
 import type { TCalendarResponse, TCalendarPeriod } from '~/lib/calendar';
+import { Drawer, DrawerContent } from './ui/drawer';
 
 interface PropertyCalendarProps {
   propertyId: number;
@@ -23,19 +24,6 @@ export default function PropertyCalendar({
   const [selectedPeriod, setSelectedPeriod] = useState<TCalendarPeriod | null>(
     null
   );
-  const [isLoading, setIsLoading] = useState(false);
-
-  // Create date ranges for each period
-  const periodRanges = useMemo(() => {
-    if (!calendarData.periods) return [];
-
-    return calendarData.periods.map(period => ({
-      period,
-      from: new Date(period.startDate),
-      to: new Date(period.endDate),
-      dates: [],
-    }));
-  }, [calendarData.periods]);
 
   // Get all dates that are part of periods
   const periodDates = useMemo(() => {
@@ -56,7 +44,6 @@ export default function PropertyCalendar({
 
   // Load calendar data for specific month
   const loadCalendarData = async (month: Date) => {
-    setIsLoading(true);
     try {
       const startDate = new Date(
         month.getFullYear(),
@@ -86,8 +73,6 @@ export default function PropertyCalendar({
       }
     } catch (error) {
       ErrorToast('Ошибка при загрузке календаря');
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -189,8 +174,11 @@ ${
 
   return (
     <Block label="Календарь" isDesktop={isDesktop}>
-      <div className="flex gap-[12px]">
-        <div className="flex-shrink-0" style={{ width: 370 }}>
+      <div className={isDesktop ? 'flex gap-[12px]' : 'flex'}>
+        <div
+          className={isDesktop ? 'flex-shrink-0' : 'flex-1'}
+          style={{ width: 370 }}
+        >
           <Calendar
             mode="single"
             onSelect={handleDayClick}
@@ -271,14 +259,40 @@ ${
             }}
           />
         </div>
-        <div className="w-[1px] bg-[#E3E3E3]" />
-        <div className="flex-1 flex flex-col gap-[8px]">
-          <div className="h4-def">События за выбранный период</div>
-          <div className="n1-def">{getEventTitle()}</div>
-          <div className="flex-1 text-[12px] text-[#2D2D2D] overflow-hidden relative">
-            <p className="p-def whitespace-pre-line">{renderEventContent()}</p>
-          </div>
-        </div>
+        {isDesktop && (
+          <>
+            <div className="w-[1px] bg-[#E3E3E3]" />
+            <div className="flex-1 flex flex-col gap-[8px]">
+              <div className="h4-def">События за выбранный период</div>
+              <div className="n1-def">{getEventTitle()}</div>
+              <div className="flex-1 text-[12px] text-[#2D2D2D] overflow-hidden relative">
+                <p className="p-def whitespace-pre-line">
+                  {renderEventContent()}
+                </p>
+              </div>
+            </div>
+          </>
+        )}
+        {!isDesktop && (
+          <Drawer
+            open={selectedPeriod != null}
+            onClose={() => setSelectedPeriod(null)}
+          >
+            <DrawerContent>
+              <div className="flex-1 flex flex-col gap-[8px] p-[20px]">
+                <div className="h3-def self-center">
+                  События за выбранный период
+                </div>
+                <div className="n1-def">{getEventTitle()}</div>
+                <div className="flex-1 text-[12px] text-[#2D2D2D] overflow-hidden relative">
+                  <p className="p-def whitespace-pre-line">
+                    {renderEventContent()}
+                  </p>
+                </div>
+              </div>
+            </DrawerContent>
+          </Drawer>
+        )}
       </div>
     </Block>
   );

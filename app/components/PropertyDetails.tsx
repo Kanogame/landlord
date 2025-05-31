@@ -22,7 +22,7 @@ export default function PropertyDetails({
       {!isDesktop && (
         <Drawer open={showFull} onClose={() => setShowFull(false)}>
           <DrawerContent>
-            <div className="flex flex-col  gap-[40px] p-[20px]">
+            <div className="flex flex-col gap-[40px] p-[20px]">
               <div className="h3-def self-center">О недвижимости</div>
               {attibutes.map((detail, index) => (
                 <PropertyInfoLine

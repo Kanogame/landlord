@@ -23,19 +23,12 @@ export default function PropertySummary({
 }: PropertyOwnerContactProps) {
   const isDesktop = useDesktop();
   const [message, setMessage] = useState('');
+  const attibutes = property.property.propertyAttributes;
 
   const quickMessages = [
     'Торг уместен?',
     'Еще актуально?',
     'Когда могу посмотреть?',
-  ];
-
-  const propertyInfo = [
-    { label: 'Площадь', value: `${property.property.area} м²` },
-    { label: 'Залог', value: '100 000 Р' },
-    { label: 'Оплата ЖКХ', value: 'Включено' },
-    { label: 'Срок аренды', value: 'от 3 месяца' },
-    { label: 'Можно снять', value: 'через 3 недели' },
   ];
 
   return (
@@ -52,11 +45,11 @@ export default function PropertySummary({
           <span className="h2-def">{FormatPrice(property)}</span>
         </div>
 
-        <div className="flex flex-col gap-[15px] h-[150px] overflow-hidden">
-          {propertyInfo.map((info, index) => (
+        <div className="flex flex-col gap-[15px] overflow-hidden">
+          {attibutes.slice(0, 4).map((info, index) => (
             <PropertyInfoLine
               key={index}
-              label={info.label}
+              label={info.name}
               value={info.value}
             />
           ))}
