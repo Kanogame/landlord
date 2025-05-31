@@ -55,7 +55,7 @@ export interface TGenericProperty {
   ownerId: number;
   offerTypeId: TOfferType;
   PropertyTypeId: TPropertyType;
-  PropertyAttribues: TPropertyAttribute;
+  propertyAttributes: TPropertyAttribute[];
   name: string;
   desc: string;
   address: TAddress;

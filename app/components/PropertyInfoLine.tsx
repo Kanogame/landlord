@@ -7,11 +7,21 @@ export default function PropertyInfoLine({
   label,
   value,
 }: PropertyInfoLineProps) {
+  function parseValue(value: string) {
+    if (value == 'true') {
+      return 'Да';
+    }
+    if (value == 'false') {
+      return 'Нет';
+    }
+    return value;
+  }
+
   return (
     <div className="flex items-center gap-[5px]">
-      <span className="p-def">{label}</span>
+      <span className="h5-def">{label}</span>
       <div className="flex-1 h-[8px] border-b-[2px] border-[#2D2D2D] border-dotted" />
-      <span className="p-def">{value}</span>
+      <span className="h5-def">{parseValue(value)}</span>
     </div>
   );
 }
