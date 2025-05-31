@@ -1,54 +1,200 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useDesktop } from '~/hooks/useDesktop';
 import Block from './Block';
 import ButtonAccent from './ButtonAccent';
 import { Calendar } from '~/components/ui/calendar';
-import type { DateRange } from 'react-day-picker';
+import { getCalendarPeriods } from '~/lib/calendarApi';
+import { ErrorToast } from '~/lib/api';
+import type { TCalendarResponse, TCalendarPeriod } from '~/lib/calendar';
 
-export default function PropertyCalendar() {
+interface PropertyCalendarProps {
+  propertyId: number;
+  initialCalendarData: TCalendarResponse;
+}
+
+export default function PropertyCalendar({
+  propertyId,
+  initialCalendarData,
+}: PropertyCalendarProps) {
   const isDesktop = useDesktop();
-  const [selectedRange, setSelectedRange] = useState<DateRange | undefined>({
-    from: new Date(2025, 4, 6), // May 6, 2025
-    to: new Date(2025, 4, 21), // May 21, 2025
-  });
+  const [calendarData, setCalendarData] =
+    useState<TCalendarResponse>(initialCalendarData);
+  const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
+  const [selectedPeriod, setSelectedPeriod] = useState<TCalendarPeriod | null>(
+    null
+  );
+  const [isLoading, setIsLoading] = useState(false);
 
-  const formatDateRange = (range: DateRange | undefined) => {
-    if (!range?.from) return '';
-    if (!range.to) return range.from.toLocaleDateString('ru-RU');
-    return `${range.from.toLocaleDateString(
-      'ru-RU'
-    )} - ${range.to.toLocaleDateString('ru-RU')}`;
+  // Create date ranges for each period
+  const periodRanges = useMemo(() => {
+    if (!calendarData.periods) return [];
+
+    return calendarData.periods.map(period => ({
+      period,
+      from: new Date(period.startDate),
+      to: new Date(period.endDate),
+      dates: [],
+    }));
+  }, [calendarData.periods]);
+
+  // Get all dates that are part of periods
+  const periodDates = useMemo(() => {
+    const dateMap = new Map<string, TCalendarPeriod>();
+
+    calendarData.periods?.forEach(period => {
+      const start = new Date(period.startDate);
+      const end = new Date(period.endDate);
+
+      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+        const dateKey = d.toDateString();
+        dateMap.set(dateKey, period);
+      }
+    });
+
+    return dateMap;
+  }, [calendarData.periods]);
+
+  // Load calendar data for specific month
+  const loadCalendarData = async (month: Date) => {
+    setIsLoading(true);
+    try {
+      const startDate = new Date(
+        month.getFullYear(),
+        month.getMonth(),
+        1
+      ).toISOString();
+      const endDate = new Date(
+        month.getFullYear(),
+        month.getMonth() + 1,
+        0,
+        23,
+        59,
+        59
+      ).toISOString();
+
+      const response = await getCalendarPeriods({
+        propertyId,
+        startDate,
+        endDate,
+      });
+
+      if (response.success) {
+        setCalendarData(response);
+        setSelectedPeriod(null); // Reset selection when month changes
+      } else {
+        ErrorToast('Ошибка при загрузке календаря');
+      }
+    } catch (error) {
+      ErrorToast('Ошибка при загрузке календаря');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleRangeSelect = (range: DateRange | undefined) => {
-    if (!range) {
-      setSelectedRange(undefined);
-      return;
+  // Handle month change
+  const handleMonthChange = (month: Date) => {
+    const newMonth = new Date(month.getFullYear(), month.getMonth(), 1);
+    const oldMonth = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth(),
+      1
+    );
+
+    if (newMonth.getTime() !== oldMonth.getTime()) {
+      setCurrentMonth(newMonth);
+      loadCalendarData(newMonth);
+    }
+  };
+
+  // Handle day click to select period
+  const handleDayClick = (date: Date | undefined) => {
+    const dateKey = date?.toDateString() ?? '';
+    const period = periodDates.get(dateKey);
+
+    if (period) {
+      setSelectedPeriod(period);
+    } else {
+      setSelectedPeriod(null);
+    }
+  };
+
+  // Custom day content to show period styling
+  const getDayClassName = (date: Date) => {
+    const dateKey = date.toDateString();
+    const period = periodDates.get(dateKey);
+
+    if (!period) return '';
+
+    const periodStart = new Date(period.startDate);
+    const periodEnd = new Date(period.endDate);
+    const isStart = date.toDateString() === periodStart.toDateString();
+    const isEnd = date.toDateString() === periodEnd.toDateString();
+    const isSelected = selectedPeriod?.id === period.id;
+
+    let className = '';
+
+    if (isSelected) {
+      className += 'text-[#8B2635] bg-[rgba(139,38,53,0.12)] ';
     }
 
-    if (range.from && !range.to) {
-      setSelectedRange({ from: range.from, to: undefined });
-      return;
+    if (isStart && isEnd) {
+      className += 'bg-[#DCBEC2] rounded-full w-[100%] ';
+    } else if (isStart) {
+      className += 'bg-[#DCBEC2] rounded-bl-full rounded-l-full w-[100%] ';
+    } else if (isEnd) {
+      className += 'bg-[#DCBEC2] rounded-br-full rounded-r-full w-[100%] ';
+    } else {
+      className += 'bg-[#DCBEC2] w-[100%] ';
     }
 
-    if (range.from && range.to) {
-      const from = range.from <= range.to ? range.from : range.to;
-      const to = range.from <= range.to ? range.to : range.from;
-      setSelectedRange({ from, to });
-      return;
+    return className;
+  };
+
+  const formatDateRange = (period: TCalendarPeriod) => {
+    const start = new Date(period.startDate).toLocaleDateString('ru-RU');
+    const end = new Date(period.endDate).toLocaleDateString('ru-RU');
+    return `${start} - ${end}`;
+  };
+
+  const renderEventContent = () => {
+    if (!selectedPeriod) {
+      return 'Выберите период на календаре, чтобы увидеть события';
     }
 
-    setSelectedRange(range);
+    return `${selectedPeriod.description}
+
+${
+  selectedPeriod.attachedUserName
+    ? `Ответственный: ${selectedPeriod.attachedUserName}`
+    : ''
+}
+
+Создано: ${new Date(selectedPeriod.createdAt).toLocaleDateString('ru-RU')}
+${
+  selectedPeriod.updatedAt !== selectedPeriod.createdAt
+    ? `Обновлено: ${new Date(selectedPeriod.updatedAt).toLocaleDateString(
+        'ru-RU'
+      )}`
+    : ''
+}`;
+  };
+
+  const getEventTitle = () => {
+    if (!selectedPeriod) {
+      return 'Выберите период';
+    }
+
+    return `${selectedPeriod.name} (${formatDateRange(selectedPeriod)})`;
   };
 
   return (
     <Block label="Календарь" isDesktop={isDesktop}>
-      <div className="flex gap-[12px] h-[328px] self-end">
+      <div className="flex gap-[12px]">
         <div className="flex-shrink-0" style={{ width: 370 }}>
           <Calendar
-            mode="range"
-            selected={selectedRange}
-            onSelect={handleRangeSelect}
+            mode="single"
+            onSelect={handleDayClick}
+            onMonthChange={handleMonthChange}
             numberOfMonths={1}
             className="w-[100%] bg-white flex flex-col"
             classNames={{
@@ -67,14 +213,8 @@ export default function PropertyCalendar() {
               head_cell:
                 'w-8 h-[18px] text-center flex justify-center items-center text-[rgba(60,60,67,0.30)] n1-light',
               row: 'flex justify-between items-center ',
-              cell: 'w-[100%] h-[44px] flex items-center',
-              day: 'h-[30px] h4-def hover:bg-[#DCBEC2] flex flex-1 items-center justify-center',
-              day_selected: 'text-[#8B2635]  bg-[rgba(139,38,53,0.12)]',
-              day_range_start:
-                'text-[#2D2D2D] bg-[#DCBEC2] z-10 rounded-bl-full rounded-l-full',
-              day_range_end:
-                'text-[#2D2D2D] bg-[#DCBEC2] z-10 rounded-br-full rounded-r-full',
-              day_range_middle: 'text-[#2D2D2D] bg-[#DCBEC2] z-10',
+              cell: 'w-[100%] h-[44px] flex items-center justify-center',
+              day: 'h-[30px] h4-def hover:bg-[#DCBEC2] flex flex-1 items-center justify-center cursor-pointer',
               day_today:
                 'h-[44px] text-[#8B2635] border border-[#8B2635] rounded-full',
               day_outside: 'text-[#D9D9D9]',
@@ -114,59 +254,29 @@ export default function PropertyCalendar() {
                   />
                 </svg>
               ),
+              Day: ({ date, ...props }) => {
+                const baseClassName = '';
+                const periodClassName = getDayClassName(date);
+
+                return (
+                  <button
+                    {...props}
+                    className={`${baseClassName} ${periodClassName}`}
+                    onClick={() => handleDayClick(date)}
+                  >
+                    {date.getDate()}
+                  </button>
+                );
+              },
             }}
           />
         </div>
         <div className="w-[1px] bg-[#E3E3E3]" />
         <div className="flex-1 flex flex-col gap-[8px]">
           <div className="h4-def">События за выбранный период</div>
-          <div className="n1-def">
-            {selectedRange?.from && selectedRange?.to
-              ? `Ремонт ${formatDateRange(selectedRange)}`
-              : 'Выберите период'}
-          </div>
+          <div className="n1-def">{getEventTitle()}</div>
           <div className="flex-1 text-[12px] text-[#2D2D2D] overflow-hidden relative">
-            <div className="absolute inset-0 bg-gradient-to-b to-transparent from-[#fff] rotate-180" />
-            <p className="p-def overflow-hidden">
-              {selectedRange?.from && selectedRange?.to
-                ? `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Quisque rhoncus accumsan aliquam accumsan eleifend vehicula eget
-                finibus ut ex turp Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Quisque rhoncus accumsan aliquam accumsan eleifend vehicula eget
-                finibus ut ex turp
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Quisque rhoncus accumsan aliquam accumsan eleifend vehicula eget
-                finibus ut ex turp
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Quisque rhoncus accumsan aliquam accumsan eleifend vehicula eget
-                finibus ut ex turp
-                finibus ut ex turp
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Quisque rhoncus accumsan aliquam accumsan eleifend vehicula eget
-                finibus ut ex turp
-                finibus ut ex turp
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Quisque rhoncus accumsan aliquam accumsan eleifend vehicula eget
-                finibus ut ex turp
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Quisque rhoncus accumsan aliquam accumsan eleifend vehicula eget
-                finibus ut ex turp`
-                : 'Выберите период на календаре, чтобы увидеть события'}
-            </p>
-          </div>
-          <div className="flex justify-center">
-            <ButtonAccent
-              label="Увидеть полный календарь"
-              width="200px"
-              height="30px"
-            />
+            <p className="p-def whitespace-pre-line">{renderEventContent()}</p>
           </div>
         </div>
       </div>

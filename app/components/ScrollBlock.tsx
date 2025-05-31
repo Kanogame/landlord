@@ -50,7 +50,7 @@ export default function ScrollBlock(props: {
         {props.label}
         {props.link && (
           <div>
-            <ArrowLink link={props.link} />
+            <ArrowLink link={props.link} big={props.isDesktop} />
           </div>
         )}
       </div>
