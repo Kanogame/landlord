@@ -10,6 +10,7 @@ import { AnimatePresence } from 'motion/react';
 import Footer from '~/blocks/Footer';
 import { useDesktop } from '~/hooks/useDesktop';
 import { Toaster } from '~/components/ui/sonner';
+import LoginModalProvider from '~/components/LoginModalProvider';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -49,6 +50,7 @@ export default function Page() {
         <Outlet />
       </div>
       <Footer isDesktop={isDesktop} />
+      <LoginModalProvider />
     </div>
   );
 }

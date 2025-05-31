@@ -6,7 +6,7 @@ import PropertyDescription from '~/components/PropertyDescription';
 import PropertyCalendar from '~/components/PropertyCalendar';
 import PropertyMap from '~/components/PropertyMap';
 import PropertyDetails from '~/components/PropertyDetails';
-import PropertySummary from '~/components/PropertyOwnerContact';
+import PropertySummary from '~/components/PropertySummary';
 import { Post, ErrorToast } from '~/lib/api';
 import { getCalendarPeriods } from '~/lib/calendarApi';
 import type { TProperty, TRentProperty, TSearchResult } from '~/lib/property';

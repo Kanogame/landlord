@@ -3,7 +3,7 @@ import Block from './Block';
 import ButtonAccent from './ButtonAccent';
 import ButtonIcon from './ButtonIcon';
 import PropertyInfoLine from './PropertyInfoLine';
-import FormatPrice, { TOfferType } from '~/lib/property';
+import FormatPrice, { InitiateChat, TOfferType } from '~/lib/property';
 import type { TProperty } from '~/lib/property';
 import iconBookmark from '~/media/icons/icon-bookmark.svg';
 import iconCalendar from '~/media/icons/icon-calendar.svg';
@@ -13,6 +13,8 @@ import Profile from './chat/Profile';
 import ButtonIconText from './ButtonIconText';
 import { useDesktop } from '~/hooks/useDesktop';
 import { Input } from './ui/input';
+import { useNavigate } from 'react-router';
+import { ErrorToast } from '~/lib/api';
 
 interface PropertyOwnerContactProps {
   property: TProperty;
@@ -23,6 +25,7 @@ export default function PropertySummary({
 }: PropertyOwnerContactProps) {
   const isDesktop = useDesktop();
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
   const attibutes = property.property.propertyAttributes;
 
   const quickMessages = [
@@ -30,6 +33,16 @@ export default function PropertySummary({
     'Еще актуально?',
     'Когда могу посмотреть?',
   ];
+
+  async function startChat(e: any) {
+    e.stopPropagation();
+    const { success, chatId } = await InitiateChat(property, message);
+    if (success) {
+      navigate(`/chat/${chatId}`);
+    } else {
+      ErrorToast('Не удалось отправить сообщение');
+    }
+  }
 
   return (
     <Block label="" isDesktop={isDesktop}>
@@ -77,10 +90,7 @@ export default function PropertySummary({
               label="Написать"
               width="99px"
               height="36px"
-              onClick={() => {
-                console.log('Sending message:', message);
-                setMessage('');
-              }}
+              onClick={startChat}
             />
           </div>
 

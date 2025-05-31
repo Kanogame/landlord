@@ -23,7 +23,8 @@ export default function ButtonIconDropdown(props: {
   onClick?: () => void;
   children: ReactNode;
 }) {
-  function handleClick() {
+  function handleClick(e: any) {
+    e.stopPropagation();
     if (props.onClick) {
       props.onClick();
     }

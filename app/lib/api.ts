@@ -1,4 +1,5 @@
 import { toast } from 'sonner';
+import { showLoginModal } from '~/lib/loginModal';
 
 export async function Post<T>(path: string, requestObject: {}): Promise<T> {
   try {
@@ -27,14 +28,19 @@ async function req(
 ) {
   const body = requestObject ?? null;
   try {
-    const resp = await doFetch(
+    const response = await doFetch(
       `${import.meta.env.VITE_BACKEND_ENDPOINT}${url}`,
       method,
       body,
       getAuthToken(),
       signal
     );
-    return await resp.json();
+
+    if (response.status === 401) {
+      showLoginModal();
+    }
+
+    return await response.json();
   } catch (e) {
     console.log(e);
     throw e;

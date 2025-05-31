@@ -27,7 +27,8 @@ export default function PropertyCard(props: { property: TProperty }) {
   const [isBookmarked, setIsBookmarked] = useState(prop.isBookmarked);
   const navigate = useNavigate();
 
-  async function startChat() {
+  async function startChat(e: any) {
+    e.stopPropagation();
     const { success, chatId } = await InitiateChat(props.property, '');
     if (success) {
       navigate(`/chat/${chatId}`);
@@ -51,7 +52,10 @@ export default function PropertyCard(props: { property: TProperty }) {
   }
 
   return (
-    <div className="w-[200px] h-[290px] shrink-0 border-[1px] bg-white border-[#E3E3E3] rounded-[10px] p-[5px] flex flex-col items gap-[5px]">
+    <div
+      className="w-[200px] h-[290px] shrink-0 border-[1px] bg-white border-[#E3E3E3] rounded-[10px] p-[5px] flex flex-col items gap-[5px] cursor-pointer"
+      onClick={() => navigate('/property/' + prop.id)}
+    >
       <div className="flex-[1_1_100px] rounded-[5px]">
         <ImageScroller images={prop.imageLinks} />
       </div>
