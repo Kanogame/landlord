@@ -9,8 +9,9 @@ import Tips from '~/blocks/Tips';
 import { TOfferType, type TSearchResult } from '~/lib/property';
 import { useDesktop } from '~/hooks/useDesktop';
 import CardFetchScroller from '~/blocks/CardFetchScroller';
-import { Post } from '~/lib/api';
+import { ErrorToast, Post } from '~/lib/api';
 import type { Route } from './+types/Landing';
+import { toast } from 'sonner';
 
 export async function clientLoader(): Promise<{
   rent: TSearchResult;
@@ -23,11 +24,19 @@ export async function clientLoader(): Promise<{
     offerType: TOfferType.Rent,
   });
 
+  if (!rent || rent.success == false) {
+    ErrorToast('Ошибка при загрузке объявлений');
+  }
+
   const sell = await Post<TSearchResult>('api/Property/get_properties_search', {
     pageNumber: 1,
     pageSize: 10,
     offerType: TOfferType.Sell,
   });
+
+  if (!sell || sell.success == false) {
+    ErrorToast('Ошибка при загрузке объявлений');
+  }
   return { rent: rent, sell: sell };
 }
 

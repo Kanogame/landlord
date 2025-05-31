@@ -10,8 +10,9 @@ import {
   InputOTPSlot,
 } from '~/components/ui/input-otp';
 import { useAuth } from '~/hooks/useAuth';
-import { Post } from '~/lib/api';
+import { ErrorToast, Post } from '~/lib/api';
 import type { Route } from './+types/Login';
+import { toast } from 'sonner';
 
 interface ActionData {
   error?: string;
@@ -35,10 +36,10 @@ export async function clientAction({ request }: Route.ActionArgs) {
         message?: string;
       }>('api/User/login/send-code', { number: phone });
 
-      console.log(success);
       if (success) {
         return { success: true, stage: 1, verificationId: verificationId };
       } else {
+        ErrorToast(message ?? '');
         return { error: message, stage: 0 };
       }
     }
@@ -55,6 +56,7 @@ export async function clientAction({ request }: Route.ActionArgs) {
       if (success) {
         return { success: true, stage: 2, token: token };
       } else {
+        ErrorToast('Неверный код');
         return { error: 'Неверный код', stage: 1, verificationId };
       }
     }
@@ -110,10 +112,6 @@ export default function Login() {
             По указанному номеру будет отправлено СМС с кодом
           </div>
 
-          {actionData?.error && (
-            <div className="text-red-500 text-sm">{actionData.error}</div>
-          )}
-
           <ButtonAccent
             label={isSubmitting ? 'Отправка...' : 'Далее'}
             width="100%"
@@ -145,10 +143,6 @@ export default function Login() {
               <InputOTPSlot index={5} />
             </InputOTPGroup>
           </InputOTP>
-
-          {actionData?.error && (
-            <div className="text-red-500 text-sm">{actionData.error}</div>
-          )}
 
           <input type="hidden" name="stage" value="1" />
           <input type="hidden" name="verificationId" value={verificationId} />

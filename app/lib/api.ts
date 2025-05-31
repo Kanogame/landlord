@@ -1,7 +1,16 @@
+import { toast } from 'sonner';
+
 export async function Post<T>(path: string, requestObject: {}): Promise<T> {
-  const resp = await req('POST', path, requestObject, undefined);
-  console.log(resp);
-  return resp;
+  try {
+    const resp = await req('POST', path, requestObject, undefined);
+    return resp;
+  } catch (e) {
+    return { success: false } as T;
+  }
+}
+
+export function ErrorToast(msg: string) {
+  toast.error(msg);
 }
 
 export async function Get<T>(path: string, signal?: AbortSignal): Promise<T> {

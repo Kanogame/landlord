@@ -9,6 +9,7 @@ import SidePage from '~/blocks/mobileSidepage';
 import { AnimatePresence } from 'motion/react';
 import Footer from '~/blocks/Footer';
 import { useDesktop } from '~/hooks/useDesktop';
+import { Toaster } from '~/components/ui/sonner';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -43,6 +44,7 @@ export default function Page() {
           </div>
         )}
       </AnimatePresence>
+      <Toaster position="top-center" richColors />
       <div className="flex-1 flex">
         <Outlet />
       </div>

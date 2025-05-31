@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { useSearchParams } from 'react-router';
 import DesktopWidth from '~/blocks/DesktopWidth';
 import SearchList from '~/blocks/SearchList';
-import { Post } from '~/lib/api';
+import { ErrorToast, Post } from '~/lib/api';
 import { type TSearchResult } from '~/lib/property';
 import { useDesktop } from '~/hooks/useDesktop';
 import type { Route } from './+types/Bookmarks';
 import { useAuth } from '~/hooks/useAuth';
+import { toast } from 'sonner';
 
 interface GetBookmarksRequest {
   userId: number;
@@ -34,6 +35,10 @@ export async function clientLoader({
       pageSize,
     }
   );
+
+  if (!bookmarksResult || bookmarksResult.success == false) {
+    ErrorToast('Ошибка при загрузке закладок');
+  }
 
   return {
     bookmarksResult,

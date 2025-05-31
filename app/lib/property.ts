@@ -87,6 +87,7 @@ export function FormatArea(value: number): string {
 }
 
 export interface TSearchResult {
+  success: boolean;
   count: number;
   properties: TProperty[];
 }
