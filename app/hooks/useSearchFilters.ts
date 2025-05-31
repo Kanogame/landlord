@@ -54,16 +54,21 @@ export function useSearchFilters(initialFilters?: Partial<TSearchFilters>) {
     return newParams;
   }
 
-  function updateFiltersAndUrl(
-    updates: Partial<TSearchFilters>,
-    setUrl: (param: URLSearchParams) => void
-  ) {
-    setFilters(prevFilters => {
-      const newFilters = { ...prevFilters, ...updates };
-      setUrl(applyUrl(newFilters));
-      return newFilters;
-    });
-  }
+  const updateFiltersAndUrl = useCallback(
+    (
+      updates: Partial<TSearchFilters>,
+      setUrl: (param: URLSearchParams) => void
+    ) => {
+      const newFilters = { ...filters, ...updates };
+      setFilters(newFilters);
+
+      // Use React Router's navigate or similar async method
+      requestAnimationFrame(() => {
+        setUrl(applyUrl(newFilters));
+      });
+    },
+    [filters]
+  );
 
   function updateFilters(updates: Partial<TSearchFilters>) {
     setFilters(prevFilters => ({ ...prevFilters, ...updates }));
@@ -84,6 +89,7 @@ export function useSearchFilters(initialFilters?: Partial<TSearchFilters>) {
     updateFilters,
     updateFiltersAndUrl,
     resetFilters,
+    setFilters,
     setPage,
   };
 }

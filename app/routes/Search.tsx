@@ -21,6 +21,7 @@ import SearchSortHeader from '~/blocks/SearchSortHeader';
 interface LoaderData {
   searchResult: TSearchResult;
   attributes: SearchAttribute[];
+  searchParams: URLSearchParams;
 }
 
 export async function clientLoader({
@@ -36,6 +37,7 @@ export async function clientLoader({
   return {
     searchResult,
     attributes: attributesResponse,
+    searchParams,
   };
 }
 
@@ -44,8 +46,8 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isAttributeModalOpen, setIsAttributeModalOpen] = useState(false);
   const [showMap, setShowMap] = useState(false);
-  const { filters, resetFilters, updateFiltersAndUrl, setPage } =
-    useSearchFilters();
+  const { filters, resetFilters, updateFiltersAndUrl, setPage, setFilters } =
+    useSearchFilters(getSearchFromUrl(loaderData.searchParams));
 
   const handleFilterChange = (updates: Partial<TSearchFilters>) => {
     updateFiltersAndUrl(updates, setSearchParams);
@@ -71,11 +73,13 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const { searchResult, attributes } = loaderData;
-
   const handleAttributeParamsChange = (newParams: URLSearchParams) => {
-    setSearchParams(newParams);
+    if (newParams.toString() != searchParams.toString()) {
+      setSearchParams(newParams);
+    }
   };
+
+  const { searchResult, attributes } = loaderData;
 
   // Count active attribute filters
   const activeAttributeCount = Array.from(searchParams.keys()).filter(key =>
