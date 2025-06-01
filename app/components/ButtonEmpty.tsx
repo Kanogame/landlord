@@ -14,7 +14,6 @@ const ButtonEmpty = forwardRef<HTMLButtonElement, ButtonTextProps>(
         ref={ref}
         initial="rest"
         whileHover="hover"
-        type={props.type ?? 'button'}
         variants={buttonVariants}
         className={
           'cursor-pointer text-xs text-center flex items-center justify-center border-[1px] border-[#8b2635] text-[#8b2635] px-4 py-2'

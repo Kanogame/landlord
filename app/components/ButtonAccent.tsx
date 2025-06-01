@@ -15,7 +15,6 @@ const ButtonAccent = forwardRef<HTMLButtonElement, ButtonTextProps>(
         ref={ref}
         initial="rest"
         whileHover="hover"
-        type={props.type ?? 'button'}
         variants={buttonVariants}
         className={
           'cursor-pointer p text-center flex items-center justify-center text-[white] bg-[#8b2635] px-4 py-2' +

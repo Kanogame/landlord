@@ -88,14 +88,16 @@ export interface TOwner {
 }
 
 export enum PropertyAttributeType {
-  Text,
-  Number,
-  Boolean,
+  Text = 0,
+  Number = 1,
+  Boolean = 2,
 }
 
 export interface TPropertyAttribute {
   name: string;
   value: string;
+  attributeType: PropertyAttributeType;
+  isSearchable: boolean;
 }
 
 export interface TGenericProperty {
@@ -130,6 +132,30 @@ export interface TRentProperty extends TGenericProperty {
 }
 
 export type TSellProperty = TGenericProperty;
+
+export interface CreatePropertyRequest {
+  offerTypeId: TOfferType;
+  propertyTypeId: TPropertyType;
+  name: string;
+  desc: string;
+  address: TAddress;
+  area: number;
+  rooms: number;
+  parking: boolean;
+  period?: TRentPeriod;
+  services?: boolean;
+  imageLinks: TImageLink[];
+  price: string;
+  currency: number;
+  propertyAttributes: TPropertyAttribute[];
+}
+
+export interface CreatePropertyResponse {
+  success: boolean;
+  propertyId?: number;
+  message?: string;
+}
+
 export function FormatArea(value: number): string {
   return value + ' м²';
 }

@@ -37,6 +37,7 @@ interface PropertyFormProps {
   onSave: () => void;
   onDelete: () => void;
   isDesktop: boolean;
+  isSaving: boolean;
 }
 
 export default function PropertyForm({
@@ -45,6 +46,7 @@ export default function PropertyForm({
   onSave,
   onDelete,
   isDesktop,
+  isSaving,
 }: PropertyFormProps) {
   const handleFieldChange = (field: string, value: any) => {
     console.log(value);
@@ -198,12 +200,14 @@ export default function PropertyForm({
 
       <div className="flex gap-[10px] mt-[10px]">
         <ButtonEmpty
+          disabled={isSaving}
           label="Удалить"
           onClick={onDelete}
           width="50%"
           height="30px"
         />
         <ButtonAccent
+          disabled={isSaving}
           label="Сохранить"
           onClick={onSave}
           width="50%"

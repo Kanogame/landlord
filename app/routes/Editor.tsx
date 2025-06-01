@@ -5,20 +5,32 @@ import PropertyImageUpload from '~/components/PropertyImageUpload';
 import PropertyForm from '~/blocks/PropertyForm';
 import PropertyTextBox from '~/blocks/PropertyTextBox';
 import PropertyAttributesModal from '~/components/PropertyAttributesModal';
+import PropertyCalendarEdit from '~/components/PropertyCalendarEdit';
 import {
   type TProperty,
   TOfferType,
   CreateEmptyProperty,
 } from '~/lib/property';
+import type { TCalendarResponse } from '~/lib/calendar';
 import PropertyDetails from '~/components/PropertyDetails';
 import ButtonAccent from '~/components/ButtonAccent';
+import { ErrorToast } from '~/lib/api';
+import { createProperty } from '~/lib/propertyApi';
+import { useNavigate } from 'react-router';
 
 export default function Editor() {
   const isDesktop = useDesktop();
   const [property, setProperty] = useState<TProperty>(
     CreateEmptyProperty(TOfferType.Rent)
   );
+  const navigate = useNavigate();
   const [isAttributesModalOpen, setIsAttributesModalOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [calendarData, setCalendarData] = useState<TCalendarResponse>({
+    success: true,
+    count: 0,
+    periods: [],
+  });
 
   const handlePropertyUpdate = (updates: Partial<TProperty>) => {
     setProperty(prev => ({
@@ -40,9 +52,59 @@ export default function Editor() {
     });
   };
 
-  const handleSave = () => {
-    // TODO: Implement save functionality
-    console.log('Saving property:', property);
+  const handleCalendarUpdate = (newCalendarData: TCalendarResponse) => {
+    setCalendarData(newCalendarData);
+  };
+
+  const handleSave = async () => {
+    if (isSaving) return;
+
+    // Basic validation
+    if (!property.property.name.trim()) {
+      ErrorToast('Пожалуйста, введите название объявления');
+      return;
+    }
+
+    if (!property.property.desc.trim()) {
+      ErrorToast('Пожалуйста, введите описание');
+      return;
+    }
+
+    if (parseFloat(property.property.price.amount) <= 0) {
+      ErrorToast('Пожалуйста, укажите корректную цену');
+      return;
+    }
+
+    setIsSaving(true);
+
+    try {
+      const response = await createProperty(property.property);
+
+      if (response.success) {
+        navigate('/property/' + response.propertyId);
+        // Update property with new ID if provided
+        if (response.propertyId) {
+          setProperty(prev => ({
+            ...prev,
+            property: {
+              ...prev.property,
+              id: response.propertyId!,
+            },
+          }));
+        }
+      } else {
+        ErrorToast(
+          `Ошибка при создании объявления: ${
+            response.message || 'Неизвестная ошибка'
+          }`
+        );
+      }
+    } catch (error) {
+      console.error('Error saving property:', error);
+      ErrorToast('Произошла ошибка при сохранении объявления');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleDelete = () => {
@@ -81,6 +143,7 @@ export default function Editor() {
                 onSave={handleSave}
                 onDelete={handleDelete}
                 isDesktop={isDesktop}
+                isSaving={isSaving}
               />
             </div>
           )}
@@ -96,6 +159,12 @@ export default function Editor() {
               })
             }
             isDesktop={isDesktop}
+          />
+
+          <PropertyCalendarEdit
+            propertyId={property.property.id}
+            initialCalendarData={calendarData}
+            onCalendarUpdate={handleCalendarUpdate}
           />
 
           <PropertyDetails property={property} isDesktop={isDesktop}>
@@ -125,6 +194,7 @@ export default function Editor() {
               onSave={handleSave}
               onDelete={handleDelete}
               isDesktop={isDesktop}
+              isSaving={isSaving}
             />
           </div>
         )}
