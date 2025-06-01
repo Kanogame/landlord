@@ -14,9 +14,10 @@ export enum TPropertyType {
 }
 
 export interface TAddress {
+  region: string;
   city: string;
-  district: string;
   street: string;
+  house: string;
   floor: number;
   displayAddress: string;
 }
@@ -27,7 +28,7 @@ export interface TProperty {
 }
 
 export function CreateEmptyProperty(type: TOfferType): TProperty {
-  const def = {
+  const def: TGenericProperty = {
     id: 0,
     propertyTypeId: TPropertyType.Flat,
     name: '',
@@ -39,9 +40,10 @@ export function CreateEmptyProperty(type: TOfferType): TProperty {
     },
     area: 30,
     address: {
+      region: '',
       city: '',
-      district: '',
       street: '',
+      house: '',
       floor: 1,
       displayAddress: '',
     },
@@ -53,7 +55,6 @@ export function CreateEmptyProperty(type: TOfferType): TProperty {
     profileLink: '',
     isBookmarked: false,
     rooms: 1,
-    services: true,
     parking: false,
   };
 
@@ -64,6 +65,7 @@ export function CreateEmptyProperty(type: TOfferType): TProperty {
         ...def,
         // Rent-specific fields
         period: TRentPeriod.Month,
+        services: true,
         rating: 0,
       },
     };
@@ -97,7 +99,6 @@ export interface TPropertyAttribute {
   name: string;
   value: string;
   attributeType: PropertyAttributeType;
-  isSearchable: boolean;
 }
 
 export interface TGenericProperty {

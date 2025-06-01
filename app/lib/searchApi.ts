@@ -1,10 +1,11 @@
 import type { TSearchFilters } from '~/hooks/useSearchFilters';
 import { Post } from './api';
-import type {
-  TOfferType,
-  TPropertyAttribute,
-  TPropertyType,
-  TSearchResult,
+import {
+  PropertyAttributeType,
+  type TOfferType,
+  type TPropertyAttribute,
+  type TPropertyType,
+  type TSearchResult,
 } from './property';
 
 export async function searchProperties(
@@ -24,8 +25,9 @@ export function getSearchFromUrl(url: URLSearchParams): TSearchFilters {
     propertyType: url.get('propertyType')
       ? parseInt(url.get('propertyType')!)
       : undefined,
+    region: url.get('region') || undefined,
     city: url.get('city') || undefined,
-    district: url.get('district') || undefined,
+    street: url.get('street') || undefined,
     priceFrom: url.get('priceFrom')
       ? parseInt(url.get('priceFrom')!)
       : undefined,
@@ -34,7 +36,13 @@ export function getSearchFromUrl(url: URLSearchParams): TSearchFilters {
       ? parseInt(url.get('floorFrom')!)
       : undefined,
     floorTo: url.get('floorTo') ? parseInt(url.get('floorTo')!) : undefined,
-    area: url.get('area') ? parseInt(url.get('area')!) : undefined,
+    areaFrom: url.get('areaFrom') ? parseInt(url.get('areaFrom')!) : undefined,
+    roomsFrom: url.get('roomsFrom')
+      ? parseInt(url.get('roomsFrom')!)
+      : undefined,
+    service: url.get('service') === 'true' ? true : undefined,
+    parking: url.get('parking') === 'true' ? true : undefined,
+    sortBy: parseInt(url.get('sortBy') || '0'),
     attributes: [],
   };
 
@@ -44,6 +52,9 @@ export function getSearchFromUrl(url: URLSearchParams): TSearchFilters {
       const attributeId = key.replace('attr_', '');
       searchRequest.attributes.push({
         name: attributeId,
+        attributeType: parseInt(value)
+          ? PropertyAttributeType.Number
+          : PropertyAttributeType.Text,
         value: value,
       });
     }

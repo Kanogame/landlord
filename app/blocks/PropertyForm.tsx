@@ -13,7 +13,7 @@ import {
 import ButtonAccent from '~/components/ButtonAccent';
 import { Input } from '~/components/ui/input';
 import AddressInput from '~/components/AddressInput';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { DaDataAddress, DaDataSuggestion } from 'react-dadata';
 import { address, label } from 'motion/react-client';
 import Toggle from '~/components/Toggle';
@@ -49,7 +49,6 @@ export default function PropertyForm({
   isSaving,
 }: PropertyFormProps) {
   const handleFieldChange = (field: string, value: any) => {
-    console.log(value);
     onPropertyChange({
       property: {
         ...property.property,
@@ -61,6 +60,24 @@ export default function PropertyForm({
   const [value, setValue] = useState<
     DaDataSuggestion<DaDataAddress> | undefined
   >();
+
+  useEffect(() => {
+    if (value) {
+      onPropertyChange({
+        property: {
+          ...property.property,
+          address: {
+            region: value.data.region_with_type ?? '',
+            city: value.data.city ?? '',
+            street: value.data.street ?? '',
+            house: value.data.house ?? '',
+            floor: property.property.address.floor,
+            displayAddress: '',
+          },
+        },
+      });
+    }
+  }, [value]);
 
   const inputClassname = 'w-70';
 
@@ -170,6 +187,9 @@ export default function PropertyForm({
       <div className="flex justify-between items-center gap-[50px]">
         <span className="h5-def">Адрес</span>
         <AddressInput
+          hint="Введите адрес"
+          filterFromBound="house"
+          filterToBound="house"
           value={value}
           onChange={setValue}
           className={inputClassname}

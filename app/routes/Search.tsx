@@ -12,9 +12,9 @@ import Modal from '~/components/Modal';
 import AttributeSearch from '~/blocks/AttributeSearch';
 import ButtonAccent from '~/components/ButtonAccent';
 import {
+  TSortOption,
   useSearchFilters,
   type TSearchFilters,
-  type TSortOption,
 } from '~/hooks/useSearchFilters';
 import SearchSortHeader from '~/blocks/SearchSortHeader';
 
@@ -54,7 +54,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
   };
 
   const handleSortingChange = (sorting: TSortOption) => {
-    handleFilterChange({ sorting });
+    handleFilterChange({ sortBy: sorting });
   };
 
   const handleMapToggle = (newShowMap: boolean) => {
@@ -79,6 +79,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
   };
 
   const { searchResult, attributes } = loaderData;
+  console.log('FILTERS', filters);
 
   // Count active attribute filters
   const activeAttributeCount = Array.from(searchParams.keys()).filter(key =>
@@ -139,7 +140,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
 
         <div className="flex-[9_1] min-w-[0]">
           <SearchSortHeader
-            sorting={filters.sorting || 'recent'}
+            sorting={filters.sortBy ?? TSortOption.CreatedDesc}
             onSortingChange={handleSortingChange}
             showMap={showMap}
             onMapToggle={handleMapToggle}

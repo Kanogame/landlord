@@ -18,21 +18,14 @@ const variants = {
   },
 };
 
-export default function ButtonIconDropdown(props: {
-  icon: string;
-  onClick?: () => void;
+export default function AutoButtonDropdown(props: {
   children: ReactNode;
+  button: ReactNode;
 }) {
-  function handleClick(e: any) {
-    e.stopPropagation();
-    if (props.onClick) {
-      props.onClick();
-    }
-  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <ButtonIcon icon={props.icon} onClick={handleClick} />
+        <button className="min-w-0">{props.button}</button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="z-50">
         <AnimatePresence>

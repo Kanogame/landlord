@@ -12,6 +12,9 @@ import ToggleLabel from '~/components/ToggleLabel';
 import NumberInput from '~/components/NumberInput';
 import RangeInput from '~/components/RangeInput';
 import ButtonEmpty from '~/components/ButtonEmpty';
+import AddressInput from '~/components/AddressInput';
+import { useState } from 'react';
+import type { DaDataAddress, DaDataSuggestion } from 'react-dadata';
 
 const propertyTypeOptions = [
   { value: TPropertyType.Flat, label: 'Квартира' },
@@ -58,6 +61,16 @@ export default function SearchFilters({
   onFilterChange,
   onResetFilters,
 }: SearchFiltersProps) {
+  const [city, setCity] = useState<
+    DaDataSuggestion<DaDataAddress> | undefined
+  >();
+  const [region, setRegion] = useState<
+    DaDataSuggestion<DaDataAddress> | undefined
+  >();
+  const [street, setStreet] = useState<
+    DaDataSuggestion<DaDataAddress> | undefined
+  >();
+
   return (
     <Block label="Фильтры" isDesktop={isDesktop}>
       <div className="flex flex-col gap-4">
@@ -78,23 +91,54 @@ export default function SearchFilters({
         </div>
 
         <div className="flex justify-between items-center">
-          <span className="h5-def">Город</span>
-          <ComboBox
-            options={cityOptions}
-            value={filters.city}
-            onChange={value => onFilterChange({ city: value })}
-            placeholder="Выберите город"
+          <span className="h5-def">Регион</span>
+          <AddressInput
+            value={region}
+            onChange={value => {
+              setRegion(value);
+              onFilterChange({
+                region: value?.data.region_with_type ?? '',
+              });
+            }}
+            hint="Введите название"
+            filterFromBound="region"
+            filterToBound="region"
             className="w-40"
           />
         </div>
 
         <div className="flex justify-between items-center">
-          <span className="h5-def">Район</span>
-          <ComboBox
-            options={districtOptions}
-            value={filters.district}
-            onChange={value => onFilterChange({ district: value })}
-            placeholder="Выберите район"
+          <span className="h5-def">Город</span>
+          <AddressInput
+            value={city}
+            onChange={value => {
+              setCity(value);
+              onFilterChange({
+                city: value?.data.city ?? '',
+              });
+            }}
+            hint="Введите название"
+            filterLocations={[{ region_fias_id: region?.data.region_fias_id }]}
+            filterFromBound="city"
+            filterToBound="city"
+            className="w-40"
+          />
+        </div>
+
+        <div className="flex justify-between items-center">
+          <span className="h5-def">Улица</span>
+          <AddressInput
+            value={street}
+            onChange={value => {
+              setStreet(value);
+              onFilterChange({
+                street: value?.data.street ?? '',
+              });
+            }}
+            hint="Введите название"
+            filterLocations={[{ city_fias_id: city?.data.city_fias_id }]}
+            filterFromBound="street"
+            filterToBound="street"
             className="w-40"
           />
         </div>
@@ -126,11 +170,24 @@ export default function SearchFilters({
         />
 
         <div className="flex justify-between items-center">
-          <span className="h5-def">Площадь (м²)</span>
+          <span className="h5-def">Площадь от (м²)</span>
           <NumberInput
-            value={filters.area}
-            onChange={value => onFilterChange({ area: value })}
-            placeholder="Площадь"
+            value={filters.areaFrom}
+            onChange={value => onFilterChange({ areaFrom: value })}
+            placeholder="40"
+            className="w-40"
+            min={10}
+            max={1000}
+            step={5}
+          />
+        </div>
+
+        <div className="flex justify-between items-center">
+          <span className="h5-def">Комнат от</span>
+          <NumberInput
+            value={filters.roomsFrom}
+            onChange={value => onFilterChange({ roomsFrom: value })}
+            placeholder="2"
             className="w-40"
             min={10}
             max={1000}

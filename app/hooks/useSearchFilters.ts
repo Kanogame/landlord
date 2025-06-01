@@ -5,22 +5,33 @@ import {
   type TPropertyAttribute,
 } from '~/lib/property';
 
-export type TSortOption = 'recent' | 'price' | 'area';
+export enum TSortOption {
+  PriceAsc,
+  PriceDesc,
+  AreaAsc,
+  AreaDesc,
+  CreatedAsc,
+  CreatedDesc,
+}
 
 export interface TSearchFilters {
   pageNumber: number;
   pageSize: number;
   offerType: TOfferType;
   propertyType?: TPropertyType;
+  region?: string;
   city?: string;
-  district?: string;
+  street?: string;
   priceFrom?: number;
   priceTo?: number;
   floorFrom?: number;
   floorTo?: number;
-  area?: number;
+  areaFrom?: number;
+  roomsFrom?: number;
+  service?: boolean;
+  parking?: boolean;
+  sortBy?: TSortOption;
   attributes: TPropertyAttribute[];
-  sorting?: TSortOption;
 }
 
 export function useSearchFilters(initialFilters?: Partial<TSearchFilters>) {
@@ -28,7 +39,7 @@ export function useSearchFilters(initialFilters?: Partial<TSearchFilters>) {
     offerType: TOfferType.Rent,
     pageNumber: 1,
     pageSize: 10,
-    sorting: 'recent',
+    sortBy: TSortOption.CreatedDesc,
     ...initialFilters,
     attributes: [],
   });
@@ -41,7 +52,12 @@ export function useSearchFilters(initialFilters?: Partial<TSearchFilters>) {
     const newParams = new URLSearchParams();
 
     Object.entries(filter).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== '') {
+      if (
+        value !== undefined &&
+        value !== null &&
+        value !== '' &&
+        key !== 'attributes'
+      ) {
         newParams.set(key, value.toString());
       }
 
@@ -79,7 +95,7 @@ export function useSearchFilters(initialFilters?: Partial<TSearchFilters>) {
       offerType: TOfferType.Rent,
       pageNumber: 1,
       pageSize: 10,
-      sorting: 'recent',
+      sortBy: TSortOption.CreatedDesc,
       attributes: [],
     });
   }
