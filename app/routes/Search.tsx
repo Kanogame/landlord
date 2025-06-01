@@ -69,7 +69,6 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
   const handlePageChange = (page: number, size: number) => {
     setPage(page, size);
     updateFiltersAndUrl({ pageNumber: page, pageSize: size }, setSearchParams);
-    // Scroll to top when page changes
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -93,47 +92,50 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
   return (
     <DesktopWidth isDesktop={isDesktop}>
       <div className="flex gap-[20px] w-[100%] items-start">
-        <div className="flex-[3_1] sticky top-0">
-          <div>
-            <div className="h4-def pb-[20px]">
-              Найдено <br />
-              {searchResult.count} объявлений
+        {isDesktop && (
+          <div className="flex-[3_1] sticky top-0">
+            <div>
+              <div className="h4-def pb-[20px]">
+                Найдено <br />
+                {searchResult.count} объявлений
+              </div>
+            </div>
+            <SearchFilters
+              isDesktop={isDesktop}
+              onFilterChange={handleFilterChange}
+              onResetFilters={resetFilters}
+              filters={filters}
+            />
+            <div className="mt-4">
+              <Modal
+                trigger={
+                  <ButtonAccent
+                    label={`Дополнительные фильтры${
+                      activeAttributeCount > 0
+                        ? ` (${activeAttributeCount})`
+                        : ''
+                    }`}
+                    onClick={() => {}}
+                    width="100%"
+                    height="40px"
+                  />
+                }
+                title="Дополнительные фильтры"
+                isDesktop={isDesktop}
+                open={isAttributeModalOpen}
+                onOpenChange={setIsAttributeModalOpen}
+              >
+                <AttributeSearch
+                  attributes={attributes}
+                  searchParams={searchParams}
+                  isDesktop={isDesktop}
+                  onApply={handleAttributeParamsChange}
+                  onClose={() => setIsAttributeModalOpen(false)}
+                />
+              </Modal>
             </div>
           </div>
-          <SearchFilters
-            isDesktop={isDesktop}
-            onFilterChange={handleFilterChange}
-            onResetFilters={resetFilters}
-            filters={filters}
-          />
-
-          <div className="mt-4">
-            <Modal
-              trigger={
-                <ButtonAccent
-                  label={`Дополнительные фильтры${
-                    activeAttributeCount > 0 ? ` (${activeAttributeCount})` : ''
-                  }`}
-                  onClick={() => {}}
-                  width="100%"
-                  height="40px"
-                />
-              }
-              title="Дополнительные фильтры"
-              isDesktop={isDesktop}
-              open={isAttributeModalOpen}
-              onOpenChange={setIsAttributeModalOpen}
-            >
-              <AttributeSearch
-                attributes={attributes}
-                searchParams={searchParams}
-                isDesktop={isDesktop}
-                onApply={handleAttributeParamsChange}
-                onClose={() => setIsAttributeModalOpen(false)}
-              />
-            </Modal>
-          </div>
-        </div>
+        )}
 
         <div className="flex-[9_1] min-w-[0]">
           <SearchSortHeader

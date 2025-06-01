@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
-import {
+import FormatPrice, {
   FormatArea,
   InitiateChat,
   TOfferType,
@@ -22,14 +22,22 @@ import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import { addBookmark, removeBookmark } from '~/lib/bookmarkApi';
 
-export default function PropertyCard(props: { property: TProperty }) {
-  const prop: TRentProperty | TSellProperty = props.property.property;
+interface PropertyCardProps {
+  property: TProperty;
+  className?: string;
+}
+
+export default function PropertyCard({
+  property,
+  className,
+}: PropertyCardProps) {
+  const prop: TRentProperty | TSellProperty = property.property;
   const [isBookmarked, setIsBookmarked] = useState(prop.isBookmarked);
   const navigate = useNavigate();
 
   async function startChat(e: any) {
     e.stopPropagation();
-    const { success, chatId } = await InitiateChat(props.property, '');
+    const { success, chatId } = await InitiateChat(property, '');
     if (success) {
       navigate(`/chat/${chatId}`);
     }
@@ -53,7 +61,7 @@ export default function PropertyCard(props: { property: TProperty }) {
 
   return (
     <div
-      className="w-[200px] h-[290px] shrink-0 border-[1px] bg-white border-[#E3E3E3] rounded-[10px] p-[5px] flex flex-col items gap-[5px] cursor-pointer"
+      className={`w-[200px] h-[300px] shrink-0 border-[1px] bg-white border-[#E3E3E3] rounded-[10px] p-[5px] flex flex-col items gap-[5px] cursor-pointer ${className}`}
       onClick={() => navigate('/property/' + prop.id)}
     >
       <div className="flex-[1_1_100px] rounded-[5px]">
@@ -68,18 +76,18 @@ export default function PropertyCard(props: { property: TProperty }) {
         </div>
       </div>
 
-      {props.property.type === TOfferType.Rent && (
+      {property.type === TOfferType.Rent && (
         <>
           <div className="flex">
             <Stars rating={(prop as TRentProperty).rating} />
           </div>
           <div className="flex justify-between">
-            <div className="n2-def">{FormatMoney(prop.price)}</div>
+            <div className="n2-def">{FormatPrice(property)}</div>
             <div className="p-def">{FormatArea(prop.area)}</div>
           </div>
         </>
       )}
-      {props.property.type === TOfferType.Sell && (
+      {property.type === TOfferType.Sell && (
         <>
           <div className="flex justify-between">
             <div className="n2-def">{FormatMoney(prop.price)}</div>

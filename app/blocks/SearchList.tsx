@@ -4,6 +4,7 @@ import type { TGenericProperty, TProperty } from '~/lib/property';
 import { useDesktop } from '~/hooks/useDesktop';
 import ButtonAccent from '~/components/ButtonAccent';
 import ButtonEmpty from '~/components/ButtonEmpty';
+import PropertyCard from '~/components/PropertyCard';
 
 interface SearchListProps {
   propertyList: TProperty[];
@@ -137,9 +138,23 @@ export default function SearchList({
   };
 
   return (
-    <div className="flex min-w-[0] flex-col gap-[20px]">
-      {propertyList.map((el, ind) => {
-        return <WidePropertyCard key={el.property.id} property={el} />;
+    <div
+      className={
+        isDesktop
+          ? 'flex min-w-[0] flex-col gap-[20px]'
+          : 'flex flex-wrap justify-around gap-[10px]'
+      }
+    >
+      {propertyList.map(el => {
+        return isDesktop ? (
+          <WidePropertyCard key={el.property.id} property={el} />
+        ) : (
+          <PropertyCard
+            key={el.property.id}
+            property={el}
+            className="w-[300px] h-[400px]"
+          />
+        );
       })}
 
       {totalPages > 1 && (
