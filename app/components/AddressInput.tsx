@@ -18,8 +18,6 @@ export default function AddressInput({
   className,
 }: AddressInputProps) {
   const token = useDadataToken();
-
-  console.log(value?.data.city, value?.data, value?.data.street);
   return (
     <div className={className}>
       <AddressSuggestions

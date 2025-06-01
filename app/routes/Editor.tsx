@@ -3,7 +3,7 @@ import { useDesktop } from '~/hooks/useDesktop';
 import DesktopWidth from '~/blocks/DesktopWidth';
 import PropertyImageUpload from '~/components/PropertyImageUpload';
 import PropertyForm from '~/blocks/PropertyForm';
-import PropertyPreview from '~/blocks/PropertyPreview';
+import PropertyPreview from '~/blocks/PropertyTextBox';
 import {
   type TProperty,
   TOfferType,
@@ -72,7 +72,18 @@ export default function Editor() {
             </div>
           )}
 
-          <PropertyPreview property={property} isDesktop={isDesktop} />
+          <PropertyPreview
+            value={property.property.desc}
+            onChange={desc =>
+              handlePropertyUpdate({
+                property: {
+                  ...property.property,
+                  desc: desc,
+                },
+              })
+            }
+            isDesktop={isDesktop}
+          />
         </div>
 
         {isDesktop && (
