@@ -109,7 +109,6 @@ export interface TGenericProperty {
   address: TAddress;
   area: number;
   rooms: number;
-  services: boolean;
   parking: boolean;
   imageLinks: TImageLink[];
   username: string;
@@ -125,6 +124,7 @@ export enum TRentPeriod {
 }
 
 export interface TRentProperty extends TGenericProperty {
+  services: boolean;
   rating: number;
   period: TRentPeriod;
 }

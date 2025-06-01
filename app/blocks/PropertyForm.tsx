@@ -104,6 +104,15 @@ export default function PropertyForm({
               className={inputClassname}
             />
           </div>
+
+          <div className="flex justify-between items-center gap-[50px]">
+            <span className="h5-def">ЖКХ включено?</span>
+
+            <Toggle
+              checked={(property.property as TRentProperty).services}
+              onChange={checked => handleFieldChange('services', checked)}
+            />
+          </div>
         </>
       )}
 
@@ -175,15 +184,6 @@ export default function PropertyForm({
           min={1}
           max={10}
           step={1}
-        />
-      </div>
-
-      <div className="flex justify-between items-center gap-[50px]">
-        <span className="h5-def">ЖКХ включено?</span>
-
-        <Toggle
-          checked={property.property.services}
-          onChange={checked => handleFieldChange('services', checked)}
         />
       </div>
 

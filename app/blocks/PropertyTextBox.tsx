@@ -9,7 +9,7 @@ interface PropertyPreviewProps {
   isDesktop: boolean;
 }
 
-export default function PropertyPreview({
+export default function PropertyTextBox({
   value,
   onChange,
   isDesktop,

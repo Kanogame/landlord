@@ -1,22 +1,64 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Block from './Block';
 import PropertyInfoLine from './PropertyInfoLine';
-import type { TProperty } from '~/lib/property';
+import {
+  TOfferType,
+  TPropertyType,
+  TRentPeriod,
+  type TProperty,
+  type TRentProperty,
+} from '~/lib/property';
 import ArrowDown from '~/media/icons/icon-arrow-down.svg';
 import { Drawer, DrawerContent, DrawerTrigger } from './ui/drawer';
 
 interface PropertyDetailsProps {
   property: TProperty;
   isDesktop: boolean;
+  children?: React.ReactNode;
 }
+
+const propertyTypeOptions = [
+  { value: TPropertyType.Flat, label: 'Квартира' },
+  { value: TPropertyType.Detached, label: 'Дом' },
+  { value: TPropertyType.Commercial, label: 'Коммерческая' },
+];
 
 export default function PropertyDetails({
   property,
   isDesktop,
+  children,
 }: PropertyDetailsProps) {
   const [showFull, setShowFull] = useState(false);
 
-  const attibutes = property.property.propertyAttributes;
+  const attibutes = [
+    {
+      name: 'Площадь',
+      value: property.property.area + ' м²',
+    },
+    {
+      name: 'Тип недвижимости',
+      value: propertyTypeOptions[property.property.propertyTypeId].label,
+    },
+    {
+      name: 'Этаж',
+      value: '' + property.property.address.floor,
+    },
+    {
+      name: 'Комнат',
+      value: '' + property.property.rooms,
+    },
+    {
+      name: 'Парковка',
+      value: property.property.parking ? 'Да' : 'Нет',
+    },
+    ...property.property.propertyAttributes,
+  ];
+  if (property.type == TOfferType.Rent) {
+    attibutes.push({
+      name: 'ЖКХ включено',
+      value: (property.property as TRentProperty).services ? 'Да' : 'Нет',
+    });
+  }
   return (
     <>
       {!isDesktop && (
@@ -50,17 +92,20 @@ export default function PropertyDetails({
           )}
         </div>
 
-        <div className="flex items-center justify-center gap-[5px] cursor-pointer mt-[15px]">
-          <span
-            className="text-[12px] text-[#2D2D2D]"
-            onClick={() => {
-              setShowFull(!showFull);
-            }}
-          >
-            {showFull ? 'Скрыть' : 'Показать полностью'}
-          </span>
-          <img src={ArrowDown} alt="expand" className="w-[19px] h-[16px]" />
-        </div>
+        {property.property.propertyAttributes.length > 2 && (
+          <div className="flex items-center justify-center gap-[5px] cursor-pointer mt-[15px]">
+            <span
+              className="p-def"
+              onClick={() => {
+                setShowFull(!showFull);
+              }}
+            >
+              {showFull ? 'Скрыть' : 'Показать полностью'}
+            </span>
+            <img src={ArrowDown} alt="expand" className="w-[19px] h-[16px]" />
+          </div>
+        )}
+        {children}
       </Block>
     </>
   );
