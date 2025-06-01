@@ -33,8 +33,6 @@ export default function RangeInput({
 }: PriceRangeInputProps) {
   const minVal = min ?? 0;
   const maxVal = max ?? 10000000;
-  const [actualFromValue, setActualFromValue] = useState(fromValue);
-  const [actualToValue, setActualToValue] = useState(toValue);
 
   return (
     <motion.div
@@ -47,32 +45,40 @@ export default function RangeInput({
         <span className="h4-def">{label}</span>
       </div>
 
-      <div className="flex items-center gap-2">
-        <span className="h5-def">{fromName}</span>
-        <NumberInput
-          value={actualFromValue}
-          onChange={from => {
-            if (actualToValue && from && from > actualToValue) {
-              setActualToValue(from);
-            }
-            setActualFromValue(from);
-          }}
-          placeholder={minVal.toLocaleString()}
-          className="flex-1"
-          min={minVal}
-          max={maxVal}
-          step={step ?? 10000}
-        />
-        <span className="h5-def">{toName}</span>
-        <NumberInput
-          value={actualToValue}
-          onChange={setActualToValue}
-          placeholder={maxVal.toLocaleString()}
-          className="flex-1"
-          min={minVal}
-          max={maxVal}
-          step={step ?? 10000}
-        />
+      <div
+        className={
+          isDesktop ? 'flex items-center gap-2' : 'flex flex-col gap-2'
+        }
+      >
+        <div className="flex flex-1 items-center gap-2">
+          <span className="h5-def">{fromName}</span>
+          <NumberInput
+            value={fromValue}
+            onChange={from => {
+              if (toValue && from && from > toValue) {
+                onToChange(from);
+              }
+              onFromChange(from);
+            }}
+            placeholder={minVal.toLocaleString()}
+            className="flex-1"
+            min={minVal}
+            max={maxVal}
+            step={step ?? 10000}
+          />
+        </div>
+        <div className="flex flex-1 items-center gap-2">
+          <span className="h5-def">{toName}</span>
+          <NumberInput
+            value={toValue}
+            onChange={onToChange}
+            placeholder={maxVal.toLocaleString()}
+            className="flex-1"
+            min={minVal}
+            max={maxVal}
+            step={step ?? 10000}
+          />
+        </div>
       </div>
     </motion.div>
   );

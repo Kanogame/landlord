@@ -12,11 +12,16 @@ import Modal from '~/components/Modal';
 import AttributeSearch from '~/blocks/AttributeSearch';
 import ButtonAccent from '~/components/ButtonAccent';
 import {
+  searchFiltersToString,
   TSortOption,
   useSearchFilters,
   type TSearchFilters,
 } from '~/hooks/useSearchFilters';
 import SearchSortHeader from '~/blocks/SearchSortHeader';
+import Block from '~/components/Block';
+import { Drawer, DrawerContent, DrawerTrigger } from '~/components/ui/drawer';
+import ButtonEmpty from '~/components/ButtonEmpty';
+import SearchElement from '~/components/SearchElement';
 
 interface LoaderData {
   searchResult: TSearchResult;
@@ -40,14 +45,16 @@ export async function clientLoader({
     searchParams,
   };
 }
-
+const snapPoints = ['400px', 1];
 export default function SearchPage({ loaderData }: Route.ComponentProps) {
   const isDesktop = useDesktop();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isAttributeModalOpen, setIsAttributeModalOpen] = useState(false);
   const [showMap, setShowMap] = useState(false);
-  const { filters, resetFilters, updateFiltersAndUrl, setPage, setFilters } =
+  const { filters, resetFilters, updateFiltersAndUrl, setPage } =
     useSearchFilters(getSearchFromUrl(loaderData.searchParams));
+  const [drawer, setDrawer] = useState(true);
+  const [snap, setSnap] = useState<number | string | null>(snapPoints[0]);
 
   const handleFilterChange = (updates: Partial<TSearchFilters>) => {
     updateFiltersAndUrl(updates, setSearchParams);
@@ -101,13 +108,13 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
                 {searchResult.count} объявлений
               </div>
             </div>
-            <SearchFilters
-              isDesktop={isDesktop}
-              onFilterChange={handleFilterChange}
-              onResetFilters={resetFilters}
-              filters={filters}
-            />
-            <div className="mt-4">
+            <Block isDesktop={true} label="Фильтры">
+              <SearchFilters
+                isDesktop={isDesktop}
+                onFilterChange={handleFilterChange}
+                onResetFilters={resetFilters}
+                filters={filters}
+              />
               <Modal
                 trigger={
                   <ButtonAccent
@@ -116,7 +123,6 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
                         ? ` (${activeAttributeCount})`
                         : ''
                     }`}
-                    onClick={() => {}}
                     width="100%"
                     height="40px"
                   />
@@ -134,11 +140,76 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
                   onClose={() => setIsAttributeModalOpen(false)}
                 />
               </Modal>
-            </div>
+            </Block>
           </div>
         )}
-
         <div className="flex-[9_1] min-w-[0]">
+          {!isDesktop && (
+            <>
+              <Block label="Результаты поиска" isDesktop={isDesktop}>
+                <SearchElement
+                  label={searchFiltersToString(filters)}
+                  isDesktop={isDesktop}
+                  onClick={() => setDrawer(true)}
+                />
+                <div className="flex gap-[10px]">
+                  <ButtonEmpty
+                    label="Фильтры"
+                    onClick={() => setDrawer(true)}
+                    width="100%"
+                  />
+                  <ButtonAccent
+                    label="Мониторинт"
+                    onClick={() => {}}
+                    width="100%"
+                  />
+                </div>
+              </Block>
+              <Drawer
+                open={drawer}
+                onClose={() => {
+                  setDrawer(false);
+                }}
+              >
+                <DrawerContent>
+                  <div className="flex flex-col p-[20px] overflow-auto">
+                    {isAttributeModalOpen && (
+                      <AttributeSearch
+                        attributes={attributes}
+                        searchParams={searchParams}
+                        isDesktop={isDesktop}
+                        onApply={handleAttributeParamsChange}
+                        onClose={() => setIsAttributeModalOpen(false)}
+                      />
+                    )}
+                    {!isAttributeModalOpen && (
+                      <>
+                        <div className="h3-def">Фильтры</div>
+                        <SearchFilters
+                          isDesktop={isDesktop}
+                          onFilterChange={handleFilterChange}
+                          onResetFilters={resetFilters}
+                          filters={filters}
+                        />
+                        <ButtonAccent
+                          label={`Дополнительные фильтры${
+                            activeAttributeCount > 0
+                              ? ` (${activeAttributeCount})`
+                              : ''
+                          }`}
+                          onClick={() => {
+                            setIsAttributeModalOpen(true);
+                          }}
+                          width="100%"
+                          height="40px"
+                        />
+                      </>
+                    )}
+                  </div>
+                </DrawerContent>
+              </Drawer>
+            </>
+          )}
           <SearchSortHeader
             sorting={filters.sortBy ?? TSortOption.CreatedDesc}
             onSortingChange={handleSortingChange}

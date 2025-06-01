@@ -28,7 +28,6 @@ export default function AddressInput({
   filterLocations,
   hint,
 }: AddressInputProps) {
-  console.log(filterLocations);
   const token = useDadataToken();
   return (
     <div className={className}>

@@ -4,14 +4,20 @@ import iconSearch from '~/media/icons/icon-search.svg';
 
 export default function SearchElement(props: {
   label: string;
-  link: string;
+  link?: string;
   isDesktop: boolean;
+  onClick?: () => void;
 }) {
   const navigate = useNavigate();
   return (
     <motion.div
       onClick={() => {
-        navigate(props.link);
+        if (props.link) {
+          navigate(props.link);
+        }
+        if (props.onClick) {
+          props.onClick();
+        }
       }}
       whileHover={{ y: -5, background: '#E9E9E9' }}
       className={

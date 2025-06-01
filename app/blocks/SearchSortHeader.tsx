@@ -11,6 +11,7 @@ import {
 import { DropdownMenuContent } from '@radix-ui/react-dropdown-menu';
 import AutoButtonDropdown from '~/components/AutoButtonDropdown';
 import DropdownElement from '~/components/DropdownElement';
+import { useDesktop } from '~/hooks/useDesktop';
 
 interface SearchSortHeaderProps {
   sorting: TSortOption;
@@ -33,22 +34,7 @@ export default function SearchSortHeader({
   onMapToggle,
   onMonitorRequest,
 }: SearchSortHeaderProps) {
-  const getCurrentSortOption = () => {
-    // Map current sorting to base sort option
-    switch (sorting) {
-      case TSortOption.CreatedAsc:
-      case TSortOption.CreatedDesc:
-        return sortOptions.find(opt => opt.baseType === 'created');
-      case TSortOption.PriceAsc:
-      case TSortOption.PriceDesc:
-        return sortOptions.find(opt => opt.baseType === 'price');
-      case TSortOption.AreaAsc:
-      case TSortOption.AreaDesc:
-        return sortOptions.find(opt => opt.baseType === 'area');
-      default:
-        return sortOptions[0];
-    }
-  };
+  const isDesktop = useDesktop();
 
   const isDescending = () => {
     return (
@@ -103,11 +89,15 @@ export default function SearchSortHeader({
     }
   };
 
-  const currentOption = getCurrentSortOption();
-
   return (
-    <div className="flex justify-between items-center py-[15px]">
-      <div className="flex gap-[5px] items-center">
+    <div className="flex justify-between items-center py-[15px] px-[20px]">
+      <div
+        className={
+          isDesktop
+            ? 'flex gap-[5px] items-center'
+            : 'flex flex-row-reverse justify-between flex-1'
+        }
+      >
         <img
           src={IconFilter}
           alt="Filter"
@@ -130,14 +120,16 @@ export default function SearchSortHeader({
           ))}
         </AutoButtonDropdown>
       </div>
-      <div className="flex gap-[20px] items-center">
-        <MapSwither showMap={showMap} onChange={onMapToggle} />
-        <ButtonEmpty
-          label="Мониторить этот запрос"
-          width="200px"
-          onClick={onMonitorRequest}
-        />
-      </div>
+      {isDesktop && (
+        <div className="flex gap-[20px] items-center">
+          <MapSwither showMap={showMap} onChange={onMapToggle} />
+          <ButtonEmpty
+            label="Мониторить этот запрос"
+            width="200px"
+            onClick={onMonitorRequest}
+          />
+        </div>
+      )}
     </div>
   );
 }

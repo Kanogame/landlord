@@ -34,6 +34,67 @@ export interface TSearchFilters {
   attributes: TPropertyAttribute[];
 }
 
+export function searchFiltersToString(filters: TSearchFilters): string {
+  const parts: string[] = [];
+  if (filters.offerType !== undefined) {
+    const offerTypeNames = {
+      [TOfferType.Rent]: 'Аренда',
+      [TOfferType.Sell]: 'Продажа',
+    };
+    parts.push(offerTypeNames[filters.offerType]);
+  }
+
+  // Property type
+  if (filters.propertyType !== undefined) {
+    const propertyTypeNames = {
+      [TPropertyType.Flat]: 'квартира',
+      [TPropertyType.Detached]: 'дом',
+      [TPropertyType.Commercial]: 'коммерческая',
+    };
+    parts.push(propertyTypeNames[filters.propertyType] || 'недвижимость');
+  }
+
+  // Location
+  if (filters.city) {
+    parts.push(`в ${filters.city}`);
+  } else if (filters.region) {
+    parts.push(`в ${filters.region}`);
+  }
+
+  // Price
+  if (filters.priceTo) {
+    parts.push(`до ${filters.priceTo.toLocaleString()} Р`);
+  } else if (filters.priceFrom) {
+    parts.push(`от ${filters.priceFrom.toLocaleString()} Р`);
+  }
+
+  // Count additional parameters
+  let additionalCount = 0;
+
+  // Count basic filters
+  const basicFilters = [
+    filters.street,
+    filters.priceFrom && filters.priceTo,
+    filters.floorFrom,
+    filters.floorTo,
+    filters.areaFrom,
+    filters.roomsFrom,
+    filters.service,
+    filters.parking,
+  ];
+
+  additionalCount += basicFilters.filter(
+    f => f !== undefined && f !== null
+  ).length;
+  additionalCount += filters.attributes.length;
+
+  if (additionalCount > 0) {
+    parts.push(`и еще ${additionalCount} параметров`);
+  }
+
+  return parts.join(', ');
+}
+
 export function useSearchFilters(initialFilters?: Partial<TSearchFilters>) {
   const [filters, setFilters] = useState<TSearchFilters>({
     offerType: TOfferType.Rent,
