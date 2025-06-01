@@ -9,13 +9,13 @@
 }
 
 :root {
-  --accent: oklch(0.97 0 0);
-  --accent-pressed: #76222e;
-  --secondary: oklch(0.97 0 0);
-  --secondary-pressed: #d5c8c8;
+  --custom-accent: #8b2635;
+  --custom-accent-pressed: #76222e;
+  --custom-secondary: #f3e7e7;
+  --custom-secondary-pressed: #d5c8c8;
 
-  --text-black: #2d2d2d;
-  --text-light: #707070;
+  --custom-text-black: #2d2d2d;
+  --custom-text-light: #707070;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -69,49 +69,49 @@ body {
 }
 
 .p-def {
-  color: var(--text-black);
+  color: var(--custom-text-black);
   font-family: Fira Sans;
   font-size: 12px;
   text-align: left;
 }
 
 .p-light {
-  color: var(--text-light);
+  color: var(--custom-text-light);
   font-family: Fira Sans;
   font-size: 12px;
   text-align: left;
 }
 
 .h1-def {
-  color: var(--text-black);
+  color: var(--custom-text-black);
   font-size: 48px;
   font-family: Fira Sans;
   font-weight: 400;
 }
 
 .h2-def {
-  color: var(--text-black);
+  color: var(--custom-text-black);
   font-size: 36px;
   font-family: Fira Sans;
   font-weight: 400;
 }
 
 .h3-def {
-  color: var(--text-black);
+  color: var(--custom-text-black);
   font-size: 24px;
   font-family: Fira Sans;
   font-weight: 400;
 }
 
 .h3-light {
-  color: var(--text-light);
+  color: var(--custom-text-light);
   font-size: 24px;
   font-family: Fira Sans;
   font-weight: 400;
 }
 
 .h4-def {
-  color: var(--text-black);
+  color: var(--custom-text-black);
   font-size: 20px;
   font-family: Fira Sans;
   font-weight: 400;
@@ -124,42 +124,48 @@ body {
 }
 
 .h5-def {
-  color: var(--text-black);
+  color: var(--custom-text-black);
   font-size: 14px;
   font-family: Fira Sans;
   font-weight: 400;
 }
 
 .h5-light {
-  color: var(--text-light);
+  color: var(--custom-text-light);
+  font-size: 14px;
+  font-family: Fira Sans;
+  font-weight: 400;
+}
+
+.h5 {
   font-size: 14px;
   font-family: Fira Sans;
   font-weight: 400;
 }
 
 .n1-def {
-  color: var(--text-black);
+  color: var(--custom-text-black);
   font-size: 15px;
   font-family: Fira Sans;
   font-weight: 700;
 }
 
 .n1-light {
-  color: var(--text-light);
+  color: var(--custom-text-light);
   font-size: 15px;
   font-family: Fira Sans;
   font-weight: 700;
 }
 
 .n2-def {
-  color: var(--text-black);
+  color: var(--custom-text-black);
   font-size: 12px;
   font-family: Fira Sans;
   font-weight: 700;
 }
 
 .hint {
-  color: var(--text-black);
+  color: var(--custom-text-black);
   font-size: 8px;
   font-family: Fira Sans;
   font-weight: 400;
@@ -182,23 +188,23 @@ body {
 }
 
 .accent {
-  background: var(--accent);
+  background: var(--custom-accent);
 }
 
 .accent:hover {
-  background: var(--accent-pressed);
+  background: var(--custom-accent-pressed);
 }
 
 .accent-border {
-  border: 1px so var(--accent-pressed);
+  border: 1px so var(--custom-accent-pressed);
 }
 
 .accent-border:hover {
-  background: var(--secondary-pressed);
+  background: var(--custom-secondary-pressed);
 }
 
 .sidepage:hover {
-  background: var(--secondary);
+  background: var(--custom-secondary);
 }
 
 .bg-img {
@@ -206,37 +212,91 @@ body {
   background-repeat: no-repeat;
 }
 
-.button-accent {
-  font-size: 12px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  background: var(--accent);
-  padding: 8px 16px;
+/* dadata input */
+.react-dadata__container {
+  position: relative;
+}
+.react-dadata__input {
+  box-sizing: border-box;
+  border: 1px solid var(--input);
+  border-radius: calc(var(--radius) - 2px);
+  outline: none;
+  width: 100%;
+  height: 36px;
+  padding: 4px 12px;
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow),
+    var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  font-size: 16px;
+  display: block;
+}
+.react-dadata__input:focus {
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow),
+    var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+.react-dadata__suggestions {
+  z-index: 50;
+  padding: 1rem;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  outline-style: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+  text-align: left;
+  background-color: #fff;
   border-radius: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  overflow: hidden;
 }
-
-.button-accent:hover {
-  background: var(--accent-pressed);
+.react-dadata__suggestion-note {
+  color: #828282;
+  padding: 10px 10px 5px;
+  font-size: 14px;
 }
-
-.button-empty {
-  font-size: 12px;
-  text-align: center;
-  color: var(--text-black);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  border: 1px solid var(--accent);
-  padding: 7px 15px;
-  border-radius: 4px;
+.react-dadata__suggestion {
+  cursor: pointer;
+  box-sizing: border-box;
+  text-align: left;
+  background: 0 0;
+  border: none;
+  width: 100%;
+  padding: 7px 10px;
+  font-size: 15px;
+  display: block;
 }
-
-.button-empty:hover {
-  background: var(--secondary-pressed);
+.react-dadata__suggestion--line-through {
+  text-decoration: line-through;
+}
+.react-dadata__suggestion-subtitle {
+  color: #777;
+  margin-top: 4px;
+  font-size: 14px;
+}
+.react-dadata__suggestion-subtitle-item {
+  margin-bottom: 4px;
+  margin-right: 16px;
+  display: inline-block;
+}
+.react-dadata__suggestion-subtitle-item:last-child {
+  margin-right: 0;
+}
+.react-dadata__suggestion--current {
+  background-color: var(--custom-secondary);
+}
+.react-dadata__suggestion:hover {
+  background-color: var(--custom-secondary);
+}
+.react-dadata mark {
+  background: 0 0;
+}
+.react-dadata--highlighted {
+  color: var(--custom-accent);
 }
 
 @theme inline {

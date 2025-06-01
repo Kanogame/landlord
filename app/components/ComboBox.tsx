@@ -63,7 +63,7 @@ export default function ComboBox({
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <button
-          className={`flex items-center justify-between h-8 px-3 bg-white border border-gray-300 rounded h5-def transition-colors ${className}`}
+          className={`flex items-center justify-between border-input h-9 min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none h5-def ${className}`}
         >
           <span className={selectedOption ? 'h5-def' : 'h5-light'}>
             {selectedOption?.label || placeholder}

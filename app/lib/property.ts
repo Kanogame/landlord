@@ -29,7 +29,7 @@ export interface TProperty {
 export function CreateEmptyProperty(type: TOfferType): TProperty {
   const def = {
     id: 0,
-    PropertyTypeId: TPropertyType.Flat,
+    propertyTypeId: TPropertyType.Flat,
     name: '',
     desc: '',
     price: {
@@ -37,12 +37,12 @@ export function CreateEmptyProperty(type: TOfferType): TProperty {
       currency: 125,
       currencySymbol: '₽',
     },
-    area: 0,
+    area: 30,
     address: {
       city: '',
       district: '',
       street: '',
-      floor: 0,
+      floor: 1,
       displayAddress: '',
     },
     imageLinks: [],
@@ -102,7 +102,7 @@ export interface TGenericProperty {
   id: number;
   ownerId: number;
   offerTypeId: TOfferType;
-  PropertyTypeId: TPropertyType;
+  propertyTypeId: TPropertyType;
   propertyAttributes: TPropertyAttribute[];
   name: string;
   desc: string;

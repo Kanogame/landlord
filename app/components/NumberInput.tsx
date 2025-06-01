@@ -126,10 +126,6 @@ export default function NumberInput({
           value={displayValue}
           onChange={handleInputChange}
           placeholder={placeholder}
-          className={`h-8 text-xs pr-8 bg-transparent border-none focus:ring-0 focus:border-none ${
-            value ? 'border-[#8B2635]' : ''
-          }`}
-          style={{ boxShadow: 'none', outline: 'none' }}
         />
 
         {value != 0 && (
