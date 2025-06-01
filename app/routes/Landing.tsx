@@ -8,21 +8,21 @@ import SlideScroller from '~/blocks/SlideScroller';
 import Tips from '~/blocks/Tips';
 import { TOfferType, type TSearchResult } from '~/lib/property';
 import { useDesktop } from '~/hooks/useDesktop';
-import CardFetchScroller from '~/blocks/CardFetchScroller';
+import CardScroller from '~/blocks/CardScroller';
 import { ErrorToast, Post } from '~/lib/api';
 import type { Route } from './+types/Landing';
-import { toast } from 'sonner';
 
 export async function clientLoader(): Promise<{
   rent: TSearchResult;
   sell: TSearchResult;
 }> {
-  console.log('hi');
   const rent = await Post<TSearchResult>('api/Property/get_properties_search', {
     pageNumber: 1,
     pageSize: 10,
     offerType: TOfferType.Rent,
   });
+
+  console.log(rent);
 
   if (!rent || rent.success == false) {
     ErrorToast('Ошибка при загрузке объявлений');
@@ -52,12 +52,12 @@ export default function LandingPage({ loaderData }: Route.ComponentProps) {
     <div className="w-[100%]">
       <SlideScroller />
       <DesktopWidth isDesktop={isDesktop}>
-        <CardFetchScroller
+        <CardScroller
           label="Аренда"
           link={{ label: 'Все', href: '/search' }}
           loaded={rent}
         />
-        <CardFetchScroller
+        <CardScroller
           label="Продажа"
           link={{ label: 'Все', href: '/search' }}
           loaded={sell}

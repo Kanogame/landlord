@@ -5,7 +5,7 @@ import type { TLink } from '../lib/link';
 interface BlockProps {
   children: ReactNode;
   link?: TLink;
-  label: string;
+  label?: string;
   isDesktop: boolean;
 }
 
@@ -22,7 +22,7 @@ export default function Block({
         (isDesktop ? 'p-[20px] rounded-[20px]' : 'p-[16px] rounded-[10px]')
       }
     >
-      {label != '' && (
+      {label && label != '' && (
         <div
           className={
             'flex justify-between ' + (isDesktop ? 'h3-def' : 'h4-def')

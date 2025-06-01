@@ -1,8 +1,9 @@
 import Block from '~/components/Block';
+import type { TImageLink } from './ImageScroller';
 
 interface PropertyImageUploadProps {
-  images: string[];
-  onImagesChange: (images: string[]) => void;
+  images: TImageLink[];
+  onImagesChange: (images: TImageLink[]) => void;
 }
 
 export default function PropertyImageUpload({
@@ -16,7 +17,7 @@ export default function PropertyImageUpload({
 
   return (
     <div
-      className="w-[780px] h-[370px] bg-[#D9D9D9] rounded-[20px] flex flex-col justify-center items-center gap-[10px]"
+      className="w-[780px] h-[370px] bg-[#D9D9D9] rounded-[20px] flex flex-col justify-center items-center gap-[10px] relative"
       style={{
         boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.25)',
       }}
@@ -48,10 +49,7 @@ export default function PropertyImageUpload({
         className="hidden"
         id="image-upload"
       />
-      <label
-        htmlFor="image-upload"
-        className="cursor-pointer absolute inset-0"
-      />
+      <label htmlFor="image-upload" />
     </div>
   );
 }

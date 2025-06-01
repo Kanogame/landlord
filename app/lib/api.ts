@@ -15,9 +15,12 @@ export function ErrorToast(msg: string) {
 }
 
 export async function Get<T>(path: string, signal?: AbortSignal): Promise<T> {
-  const resp = await req('GET', path, undefined, signal);
-  console.log(resp);
-  return resp;
+  try {
+    const resp = await req('GET', path, undefined, signal);
+    return resp;
+  } catch (e) {
+    return { success: false } as T;
+  }
 }
 
 async function req(

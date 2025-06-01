@@ -6,16 +6,16 @@ import type { TOfferType, TSearchResult } from '~/lib/property';
 import type { Route } from '../+types/root';
 import PropertyCard from '~/components/PropertyCard';
 
-interface CardFetchProps {
+interface CardScrollerProps {
   label: string;
   link: TLink;
   loaded: TSearchResult;
 }
-export default function CardFetchScroller({
+export default function CardScroller({
   link,
   label,
   loaded,
-}: CardFetchProps) {
+}: CardScrollerProps) {
   const isDesktop = useDesktop();
 
   return (

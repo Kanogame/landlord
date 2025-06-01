@@ -2,10 +2,11 @@ import Block from '~/components/Block';
 import TypeSwitcher from '~/components/TypeSwitcher';
 import ComboBox from '~/components/ComboBox';
 import NumberInput from '~/components/NumberInput';
-import TextInput from '~/components/TextInput';
-import Button from '~/components/Button';
 import ButtonEmpty from '~/components/ButtonEmpty';
-import { TProperty, TOfferType, TPropertyType } from '~/lib/property';
+import { type TProperty, TOfferType, TPropertyType } from '~/lib/property';
+import ButtonAccent from '~/components/ButtonAccent';
+import { Input } from '~/components/ui/input';
+import AddressInput from '~/components/AddressInput';
 
 const propertyTypeOptions = [
   { value: TPropertyType.Flat, label: 'Квартира' },
@@ -37,120 +38,86 @@ export default function PropertyForm({
     });
   };
 
+  const inputClassname = 'w-40';
+
   return (
     <Block isDesktop={isDesktop}>
-      <div
-        className="w-[380px] p-[20px] bg-white rounded-[20px] flex flex-col gap-[10px]"
-        style={{
-          boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.25)',
-        }}
-      >
-        {/* Title Field */}
-        <div className="flex justify-between items-center gap-[50px]">
-          <span className="text-[#2D2D2D] text-[14px] font-normal font-['Fira_Sans']">
-            Название
-          </span>
-          <TextInput
-            value={property.property.title}
-            onChange={value => handleFieldChange('title', value)}
-            placeholder="Шаблон"
-            className="flex-1 h-[30px]"
-          />
-        </div>
-
-        {/* Type Switcher */}
-        <TypeSwitcher
-          value={property.type}
-          onChange={value => onPropertyChange({ type: value })}
+      <div className="flex justify-between items-center gap-[50px]">
+        <span className="h5-def">Название</span>
+        <Input
+          value={property.property.name}
+          onChange={value => handleFieldChange('title', value)}
+          placeholder="Введите название"
+          className={inputClassname}
         />
+      </div>
 
-        {/* Property Type */}
-        <div className="flex justify-between items-center gap-[50px]">
-          <span className="text-[#2D2D2D] text-[14px] font-normal font-['Fira_Sans']">
-            Тип
-          </span>
-          <ComboBox
-            options={propertyTypeOptions}
-            value={property.property.propertyType}
-            onChange={value => handleFieldChange('propertyType', value)}
-            placeholder="Шаблон"
-            className="flex-1 h-[30px]"
-          />
-        </div>
+      <TypeSwitcher
+        value={property.type}
+        onChange={value => onPropertyChange({ type: value })}
+      />
 
-        {/* Area */}
-        <div className="flex justify-between items-center gap-[50px]">
-          <span className="text-[#2D2D2D] text-[14px] font-normal font-['Fira_Sans']">
-            Площадь
-          </span>
-          <NumberInput
-            value={property.property.area}
-            onChange={value => handleFieldChange('area', value)}
-            placeholder="42"
-            className="flex-1 h-[30px]"
-            min={1}
-            max={1000}
-          />
-        </div>
+      <div className="flex justify-between items-center gap-[50px]">
+        <span className="h5-def">Тип невижимости</span>
+        <ComboBox
+          options={propertyTypeOptions}
+          value={property.property.PropertyTypeId}
+          onChange={value => handleFieldChange('propertyType', value)}
+          placeholder="Выберите тип"
+          className={inputClassname}
+        />
+      </div>
 
-        {/* Floor */}
-        <div className="flex justify-between items-center gap-[50px]">
-          <span className="text-[#2D2D2D] text-[14px] font-normal font-['Fira_Sans']">
-            Этаж
-          </span>
-          <NumberInput
-            value={property.property.floor}
-            onChange={value => handleFieldChange('floor', value)}
-            placeholder="42"
-            className="flex-1 h-[30px]"
-            min={1}
-            max={100}
-          />
-        </div>
+      <div className="flex justify-between items-center gap-[50px]">
+        <span className="h5-def">Площадь</span>
+        <NumberInput
+          value={property.property.area}
+          onChange={value => handleFieldChange('area', value)}
+          className={inputClassname}
+          placeholder="30"
+          min={1}
+          max={1000}
+          step={1}
+        />
+      </div>
 
-        {/* Total Floors */}
-        <div className="flex justify-between items-center gap-[50px]">
-          <span className="text-[#2D2D2D] text-[14px] font-normal font-['Fira_Sans']">
-            Этажность
-          </span>
-          <NumberInput
-            value={property.property.totalFloors}
-            onChange={value => handleFieldChange('totalFloors', value)}
-            placeholder="42"
-            className="flex-1 h-[30px]"
-            min={1}
-            max={100}
-          />
-        </div>
+      <div className="flex justify-between items-center gap-[50px]">
+        <span className="h5-def">Этаж</span>
+        <NumberInput
+          value={property.property.address.floor}
+          onChange={value => (property.property.address.floor = value ?? 1)}
+          placeholder="3"
+          className={inputClassname}
+          min={1}
+          max={100}
+          step={1}
+        />
+      </div>
 
-        {/* Address */}
-        <div className="flex justify-between items-center gap-[50px]">
-          <span className="text-[#2D2D2D] text-[14px] font-normal font-['Fira_Sans']">
-            Адрес
-          </span>
-          <TextInput
-            value={property.property.address}
-            onChange={value => handleFieldChange('address', value)}
-            placeholder="Шаблон"
-            className="flex-1 h-[30px]"
-          />
-        </div>
+      <div className="flex justify-between items-center gap-[50px]">
+        <span className="h5-def">Адрес</span>
+        <AddressInput />
+        <Input
+          value={property.property.address.city}
+          onChange={value => handleFieldChange('address', value)}
+          placeholder="Шаблон"
+          className="flex-1 h-[30px]"
+        />
+      </div>
 
-        {/* Action Buttons */}
-        <div className="flex gap-[10px] mt-[10px]">
-          <ButtonEmpty
-            label="Удалить"
-            onClick={onDelete}
-            width="50%"
-            height="30px"
-          />
-          <Button
-            label="Сохранить"
-            onClick={onSave}
-            width="50%"
-            height="30px"
-          />
-        </div>
+      <div className="flex gap-[10px] mt-[10px]">
+        <ButtonEmpty
+          label="Удалить"
+          onClick={onDelete}
+          width="50%"
+          height="30px"
+        />
+        <ButtonAccent
+          label="Сохранить"
+          onClick={onSave}
+          width="50%"
+          height="30px"
+        />
       </div>
     </Block>
   );

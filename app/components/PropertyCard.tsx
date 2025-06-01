@@ -71,7 +71,7 @@ export default function PropertyCard(props: { property: TProperty }) {
       {props.property.type === TOfferType.Rent && (
         <>
           <div className="flex">
-            <Stars rating={(prop as TRentProperty).raiting} />
+            <Stars rating={(prop as TRentProperty).rating} />
           </div>
           <div className="flex justify-between">
             <div className="n2-def">{FormatMoney(prop.price)}</div>

@@ -17,13 +17,61 @@ export interface TAddress {
   city: string;
   district: string;
   street: string;
-  story: number;
+  floor: number;
   displayAddress: string;
 }
 
 export interface TProperty {
   type: TOfferType;
   property: TRentProperty | TSellProperty;
+}
+
+export function CreateEmptyProperty(type: TOfferType): TProperty {
+  const def = {
+    id: 0,
+    PropertyTypeId: TPropertyType.Flat,
+    name: '',
+    desc: '',
+    price: {
+      amount: '0',
+      currency: 125,
+      currencySymbol: '₽',
+    },
+    area: 0,
+    address: {
+      city: '',
+      district: '',
+      street: '',
+      floor: 0,
+      displayAddress: '',
+    },
+    imageLinks: [],
+    ownerId: 0,
+    offerTypeId: type,
+    propertyAttributes: [],
+    username: '',
+    profileLink: '',
+    isBookmarked: false,
+    rooms: 1,
+    services: true,
+    parking: false,
+  };
+
+  if (type === TOfferType.Sell) {
+    return {
+      type: type,
+      property: {
+        ...def,
+        // Rent-specific fields
+        period: TRentPeriod.Month,
+        rating: 0,
+      },
+    };
+  }
+  return {
+    type: type,
+    property: def,
+  };
 }
 
 export interface TOwner {
@@ -60,9 +108,13 @@ export interface TGenericProperty {
   desc: string;
   address: TAddress;
   area: number;
+  rooms: number;
+  services: boolean;
+  parking: boolean;
   imageLinks: TImageLink[];
   username: string;
   profileLink: string;
+  price: TMoney;
   isBookmarked: boolean | null;
 }
 
@@ -73,15 +125,11 @@ export enum TRentPeriod {
 }
 
 export interface TRentProperty extends TGenericProperty {
-  raiting: number;
-  price: TMoney;
+  rating: number;
   period: TRentPeriod;
 }
 
-export interface TSellProperty extends TGenericProperty {
-  price: TMoney;
-}
-
+export type TSellProperty = TGenericProperty;
 export function FormatArea(value: number): string {
   return value + ' м²';
 }

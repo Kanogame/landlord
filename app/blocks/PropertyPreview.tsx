@@ -1,6 +1,6 @@
 import Block from '~/components/Block';
-import Button from '~/components/Button';
-import { TProperty, FormatArea } from '~/lib/property';
+import ButtonAccent from '~/components/ButtonAccent';
+import { type TProperty, FormatArea } from '~/lib/property';
 
 interface PropertyPreviewProps {
   property: TProperty;
@@ -38,27 +38,12 @@ export default function PropertyPreview({
             />
             <PropertyInfoLine
               label="Этаж"
-              value={`${property.property.floor} из ${property.property.totalFloors}`}
+              value={'' + property.property.address.floor}
               top={34}
             />
             <PropertyInfoLine
               label="Адрес"
-              value={property.property.address || 'Не указан'}
-              top={68}
-            />
-          </div>
-
-          {/* Right Column */}
-          <div className="w-[340px] absolute left-[399px] top-0">
-            <PropertyInfoLine label="Тип" value="Квартира" top={0} />
-            <PropertyInfoLine
-              label="Комнаты"
-              value={`${property.property.rooms}`}
-              top={34}
-            />
-            <PropertyInfoLine
-              label="Цена"
-              value={`${property.property.price} ₽`}
+              value={property.property.address?.city ?? 'Не указан'}
               top={68}
             />
           </div>
@@ -71,7 +56,7 @@ export default function PropertyPreview({
         </div>
 
         <div className="flex justify-end">
-          <Button
+          <ButtonAccent
             label="Редактировать"
             onClick={handleEdit}
             width="120px"

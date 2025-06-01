@@ -12,7 +12,7 @@ import { getCalendarPeriods } from '~/lib/calendarApi';
 import type { TProperty, TRentProperty, TSearchResult } from '~/lib/property';
 import type { TCalendarResponse } from '~/lib/calendar';
 import type { Route } from './+types/PropertyPage';
-import CardFetchScroller from '~/blocks/CardFetchScroller';
+import CardScroller from '~/blocks/CardScroller';
 
 export async function clientLoader({
   params,
@@ -90,7 +90,7 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
             description={property.property.desc}
             rating={
               property.type === 0
-                ? (property.property as TRentProperty).raiting
+                ? (property.property as TRentProperty).rating
                 : undefined
             }
           />
@@ -108,7 +108,7 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
         )}
       </div>
 
-      <CardFetchScroller
+      <CardScroller
         label="Похожие"
         link={{ label: 'Все', href: `/search?OfferType=${property.type}` }}
         loaded={loaderData.similar}
