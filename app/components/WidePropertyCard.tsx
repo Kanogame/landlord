@@ -23,6 +23,7 @@ import DropdownElement from './DropdownElement';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import { addBookmark, removeBookmark } from '~/lib/bookmarkApi';
+import { toast } from 'sonner';
 
 export default function WidePropertyCard(props: { property: TProperty }) {
   const type = props.property.type;
@@ -112,9 +113,28 @@ export default function WidePropertyCard(props: { property: TProperty }) {
               icon={isBookmarked ? iconBookmarkChecked : iconBookmark}
               onClick={bookmark}
             />
-            <ButtonIcon icon={iconCalendar} />
-            <ButtonIcon icon={iconShare} />
-            <ButtonIcon icon={iconPosition} />
+            <ButtonIcon
+              icon={iconCalendar}
+              onClick={e => {
+                e.stopPropagation();
+                navigate(`/property/${prop.id}#propertyCalendar`);
+              }}
+            />
+            <ButtonIcon
+              icon={iconShare}
+              onClick={e => {
+                e.stopPropagation();
+                navigator.clipboard.writeText(`/property/${prop.id}`);
+                toast('Скопировано в буфер обмена');
+              }}
+            />
+            <ButtonIcon
+              icon={iconPosition}
+              onClick={e => {
+                e.stopPropagation();
+                navigate(`/property/${prop.id}#propertyMap`);
+              }}
+            />
             <ButtonIconDropdown icon={IconMore}>
               {widePropertyCardDropdownOptions.map(el => {
                 return <DropdownElement label={el.label} icon={el.icon} />;

@@ -3,7 +3,11 @@ import Block from './Block';
 import ButtonAccent from './ButtonAccent';
 import ButtonIcon from './ButtonIcon';
 import PropertyInfoLine from './PropertyInfoLine';
-import FormatPrice, { InitiateChat, TOfferType } from '~/lib/property';
+import FormatPrice, {
+  InitiateChat,
+  TOfferType,
+  TPropertyType,
+} from '~/lib/property';
 import type { TProperty } from '~/lib/property';
 import iconBookmark from '~/media/icons/icon-bookmark.svg';
 import iconCalendar from '~/media/icons/icon-calendar.svg';
@@ -20,14 +24,36 @@ interface PropertyOwnerContactProps {
   property: TProperty;
 }
 
+const propertyTypeOptions = [
+  { value: TPropertyType.Flat, label: 'Квартира' },
+  { value: TPropertyType.Detached, label: 'Дом' },
+  { value: TPropertyType.Commercial, label: 'Коммерческая' },
+];
+
 export default function PropertySummary({
   property,
 }: PropertyOwnerContactProps) {
   const isDesktop = useDesktop();
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  const attibutes = property.property.propertyAttributes;
-
+  const attibutes = [
+    {
+      name: 'Тип недвижимости',
+      value: propertyTypeOptions[property.property.propertyTypeId].label,
+    },
+    {
+      name: 'Площадь',
+      value: property.property.area + ' м²',
+    },
+    {
+      name: 'Этаж',
+      value: '' + property.property.address.floor,
+    },
+    {
+      name: 'Комнат',
+      value: '' + property.property.rooms,
+    },
+  ];
   const quickMessages = [
     'Торг уместен?',
     'Еще актуально?',

@@ -1,4 +1,5 @@
 import { useParams } from 'react-router';
+import { useEffect } from 'react';
 import { useDesktop } from '~/hooks/useDesktop';
 import DesktopWidth from '~/blocks/DesktopWidth';
 import PropertyImageGallery from '~/components/PropertyImageGallery';
@@ -66,6 +67,22 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
   const isDesktop = useDesktop();
   const property = loaderData.property;
 
+  useEffect(() => {
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+      // Small delay to ensure components are rendered
+      setTimeout(() => {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          });
+        }
+      }, 100);
+    }
+  }, []);
+
   return (
     <DesktopWidth isDesktop={isDesktop}>
       <div
@@ -94,15 +111,21 @@ export default function PropertyPage({ loaderData }: Route.ComponentProps) {
                 : undefined
             }
           />
-          <PropertyCalendar
-            propertyId={property.property.id}
-            initialCalendarData={loaderData.calendarData}
-          />
-          <PropertyMap address={property.property.address} />
-          <PropertyDetails property={property} isDesktop={isDesktop} />
+          <div id="propertyCalendar">
+            <PropertyCalendar
+              propertyId={property.property.id}
+              initialCalendarData={loaderData.calendarData}
+            />
+          </div>
+          <div id="propertyMap">
+            <PropertyMap address={property.property.address} />
+          </div>
+          <div id="propertyDetails">
+            <PropertyDetails property={property} isDesktop={isDesktop} />
+          </div>
         </div>
         {isDesktop && (
-          <div className="flex flex-[1_0] flex-col gap-[20px]">
+          <div className="sticky top-[20px] flex flex-[1_0] flex-col gap-[20px]">
             <PropertySummary property={property} />
           </div>
         )}
