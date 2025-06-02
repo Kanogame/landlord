@@ -97,6 +97,7 @@ export default function PropertySummary({
         <div className="flex flex-col gap-[11px]">
           <Profile
             isBig
+            onClick={() => navigate(property.property.profileLink)}
             name={property.property.username}
             avatar="/app/media/images/placeholder.png"
             subtitle="4 объявления, 7 лет на сайте"

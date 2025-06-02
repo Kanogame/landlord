@@ -117,6 +117,12 @@ body {
   font-weight: 400;
 }
 
+.h4-light {
+  color: var(--custom-text-light);
+  font-size: 20px;
+  font-family: Fira Sans;
+  font-weight: 400;
+}
 .h4 {
   font-size: 20px;
   font-family: Fira Sans;

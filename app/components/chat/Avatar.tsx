@@ -1,10 +1,24 @@
-export default function Avatar(props: { avatar: string }) {
+interface AvatarProps {
+  avatar: string;
+  size?: 'small' | 'large';
+  className?: string;
+}
+
+export default function Avatar({
+  avatar,
+  size = 'small',
+  className = '',
+}: AvatarProps) {
+  const sizeClasses = size === 'large' ? 'w-[120px] h-[120px]' : 'w-10 h-10';
+
   return (
-    <div className="w-10 h-10 rounded-full bg-gray-300 flex-shrink-0">
+    <div
+      className={`${sizeClasses} rounded-full bg-gray-300 flex-shrink-0 ${className}`}
+    >
       <img
-        src={props.avatar}
+        src={avatar}
         alt="Аватар"
-        className="w-full h-full rounded-full"
+        className="w-full h-full rounded-full object-cover"
       />
     </div>
   );
