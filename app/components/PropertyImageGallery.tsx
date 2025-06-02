@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, type PanInfo } from 'motion/react';
 import Block from './Block';
 import ScrollerArrow from './ScrollerArrow';
 import type { TImageLink } from './ImageScroller';
@@ -24,6 +24,11 @@ const imageVariants = {
   }),
 };
 
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset: number, velocity: number) => {
+  return Math.abs(offset) * velocity;
+};
+
 export default function PropertyImageGallery({
   images,
 }: PropertyImageGalleryProps) {
@@ -32,17 +37,14 @@ export default function PropertyImageGallery({
   const [direction, setDirection] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const isDesktop = useDesktop();
+  const [isDragging, setIsDragging] = useState(false);
 
   const displayImages =
     images.length > 0
-      ? images
-      : [
-          {
-            id: 'placeholder',
-            propertyId: '',
-            link: '/app/media/images/placeholder.png',
-          },
-        ];
+      ? images.map(
+          image => `${import.meta.env.VITE_BACKEND_ENDPOINT}${image.link}`
+        )
+      : ['/app/media/images/placeholder.png'];
 
   const itemWidth = 112;
   const visibleItems = 6;
@@ -50,6 +52,29 @@ export default function PropertyImageGallery({
   const canScrollLeft = scrollPosition > 0;
   const canScrollRight = scrollPosition < maxScroll;
   const showMainArrows = displayImages.length > 1;
+
+  // Disable body scroll when fullscreen is open
+  useEffect(() => {
+    if (isFullscreen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.height = '100%';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.height = '';
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.height = '';
+    };
+  }, [isFullscreen]);
 
   const scrollLeft = () => {
     setScrollPosition(Math.max(0, scrollPosition - 1));
@@ -85,11 +110,27 @@ export default function PropertyImageGallery({
   };
 
   const openFullscreen = () => {
-    setIsFullscreen(true);
+    if (!isDragging) {
+      setIsFullscreen(true);
+    }
   };
 
   const closeFullscreen = () => {
     setIsFullscreen(false);
+  };
+
+  const handleDragEnd = (
+    event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) => {
+    event.stopPropagation();
+    const swipe = swipePower(info.offset.x, info.velocity.x);
+
+    if (swipe < -swipeConfidenceThreshold) {
+      nextImage();
+    } else if (swipe > swipeConfidenceThreshold) {
+      prevImage();
+    }
   };
 
   return (
@@ -102,7 +143,7 @@ export default function PropertyImageGallery({
             ' flex-[1_0_400px] h-[100px] relative  overflow-hidden'
           }
         >
-          {showMainArrows && !isFullscreen && (
+          {showMainArrows && !isFullscreen && isDesktop && (
             <>
               <ScrollerArrow right={false} onClick={prevImage} />
               <ScrollerArrow right={true} onClick={nextImage} />
@@ -141,9 +182,17 @@ export default function PropertyImageGallery({
               exit="exit"
               className="absolute w-full h-full bg-center bg-cover bg-no-repeat rounded-[20px] cursor-pointer"
               style={{
-                backgroundImage: `url(${displayImages[selectedImage].link})`,
+                backgroundImage: `url(${displayImages[selectedImage]})`,
               }}
               onClick={openFullscreen}
+              drag={!isDesktop && displayImages.length > 1 ? 'x' : false}
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={1}
+              onDragStart={() => setIsDragging(true)}
+              onDragEnd={(ev, info) => {
+                setIsDragging(false);
+                handleDragEnd(ev, info);
+              }}
               transition={{
                 x: { type: 'spring', stiffness: 300, damping: 30 },
                 opacity: { duration: 0.2 },
@@ -167,10 +216,10 @@ export default function PropertyImageGallery({
                   damping: 30,
                 }}
               >
-                {displayImages.map((image, index) => (
+                {displayImages.map((img, index) => (
                   <motion.img
-                    key={image.id}
-                    src={image.link}
+                    key={index}
+                    src={img}
                     alt=""
                     className={`w-[100px] h-[60px] rounded-[10px] cursor-pointer object-cover flex-shrink-0 transition-all duration-200 ${
                       selectedImage === index
@@ -201,7 +250,7 @@ export default function PropertyImageGallery({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-90 z-[10] flex items-center justify-center"
+            className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center"
             onClick={closeFullscreen}
           >
             {/* Close button */}
@@ -212,7 +261,7 @@ export default function PropertyImageGallery({
               ×
             </button>
 
-            {showMainArrows && (
+            {showMainArrows && isDesktop && (
               <>
                 <ScrollerArrow right={false} onClick={prevImage} />
                 <ScrollerArrow right={true} onClick={nextImage} />
@@ -220,17 +269,6 @@ export default function PropertyImageGallery({
             )}
 
             <div className="relative w-full h-full flex items-center justify-center">
-              {showMainArrows && (
-                <>
-                  <div className="absolute left-4 z-[10000]">
-                    <ScrollerArrow right={false} onClick={prevImage} />
-                  </div>
-                  <div className="absolute right-4 z-[10000]">
-                    <ScrollerArrow right={true} onClick={nextImage} />
-                  </div>
-                </>
-              )}
-
               <div className="relative w-[90vw] h-[90vh] flex items-center justify-center">
                 <AnimatePresence initial={false} custom={direction}>
                   <motion.img
@@ -240,10 +278,14 @@ export default function PropertyImageGallery({
                     initial="enter"
                     animate="center"
                     exit="exit"
-                    src={displayImages[selectedImage].link}
+                    src={displayImages[selectedImage]}
                     alt=""
                     className="absolute max-w-full max-h-full object-contain rounded-[10px]"
                     onClick={e => e.stopPropagation()}
+                    drag={!isDesktop && displayImages.length > 1 ? 'x' : false}
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={1}
+                    onDragEnd={handleDragEnd}
                     transition={{
                       x: { type: 'spring', stiffness: 300, damping: 30 },
                       opacity: { duration: 0.2 },

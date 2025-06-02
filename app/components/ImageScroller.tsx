@@ -37,9 +37,11 @@ export default function ImageScroller(props: { images: TImageLink[] }) {
   const images =
     props.images.length == 0
       ? ['/app/media/images/placeholder.png']
-      : props.images;
+      : props.images.map(
+          image => `${import.meta.env.VITE_BACKEND_ENDPOINT}${image.link}`
+        );
   const showArrows = props.images.length > 1;
-  const currentSlide = images[page].link;
+  const currentSlide = images[page];
 
   function nextImage() {
     if (page === images.length - 1) {
