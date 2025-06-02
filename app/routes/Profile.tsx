@@ -16,9 +16,11 @@ export default function ProfilePage() {
               : 'flex flex-col gap-[20px]'
           }
         >
-          <div className="flex flex-col gap-[20px] w-[100%]">
-            <ProfileSidebar />
-          </div>
+          {isDesktop && (
+            <div className="flex flex-col gap-[20px] w-[100%]">
+              <ProfileSidebar />
+            </div>
+          )}
 
           <div className="flex flex-col min-w-0 gap-[20px] w-[100%]">
             <Outlet />

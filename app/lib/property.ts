@@ -25,6 +25,29 @@ export interface TAddress {
 export interface TProperty {
   type: TOfferType;
   property: TRentProperty | TSellProperty;
+  status?: TPropertyStatus;
+}
+
+export enum TPropertyStatus {
+  Draft,
+  Active,
+  Rented,
+  RentEnding,
+  Sold,
+  Hidden,
+  UnderMaintenance,
+}
+
+export function isRentProperty(
+  property: TProperty
+): property is TProperty & { property: TRentProperty } {
+  return property.type === TOfferType.Rent;
+}
+
+export function isSellProperty(
+  property: TProperty
+): property is TProperty & { property: TSellProperty } {
+  return property.type === TOfferType.Sell;
 }
 
 export function CreateEmptyProperty(type: TOfferType): TProperty {

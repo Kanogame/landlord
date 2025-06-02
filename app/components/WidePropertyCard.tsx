@@ -2,6 +2,7 @@ import FormatPrice, {
   FormatArea,
   InitiateChat,
   TOfferType,
+  TPropertyStatus,
   type TProperty,
   type TRentProperty,
   type TSellProperty,
@@ -24,6 +25,7 @@ import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import { addBookmark, removeBookmark } from '~/lib/bookmarkApi';
 import { toast } from 'sonner';
+import PropertyStatusBadge from './PropertyStatusBadge';
 
 export default function WidePropertyCard(props: { property: TProperty }) {
   const type = props.property.type;
@@ -72,10 +74,13 @@ export default function WidePropertyCard(props: { property: TProperty }) {
           {prop.address.displayAddress}
         </div>
 
-        {type === TOfferType.Rent && (
+        {type === TOfferType.Rent && props.property.status === undefined && (
           <div className="flex">
             <Stars rating={(prop as TRentProperty).rating} />
           </div>
+        )}
+        {props.property.status !== undefined && (
+          <PropertyStatusBadge status={props.property.status} />
         )}
         <div className="min-w-[0] p-light overflow-hidden text-ellipsis text-nowrap">
           {prop.desc}

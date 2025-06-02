@@ -21,6 +21,7 @@ import { propertyCardDropdownOptions } from './common/propertyCard';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import { addBookmark, removeBookmark } from '~/lib/bookmarkApi';
+import PropertyStatusBadge from './PropertyStatusBadge';
 
 interface PropertyCardProps {
   property: TProperty;
@@ -76,17 +77,23 @@ export default function PropertyCard({
         </div>
       </div>
 
+      {property.status !== undefined && (
+        <PropertyStatusBadge status={property.status} />
+      )}
       {property.type === TOfferType.Rent && (
         <>
-          <div className="flex">
-            <Stars rating={(prop as TRentProperty).rating} />
-          </div>
+          {property.status === undefined && (
+            <div className="flex">
+              <Stars rating={(prop as TRentProperty).rating} />
+            </div>
+          )}
           <div className="flex justify-between">
             <div className="n2-def">{FormatPrice(property)}</div>
             <div className="p-def">{FormatArea(prop.area)}</div>
           </div>
         </>
       )}
+
       {property.type === TOfferType.Sell && (
         <>
           <div className="flex justify-between">
