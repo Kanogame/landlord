@@ -14,6 +14,7 @@ import { useAuth } from '~/hooks/useAuth';
 import { ErrorToast, Post } from '~/lib/api';
 import type { Route } from './+types/Register';
 import { toast } from 'sonner';
+import PhoneInput from '~/components/PhoneInput';
 
 interface ActionData {
   error?: string;
@@ -127,9 +128,7 @@ export default function Register() {
           <div className="h5-def">Введите номер телефона</div>
           <div className="flex gap-[10px] items-center w-[100%]">
             <div className="h4-def">+7</div>
-            <Input
-              type="text"
-              name="phone"
+            <PhoneInput
               required
               className="w-[100%]"
               placeholder="(999) 999-99-99"
@@ -228,6 +227,10 @@ export default function Register() {
             disabled={isSubmitting}
           />
         </Form>
+      )}
+
+      {currentStage === 3 && (
+        <div className="h4">Регистрация прошла успешно!</div>
       )}
     </FullscreenBlock>
   );

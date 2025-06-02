@@ -13,6 +13,7 @@ import { useAuth } from '~/hooks/useAuth';
 import { ErrorToast, Post } from '~/lib/api';
 import type { Route } from './+types/Login';
 import { toast } from 'sonner';
+import PhoneInput from '~/components/PhoneInput';
 
 interface ActionData {
   error?: string;
@@ -100,9 +101,7 @@ export default function Login() {
           <div className="h5-def">Введите номер телефона</div>
           <div className="flex gap-[10px] items-center w-[100%]">
             <div className="h4-def">+7</div>
-            <Input
-              type="text"
-              name="phone"
+            <PhoneInput
               required
               className="w-[100%]"
               placeholder="(999) 999-99-99"
