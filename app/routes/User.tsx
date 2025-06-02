@@ -88,7 +88,7 @@ export default function User({ loaderData }: Route.ComponentProps) {
   return (
     <DesktopWidth isDesktop={isDesktop}>
       <div>
-        <UserCard user={userInfo} />
+        <UserCard user={userInfo} userId={userId} />
       </div>
 
       <SearchSortHeader

@@ -54,23 +54,26 @@ export default function ChatHeader({
 
   return (
     <div className="flex items-center justify-between border-b pb-[10px] border-[#E3E3E3]">
-      <div className="flex gap-2">
+      <div className="flex min-w-0 gap-2">
         <img src={iconArrowLeft} onClick={onBack} />
         <Profile
           isBig={false}
           name={chat.otherUserName}
           avatar={`https://placehold.co/36x36`} // Using placeholder for now
           subtitle={chat.propertyAddress}
+          onClick={() => navigate(`/user/${chat.otherUserId}`)}
         />
       </div>
 
       <div className="flex items-center gap-2">
-        <ButtonEmpty
-          label="Открыть страницу объявления"
-          width="240px"
-          height="28px"
-          onClick={() => navigate(`/property/${chat.propertyId}`)}
-        />
+        {isDesktop && (
+          <ButtonEmpty
+            label="Открыть страницу объявления"
+            width="240px"
+            height="28px"
+            onClick={() => navigate(`/property/${chat.propertyId}`)}
+          />
+        )}
         <ButtonIconDropdown icon={iconMore}>
           {dropdownOptions.map((el, index) => (
             <DropdownElement

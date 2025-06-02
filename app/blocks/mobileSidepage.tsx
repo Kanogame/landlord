@@ -6,7 +6,7 @@ import iconLink from '~/media/icons/icon-link.svg';
 import iconChat from '~/media/icons/icon-chat.svg';
 import iconHistory from '~/media/icons/icon-history.svg';
 import iconBookmark from '~/media/icons/icon-bookmark.svg';
-import iconCalendar from '~/media/icons/icon-calendar.svg';
+import iconPlus from '~/media/icons/icon-plus.svg';
 import iconGear from '~/media/icons/icon-gear.svg';
 import iconTeam from '~/media/icons/icon-team.svg';
 import iconHelp from '~/media/icons/icon-help.svg';
@@ -65,6 +65,11 @@ export default function SidePage({ onClose }: sidePageProps) {
         label="Сообщения"
         img={iconChat}
         onClick={() => nav('/chat')}
+      />
+      <SidePageLink
+        label="Создать объявление"
+        img={iconPlus}
+        onClick={() => nav('/editor')}
       />
       <SidePageLink
         label="Мои объявления"

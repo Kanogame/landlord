@@ -6,12 +6,15 @@ import iconSearch from '../media/icons/icon-search.svg';
 import iconExit from '../media/icons/icon-exit.svg';
 import SimpleIconButton from '~/components/SimpleIconButton';
 import { useNavigate } from 'react-router';
+import { useAuth } from '~/hooks/useAuth';
+import Avatar from '~/components/chat/Avatar';
 
 export default function MobileHeader(props: {
   onSidepageClicked: () => void;
   sidepageOpened: boolean;
 }) {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   return (
     <div className="bg-white flex justify-between items-center border-b-[1px] border-b-[#EFEFEF] p-[5px]">
@@ -33,7 +36,14 @@ export default function MobileHeader(props: {
           img={iconBookmark}
           onClick={() => navigate('/profile/bookmarks')}
         />
-        <SimpleIconButton img={iconLogin} onClick={() => navigate('/login')} />
+        {isAuthenticated ? (
+          <Avatar size={25} avatar={'https://placehold.co/25x25'} />
+        ) : (
+          <SimpleIconButton
+            img={iconLogin}
+            onClick={() => navigate('/login')}
+          />
+        )}
       </div>
     </div>
   );

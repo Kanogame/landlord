@@ -80,7 +80,7 @@ export default function ChatDetail({ params }: Route.ComponentProps) {
             <ChatSidebar chats={chats} onChatUpdate={loadChats} />
           </div>
         )}
-        <div className={isDesktop ? 'flex-[9_1]' : 'flex-1  h-[100%]'}>
+        <div className={isDesktop ? 'flex-[9_1]' : 'w-[100%]'}>
           <ChatWindow
             messages={selectedChatMessages}
             chat={selectedChat}

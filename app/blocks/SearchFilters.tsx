@@ -36,15 +36,33 @@ export default function SearchFilters({
   onFilterChange,
   onResetFilters,
 }: SearchFiltersProps) {
-  const [city, setCity] = useState<
-    DaDataSuggestion<DaDataAddress> | undefined
-  >();
+  const [city, setCity] = useState<DaDataSuggestion<DaDataAddress> | undefined>(
+    {
+      value: filters.city ?? '',
+      unrestricted_value: filters.city ?? '',
+      data: {
+        city: filters.city ?? '',
+      },
+    }
+  );
   const [region, setRegion] = useState<
     DaDataSuggestion<DaDataAddress> | undefined
-  >();
+  >({
+    value: filters.region ?? '',
+    unrestricted_value: filters.region ?? '',
+    data: {
+      region: filters.region ?? '',
+    },
+  });
   const [street, setStreet] = useState<
     DaDataSuggestion<DaDataAddress> | undefined
-  >();
+  >({
+    value: filters.street ?? '',
+    unrestricted_value: filters.street ?? '',
+    data: {
+      street: filters.street ?? '',
+    },
+  });
 
   return (
     <div className="flex flex-col gap-4 w-[100%]">

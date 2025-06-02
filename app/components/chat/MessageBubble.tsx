@@ -10,7 +10,7 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
 
   return (
     <div className={`flex ${isOwn ? 'justify-end' : 'justify-start'} gap-3`}>
-      {!isOwn && <Avatar avatar={message.senderAvatar} />}
+      {!isOwn && <Avatar avatar={message.senderAvatar} size={40} />}
 
       <div
         className={`max-w-md ${
@@ -35,7 +35,7 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
         </div>
       </div>
 
-      {isOwn && <Avatar avatar={message.senderAvatar} />}
+      {isOwn && <Avatar avatar={message.senderAvatar} size={40} />}
     </div>
   );
 }

@@ -3,6 +3,7 @@ import ButtonIcon from '../ButtonIcon';
 import ButtonAccent from '../ButtonAccent';
 import { Input } from '../ui/input';
 import IconAttach from '~/media/icons/icon-attach.svg';
+import { useDesktop } from '~/hooks/useDesktop';
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
@@ -14,6 +15,7 @@ export default function ChatInput({
   disabled = false,
 }: ChatInputProps) {
   const [message, setMessage] = useState('');
+  const isDesktop = useDesktop();
 
   const handleSend = () => {
     if (message.trim() && !disabled) {
@@ -49,13 +51,15 @@ export default function ChatInput({
         />
       </div>
 
-      <ButtonAccent
-        label={disabled ? 'Отправка...' : 'Отправить'}
-        width="112px"
-        height="28px"
-        onClick={handleSend}
-        disabled={disabled || !message.trim()}
-      />
+      {isDesktop && (
+        <ButtonAccent
+          label={disabled ? 'Отправка...' : 'Отправить'}
+          width="112px"
+          height="28px"
+          onClick={handleSend}
+          disabled={disabled || !message.trim()}
+        />
+      )}
     </div>
   );
 }

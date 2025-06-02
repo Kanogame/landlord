@@ -71,7 +71,6 @@ export default function SearchList({
       }
     }
 
-    // Page numbers
     for (let i = startPage; i <= endPage; i++) {
       buttons.push(
         i === currentPage ? (
@@ -94,7 +93,6 @@ export default function SearchList({
       );
     }
 
-    // Last page if not visible
     if (endPage < totalPages) {
       if (endPage < totalPages - 1) {
         buttons.push(
@@ -114,7 +112,6 @@ export default function SearchList({
       );
     }
 
-    // Next button
     if (currentPage < totalPages) {
       <ButtonEmpty
         key={totalPages}

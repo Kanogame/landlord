@@ -1,15 +1,11 @@
 interface AvatarProps {
   avatar: string;
-  size?: 'small' | 'large';
+  size: number;
   className?: string;
 }
 
-export default function Avatar({
-  avatar,
-  size = 'small',
-  className = '',
-}: AvatarProps) {
-  const sizeClasses = size === 'large' ? 'w-[120px] h-[120px]' : 'w-10 h-10';
+export default function Avatar({ avatar, size, className = '' }: AvatarProps) {
+  const sizeClasses = `w-[${size}] h-[${size}]`;
 
   return (
     <div

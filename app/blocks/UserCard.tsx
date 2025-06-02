@@ -37,7 +37,7 @@ export default function UserCard({ user, userId }: UserCardProps) {
       >
         <Avatar
           avatar={user.avatar || 'https://placehold.co/120x120'}
-          size="large"
+          size={120}
         />
 
         <div className="flex-1 flex flex-col">

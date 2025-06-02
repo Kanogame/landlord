@@ -159,7 +159,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
                     width="100%"
                   />
                   <ButtonAccent
-                    label="Мониторинт"
+                    label="Мониторинг"
                     onClick={() => {}}
                     width="100%"
                   />
@@ -183,7 +183,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
                       />
                     )}
                     {!isAttributeModalOpen && (
-                      <>
+                      <div className="flex flex-col gap-[10px]">
                         <div className="h3-def">Фильтры</div>
                         <SearchFilters
                           isDesktop={isDesktop}
@@ -203,7 +203,13 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
                           width="100%"
                           height="40px"
                         />
-                      </>
+                        <ButtonAccent
+                          label="Применить"
+                          onClick={() => setDrawer(false)}
+                          width="100%"
+                          height="40px"
+                        />
+                      </div>
                     )}
                   </div>
                 </DrawerContent>
