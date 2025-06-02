@@ -8,6 +8,8 @@ import { useDesktop } from '~/hooks/useDesktop';
 import type { Route } from './+types/Bookmarks';
 import { useAuth } from '~/hooks/useAuth';
 import { toast } from 'sonner';
+import SearchSortHeader from '~/blocks/SearchSortHeader';
+import { TSortOption } from '~/hooks/useSearchFilters';
 
 interface GetBookmarksRequest {
   userId: number;
@@ -27,12 +29,14 @@ export async function clientLoader({
 
   const pageNumber = parseInt(searchParams.get('page') || '1');
   const pageSize = parseInt(searchParams.get('size') || '10');
+  const sortBy = parseInt(searchParams.get('sortBy') || '0');
 
   const bookmarksResult = await Post<TSearchResult>(
     'api/Bookmark/get_bookmarks',
     {
       pageNumber,
       pageSize,
+      sortBy,
     }
   );
 
@@ -53,12 +57,18 @@ export default function BookmarksPage({ loaderData }: Route.ComponentProps) {
 
   const currentPage = parseInt(searchParams.get('page') || '1');
   const pageSize = parseInt(searchParams.get('size') || '10');
+  const sortBy: TSortOption = parseInt(searchParams.get('sortBy') || '0');
   const totalPages = Math.ceil(bookmarksResult.count / pageSize);
 
-  const handlePageChange = (page: number, size: number) => {
+  const handlePageChange = (
+    page: number,
+    size: number,
+    sortBy: TSortOption
+  ) => {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('page', page.toString());
     newSearchParams.set('size', size.toString());
+    newSearchParams.set('sortBy', '' + sortBy);
     setSearchParams(newSearchParams);
 
     // Scroll to top when page changes
@@ -75,6 +85,13 @@ export default function BookmarksPage({ loaderData }: Route.ComponentProps) {
             : 'У вас пока нет сохраненных объявлений'}
         </div>
       </div>
+      <SearchSortHeader
+        sorting={sortBy ?? TSortOption.CreatedDesc}
+        onSortingChange={newSort =>
+          handlePageChange(currentPage, pageSize, newSort)
+        }
+        showMap={false}
+      />
 
       {bookmarksResult.count > 0 ? (
         <SearchList
@@ -83,13 +100,11 @@ export default function BookmarksPage({ loaderData }: Route.ComponentProps) {
           totalPages={totalPages}
           totalCount={bookmarksResult.count}
           pageSize={pageSize}
-          onPageChange={handlePageChange}
+          onPageChange={(page, size) => handlePageChange(page, size, sortBy)}
         />
       ) : (
         <div className="text-center py-[40px]">
-          <p className="text-gray-500">
-            Здесь будут отображаться сохраненные объявления
-          </p>
+          <p className="h5-light">Здесь будут отображаться объявления</p>
         </div>
       )}
     </div>
