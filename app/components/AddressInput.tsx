@@ -15,6 +15,7 @@ interface AddressInputProps {
   filterToBound?: DaDataAddressBounds;
   filterLocations?: Dictionary[];
   hint?: string;
+  isSimple?: boolean;
 }
 
 type Dictionary = Record<string, unknown>;
@@ -27,6 +28,7 @@ export default function AddressInput({
   filterToBound,
   filterLocations,
   hint,
+  isSimple = false,
 }: AddressInputProps) {
   const token = useDadataToken();
   return (
@@ -34,6 +36,13 @@ export default function AddressInput({
       <AddressSuggestions
         inputProps={{
           placeholder: hint ?? '',
+          style: isSimple
+            ? {
+                border: 'none',
+                padding: 0,
+                outline: 'none',
+              }
+            : undefined,
         }}
         delay={500}
         filterFromBound={filterFromBound}

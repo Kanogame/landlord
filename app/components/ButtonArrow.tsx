@@ -14,17 +14,19 @@ const buttonVariants = {
 };
 
 const ButtonAccent = forwardRef<HTMLButtonElement, ButtonTextProps>(
-  ({ label, width, height, radius, ...props }, ref: Ref<HTMLButtonElement>) => {
+  (
+    { label, width, height, radius, className, ...props },
+    ref: Ref<HTMLButtonElement>
+  ) => {
     return (
       <motion.button
         ref={ref}
         initial="rest"
         whileHover="hover"
         variants={buttonVariants}
-        className={
-          'cursor-pointer p text-center flex items-center justify-between text-[white] bg-[#8b2635] px-4 py-2' +
-          (props.disabled ? 'bg-[#76222E]' : '')
-        }
+        className={`cursor-pointer p text-center flex items-center justify-between text-[white] bg-[#8b2635] px-4 py-2 ${
+          props.disabled ? 'bg-[#76222E]' : ''
+        } ${className}`}
         style={ProcessButtonProps(width, height, radius)}
         {...(props as HTMLMotionProps<'button'>)}
       >

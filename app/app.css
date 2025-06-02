@@ -216,6 +216,13 @@ body {
 .react-dadata__container {
   position: relative;
 }
+.h5-def {
+  color: var(--custom-text-black);
+  font-size: 14px;
+  font-family: Fira Sans;
+  font-weight: 400;
+}
+
 .react-dadata__input {
   box-sizing: border-box;
   border: 1px solid var(--input);
@@ -228,6 +235,10 @@ body {
     var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   font-size: 16px;
   display: block;
+  color: var(--custom-text-black);
+  font-size: 14px;
+  font-family: Fira Sans;
+  font-weight: 400;
 }
 .react-dadata__input:focus {
   box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow),
@@ -253,11 +264,19 @@ body {
   left: 0;
   right: 0;
   overflow: hidden;
+  color: var(--custom-text-black);
+  font-size: 14px;
+  font-family: Fira Sans;
+  font-weight: 400;
 }
 .react-dadata__suggestion-note {
   color: #828282;
   padding: 10px 10px 5px;
   font-size: 14px;
+  color: var(--custom-text-black);
+  font-size: 14px;
+  font-family: Fira Sans;
+  font-weight: 400;
 }
 .react-dadata__suggestion {
   cursor: pointer;

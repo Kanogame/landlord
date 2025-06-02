@@ -20,17 +20,21 @@ const variants = {
 
 export default function AutoButtonDropdown(props: {
   children: ReactNode;
+  className?: string;
   button: ReactNode;
+  buttonClassName?: string;
 }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="min-w-0">{props.button}</button>
+        <button className={`min-w-0 ${props.buttonClassName}`}>
+          {props.button}
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="z-50">
         <AnimatePresence>
           <motion.div
-            className="w-35 bg-white gap-[10px] block-shadow p-[5px] rounded-[6px]"
+            className={`w-35 bg-white gap-[10px] block-shadow p-[5px] rounded-[6px] ${props.className}`}
             variants={variants}
             exit="enter"
             initial="enter"

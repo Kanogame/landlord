@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 import MainHeader from '~/blocks/MainHeader';
 import SearchHeader from '~/blocks/SearchHeader';
 import type { Route } from '../+types/root';
@@ -11,6 +11,7 @@ import Footer from '~/blocks/Footer';
 import { useDesktop } from '~/hooks/useDesktop';
 import { Toaster } from '~/components/ui/sonner';
 import LoginModalProvider from '~/components/LoginModalProvider';
+import { TSortOption, useSearchFilters } from '~/hooks/useSearchFilters';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -21,7 +22,9 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Page() {
   const isDesktop = useDesktop();
+  const location = useLocation();
   const [sidePage, setSidepage] = useState<boolean>(false);
+  const showSearchHeader = isDesktop && location.pathname !== '/search';
 
   function openSidepage() {
     setSidepage(!sidePage);
@@ -37,7 +40,7 @@ export default function Page() {
           sidepageOpened={sidePage}
         />
       )}
-      {isDesktop && <SearchHeader />}
+      {showSearchHeader && <SearchHeader />}
       <AnimatePresence>
         {sidePage && (
           <div className="flex-1 flex">
