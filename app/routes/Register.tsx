@@ -7,13 +7,11 @@ import { Input } from '~/components/ui/input';
 import {
   InputOTP,
   InputOTPGroup,
-  InputOTPSeparator,
   InputOTPSlot,
 } from '~/components/ui/input-otp';
 import { useAuth } from '~/hooks/useAuth';
 import { ErrorToast, Post } from '~/lib/api';
 import type { Route } from './+types/Register';
-import { toast } from 'sonner';
 import PhoneInput from '~/components/PhoneInput';
 
 interface ActionData {
