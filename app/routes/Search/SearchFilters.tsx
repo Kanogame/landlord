@@ -58,7 +58,7 @@ export default function SearchFilters({
   });
 
   return (
-    <div className="flex flex-col gap-4 w-[100%]">
+    <div className="flex flex-col gap-[12px] w-[100%]">
       <TypeSwitcher
         value={filters.offerType}
         onChange={value => onFilterChange({ offerType: value })}

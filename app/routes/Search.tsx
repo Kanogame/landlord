@@ -68,11 +68,6 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
     setShowMap(newShowMap);
   };
 
-  const handleMonitorRequest = () => {
-    // TODO: Implement monitoring functionality
-    console.log('Monitor request clicked');
-  };
-
   const handlePageChange = (page: number, size: number) => {
     setPage(page, size);
     updateFiltersAndUrl({ pageNumber: page, pageSize: size }, setSearchParams);
@@ -86,7 +81,6 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
   };
 
   const { searchResult, attributes } = loaderData;
-  console.log('FILTERS', filters);
 
   // Count active attribute filters
   const activeAttributeCount = Array.from(searchParams.keys()).filter(key =>
@@ -132,13 +126,15 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
                 open={isAttributeModalOpen}
                 onOpenChange={setIsAttributeModalOpen}
               >
-                <AttributeSearch
-                  attributes={attributes}
-                  searchParams={searchParams}
-                  isDesktop={isDesktop}
-                  onApply={handleAttributeParamsChange}
-                  onClose={() => setIsAttributeModalOpen(false)}
-                />
+                <div className="max-h-[600px] overflow-auto">
+                  <AttributeSearch
+                    attributes={attributes}
+                    searchParams={searchParams}
+                    isDesktop={isDesktop}
+                    onApply={handleAttributeParamsChange}
+                    onClose={() => setIsAttributeModalOpen(false)}
+                  />
+                </div>
               </Modal>
             </Block>
           </div>
@@ -156,11 +152,6 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
                   <ButtonEmpty
                     label="Фильтры"
                     onClick={() => setDrawer(true)}
-                    width="100%"
-                  />
-                  <ButtonAccent
-                    label="Мониторинг"
-                    onClick={() => {}}
                     width="100%"
                   />
                 </div>
@@ -221,8 +212,6 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
             onSortingChange={handleSortingChange}
             showMap={showMap}
             onMapToggle={handleMapToggle}
-            onButtonClick={handleMonitorRequest}
-            buttonText="Мониторить этот запрос"
           />
           <SearchList
             propertyList={searchResult.properties}

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useDesktop } from '~/hooks/useDesktop';
 import DesktopWidth from '~/components/DesktopWidth';
-import PropertyImageUpload from '~/routes/Property/PropertyImageUpload';
-import PropertyForm from '~/routes/Property/PropertyForm';
+import PropertyImageUpload from '~/routes/Editor/PropertyImageUpload';
+import PropertyForm from '~/routes/Editor/PropertyForm';
 import PropertyTextBox from '~/routes/Property/PropertyTextBox';
 import PropertyAttributesModal from '~/routes/Editor/PropertyAttributesModal';
 import PropertyCalendarEdit from '~/routes/Editor/PropertyCalendarEdit';

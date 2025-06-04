@@ -33,7 +33,6 @@ interface ActionData {
 export async function clientLoader({
   params,
 }: Route.ClientLoaderArgs): Promise<LoaderData> {
-  console.log('hi');
   const propertyResp = await Post<TProperty>(
     'api/Property/get_property_by_id',
     {

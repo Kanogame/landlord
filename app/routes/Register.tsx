@@ -46,7 +46,6 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     case 'verify-code': {
       const verificationId = +(formData.get('verificationId') as string);
       const code = +(formData.get('code') as string);
-      console.log(verificationId, code);
 
       const { success } = await Post<{ success: boolean }>(
         'api/User/register/verify-code',

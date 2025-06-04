@@ -29,8 +29,6 @@ export async function clientLoader(): Promise<{
     offerType: TOfferType.Rent,
   });
 
-  console.log(rent);
-
   if (!rent || rent.success == false) {
     ErrorToast('Ошибка при загрузке объявлений');
   }
