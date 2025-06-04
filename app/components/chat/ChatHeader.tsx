@@ -13,42 +13,23 @@ import iconArrowLeft from '~/media/icons/icon-arrow-left.svg';
 
 interface ChatHeaderProps {
   chat: Chat;
-  onChatUpdate?: () => void;
   onBack: () => void;
+  onArchive: () => void;
 }
 
 export default function ChatHeader({
   chat,
-  onChatUpdate,
   onBack,
+  onArchive,
 }: ChatHeaderProps) {
   const navigate = useNavigate();
   const isDesktop = useDesktop();
 
-  const handleArchive = async () => {
-    try {
-      //await archiveChat({ chatId: chat.id, isArchived: !chat.isArchived });
-      onChatUpdate?.();
-    } catch (error) {
-      console.error('Error archiving chat:', error);
-    }
-  };
-
-  const handleReport = () => {
-    // TODO: Implement report functionality
-    console.log('Report chat:', chat.id);
-  };
-
   const dropdownOptions = [
-    {
-      label: 'Пожаловаться',
-      icon: iconWarn,
-      onClick: handleReport,
-    },
     {
       label: chat.isArchived ? 'Разархивировать' : 'Архивировать',
       icon: iconBan,
-      onClick: handleArchive,
+      onClick: onArchive,
     },
   ];
 

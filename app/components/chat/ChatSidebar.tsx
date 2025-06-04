@@ -5,7 +5,7 @@ import { useDesktop } from '~/hooks/useDesktop';
 import { Input } from '../ui/input';
 import type { Chat } from '~/lib/chat';
 import { sortChatsByLastUpdate, getTotalUnreadCount } from '~/lib/chatUtils';
-import { Link, useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 
 interface ChatSidebarProps {
   chats: Chat[];
@@ -16,6 +16,7 @@ interface ChatSidebarProps {
 export default function ChatSidebar({ chats, onArchive }: ChatSidebarProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [showArchivedChats, setShowArchivedChats] = useState(false);
+  const navigate = useNavigate();
   const isDesktop = useDesktop();
   const params = useParams();
   const selectedChatId = params.id ? parseInt(params.id) : null;
@@ -68,15 +69,13 @@ export default function ChatSidebar({ chats, onArchive }: ChatSidebarProps) {
             </div>
           ) : (
             sortedChats.map(chat => (
-              <Link key={chat.id} to={`/chat/${chat.id}`}>
-                <ChatEntry
-                  key={chat.id}
-                  chat={chat}
-                  isSelected={selectedChatId === chat.id}
-                  onClick={() => {}}
-                  onArchive={() => onArchive(chat.id, chat.isArchived!)}
-                />
-              </Link>
+              <ChatEntry
+                key={chat.id}
+                chat={chat}
+                isSelected={selectedChatId === chat.id}
+                onClick={() => navigate(`/chat/${chat.id}`)}
+                onArchive={() => onArchive(chat.id, !chat.isArchived)}
+              />
             ))
           )}
         </div>

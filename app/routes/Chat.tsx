@@ -6,9 +6,10 @@ import { useDesktop } from '~/hooks/useDesktop';
 import { useAuth } from '~/hooks/useAuth';
 import { useChat } from '~/hooks/useChat';
 import ButtonAccent from '~/components/ButtonAccent';
-import type { Route } from './+types/Chat';
 import { useNavigate } from 'react-router';
 import { archiveChat } from '~/lib/chatApi';
+import type { Route } from './+types/Chat';
+import { toast } from 'sonner';
 
 export default function Chat({ params }: Route.ComponentProps) {
   const navigate = useNavigate();
@@ -60,7 +61,8 @@ export default function Chat({ params }: Route.ComponentProps) {
       });
 
       if (result.success) {
-        loadChats(); // Refresh chat list
+        toast(isArchived ? 'Чат архивирован' : 'Чат разархивирован');
+        loadChats();
       }
     } catch (error) {
       console.error('Failed to archive chat:', error);
@@ -94,7 +96,7 @@ export default function Chat({ params }: Route.ComponentProps) {
   if (chatId) {
     return (
       <DesktopWidth isDesktop={isDesktop}>
-        <div className="flex flex-1 gap-[20px] min-h-0">
+        <div className="flex flex-1 gap-[20px] items-start min-h-0">
           {isDesktop && (
             <div className="flex-[3_1]">
               <ChatSidebar
@@ -110,6 +112,7 @@ export default function Chat({ params }: Route.ComponentProps) {
               chat={selectedChat}
               onChatUpdate={loadChats}
               onBack={handleBackToSidebar}
+              onArchive={handleArchive}
               onMessageSend={message => {
                 loadMessages(selectedChatId ?? -1, 1);
                 sendChatMessage(selectedChatId ?? -1, message);

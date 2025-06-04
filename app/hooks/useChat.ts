@@ -24,7 +24,7 @@ export function useChat() {
 
     try {
       setLoading(true);
-      const response = await getChatList(false);
+      const response = await getChatList(true);
       if (response.success) {
         setChats(response.chats);
       }

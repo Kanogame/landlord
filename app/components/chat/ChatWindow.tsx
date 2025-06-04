@@ -22,6 +22,7 @@ interface ChatWindowProps {
   onChatUpdate: () => void;
   onBack: () => void;
   onMessageSend: (message: string) => void;
+  onArchive: (chatId: number, isArchived: boolean) => void;
 }
 
 export default function ChatWindow({
@@ -30,8 +31,8 @@ export default function ChatWindow({
   onChatUpdate,
   onBack,
   onMessageSend,
+  onArchive,
 }: ChatWindowProps) {
-  const [sending, setSending] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const isDesktop = useDesktop();
@@ -44,7 +45,9 @@ export default function ChatWindow({
             <div className="flex-shrink-0">
               <ChatHeader
                 chat={chat}
-                onChatUpdate={onChatUpdate}
+                onArchive={() => {
+                  onArchive(chat.id, !chat.isArchived);
+                }}
                 onBack={onBack}
               />
             </div>
@@ -86,9 +89,11 @@ export default function ChatWindow({
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="flex-shrink-0">
-              <ChatInput onSendMessage={onMessageSend} disabled={sending} />
-            </div>
+            {!chat.isArchived && (
+              <div className="flex-shrink-0">
+                <ChatInput onSendMessage={onMessageSend} />
+              </div>
+            )}
           </>
         )}
       </div>

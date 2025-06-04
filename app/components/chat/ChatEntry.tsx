@@ -11,7 +11,7 @@ interface ChatEntryProps {
   chat: Chat;
   isSelected: boolean;
   onClick: () => void;
-  onArchive: (chatId: number, isArchived: boolean) => void;
+  onArchive: () => void;
 }
 
 export default function ChatEntry({
@@ -20,25 +20,11 @@ export default function ChatEntry({
   onClick,
   onArchive,
 }: ChatEntryProps) {
-  const handleReport = () => {
-    // TODO: Implement report functionality
-    console.log('Report chat:', chat.id);
-  };
-
-  const handleArchive = () => {
-    onArchive(chat.id, !chat.isArchived);
-  };
-
   const dropdownOptions = [
-    {
-      label: 'Пожаловаться',
-      icon: iconWarn,
-      onClick: handleReport,
-    },
     {
       label: chat.isArchived ? 'Разархивировать' : 'Архивировать',
       icon: iconBan,
-      onClick: handleArchive,
+      onClick: onArchive,
     },
   ];
 

@@ -129,7 +129,7 @@ export default function SearchSortHeader({
           )}
           {onButtonClick && (
             <ButtonEmpty
-              label={buttonText}
+              label={buttonText ?? ''}
               width="200px"
               onClick={onButtonClick}
             />
