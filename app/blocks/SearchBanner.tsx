@@ -2,9 +2,11 @@ import { useMediaQuery } from 'react-responsive';
 import ButtonArrow from '~/components/ButtonArrow';
 import banner from '~/media/images/banner2.png';
 import { useDesktop } from '~/hooks/useDesktop';
+import { useNavigate } from 'react-router';
 
 export default function SearchBanner() {
   const isDesktop = useDesktop();
+  const navigate = useNavigate();
 
   return (
     <div
@@ -38,6 +40,7 @@ export default function SearchBanner() {
           width={isDesktop ? '180px' : '100%'}
           height={isDesktop ? '60px' : '40px'}
           radius={isDesktop ? 12 : undefined}
+          onClick={() => navigate('/search')}
         />
       </div>
     </div>

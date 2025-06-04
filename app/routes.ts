@@ -22,5 +22,7 @@ export default [
     route('register', './routes/Register.tsx'),
     route('login', './routes/Login.tsx'),
     route('invite/:propertyId', './routes/Invite.tsx'),
+    // text page
+    route('*', './routes/TextPage.tsx'),
   ]),
 ] satisfies RouteConfig;

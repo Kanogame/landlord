@@ -1,12 +1,13 @@
 import type { ReactNode } from 'react';
 import ArrowLink from './Link';
 import type { TLink } from '../lib/link';
+import { useDesktop } from '~/hooks/useDesktop';
 
 interface BlockProps {
   children: ReactNode;
   link?: TLink;
   label?: string;
-  isDesktop: boolean;
+  isDesktop?: boolean;
 }
 
 export default function Block({
@@ -15,6 +16,9 @@ export default function Block({
   label,
   isDesktop,
 }: BlockProps) {
+  if (!isDesktop) {
+    isDesktop = useDesktop();
+  }
   return (
     <div
       className={
