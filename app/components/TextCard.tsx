@@ -1,6 +1,6 @@
-import { motion } from "motion/react";
-import { useNavigate } from "react-router";
-import iconLink from "~/media/icons/icon-link.svg";
+import { motion } from 'motion/react';
+import { useNavigate } from 'react-router';
+import iconLink from '~/media/icons/icon-link.svg';
 
 export default function TextCard(props: {
   header: string;
@@ -11,13 +11,13 @@ export default function TextCard(props: {
 
   return (
     <motion.div
-      whileHover={{ y: -5, background: "#E9E9E9" }}
+      whileHover={{ y: -5, background: '#E9E9E9' }}
       onClick={() => {
         if (props.link) {
           navigate(props.link);
         }
       }}
-      className="p-[15px] relative bg-[#EFEFEF] rounded-[6px] flex flex-col gap-[5px] h-[100%]"
+      className="cursor-pointer p-[15px] relative bg-[#EFEFEF] rounded-[6px] flex flex-col gap-[5px] h-[100%]"
     >
       <img
         src={iconLink}

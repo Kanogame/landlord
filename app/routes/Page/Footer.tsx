@@ -4,15 +4,15 @@ import logo from '~/media/icons/logo.svg';
 const footerItems = [
   [
     { label: 'О нас', link: '/about' },
-    { label: 'Услуги', link: '/services' },
+    { label: 'Услуги', link: '/service' },
     { label: 'Контакты', link: '/contacts' },
     { label: 'Политика конфиденциальности', link: '/privacy-policy' },
   ],
   [
     { label: 'Часто задаваемые вопросы', link: '/faq' },
-    { label: 'Блог', link: '/blog' },
-    { label: 'Карьера', link: '/careers' },
-    { label: 'Условия обслуживания', link: '/terms-of-service' },
+    { label: 'Советы', link: '/tips/remont' },
+    { label: 'Бонусы', link: '/offers' },
+    { label: 'Инвестиции', link: '/offers' },
   ],
 ];
 

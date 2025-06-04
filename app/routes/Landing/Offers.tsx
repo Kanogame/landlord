@@ -8,27 +8,27 @@ const offers = [
   {
     header: 'Ипотека',
     desc: 'Выгодные кредитные условия для покупки вашей мечты.',
-    link: '/offers/ipoteka',
+    link: '/offers',
   },
   {
     header: 'Кредит',
     desc: 'Гибкие программы для приобретения недвижимости.',
-    link: '/offers/kredit',
+    link: '/offers',
   },
   {
     header: 'Рассрочка',
     desc: 'Удобная рассрочка платежей без лишних переплат и сложностей.',
-    link: '/offers/rassrochka',
+    link: '/offers',
   },
   {
     header: 'Инвестиции',
     desc: 'Инвестиционные варианты для финансовой стабильности.',
-    link: '/offers/investitsii',
+    link: '/offers',
   },
   {
     header: 'Бонусы',
     desc: 'Подбор специальных предложений и скидок.',
-    link: '/offers/bonusy',
+    link: '/offers',
   },
 ];
 

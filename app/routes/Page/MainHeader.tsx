@@ -36,18 +36,11 @@ export default function MainHeader(props: any) {
           >
             Аренда
           </span>
-          <span className="p-def">|</span>
           <span
             onClick={() => navigate('/chat')}
             className="cursor-pointer p-def"
           >
             Чаты
-          </span>
-          <span
-            onClick={() => navigate('/profile/monitoring')}
-            className="cursor-pointer p-def"
-          >
-            Мониторинг
           </span>
         </div>
         {isAuthenticated ? (
