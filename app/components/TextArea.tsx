@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { ErrorToast } from '~/lib/api';
 
 export interface TextAreaProps {

@@ -2,13 +2,12 @@ import FormatPrice, {
   FormatArea,
   InitiateChat,
   TOfferType,
-  TPropertyStatus,
   type TProperty,
   type TRentProperty,
   type TSellProperty,
 } from '../lib/property';
 import ImageScroller from './ImageScroller';
-import { Stars } from './stars';
+import { Stars } from './Stars';
 import ButtonIcon from './ButtonIcon';
 import iconBookmark from '~/media/icons/icon-bookmark.svg';
 import iconBookmarkChecked from '~/media/icons/icon-bookmark-checked.svg';
@@ -29,8 +28,9 @@ import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import { addBookmark, removeBookmark } from '~/lib/bookmarkApi';
 import { toast } from 'sonner';
-import PropertyStatusBadge from './PropertyStatusBadge';
+import PropertyStatusBadge from '../routes/Own/PropertyStatusBadge';
 import ButtonEmpty from './ButtonEmpty';
+import { ErrorToast } from '~/lib/api';
 
 export default function WidePropertyCard(props: { property: TProperty }) {
   const type = props.property.type;
@@ -57,7 +57,7 @@ export default function WidePropertyCard(props: { property: TProperty }) {
     if (response.success) {
       setIsBookmarked(!isBookmarked);
     } else {
-      console.error('Bookmark operation failed:', response.message);
+      ErrorToast('Не удалось добавить в закладки');
     }
   }
 

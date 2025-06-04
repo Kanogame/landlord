@@ -1,14 +1,10 @@
-import { useState } from 'react';
 import { useSearchParams } from 'react-router';
-import DesktopWidth from '~/blocks/DesktopWidth';
-import SearchList from '~/blocks/SearchList';
+import SearchList from '~/routes/Search/SearchList';
 import { ErrorToast, Post } from '~/lib/api';
 import { type TSearchResult } from '~/lib/property';
 import { useDesktop } from '~/hooks/useDesktop';
 import type { Route } from './+types/Bookmarks';
-import { useAuth } from '~/hooks/useAuth';
-import { toast } from 'sonner';
-import SearchSortHeader from '~/blocks/SearchSortHeader';
+import SearchSortHeader from '~/components/SearchSortHeader';
 import { TSortOption } from '~/hooks/useSearchFilters';
 
 interface GetBookmarksRequest {

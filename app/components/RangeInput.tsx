@@ -1,8 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import RangeSlider from '~/components/RangeSlider';
+import { motion } from 'motion/react';
 import NumberInput from '~/components/NumberInput';
-import { set } from 'date-fns';
 
 interface PriceRangeInputProps {
   label: string;

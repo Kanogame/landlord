@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router';
-import DesktopWidth from '~/blocks/DesktopWidth';
-import SearchList from '~/blocks/SearchList';
+import DesktopWidth from '~/components/DesktopWidth';
+import SearchList from '~/routes/Search/SearchList';
 import { getSearchFromUrl, searchProperties } from '~/lib/searchApi';
 import { getSearchAttributes, type SearchAttribute } from '~/lib/attributeApi';
 import { TOfferType, type TProperty, type TSearchResult } from '~/lib/property';
 import { useDesktop } from '~/hooks/useDesktop';
 import type { Route } from './+types/Search';
-import SearchFilters from '~/blocks/SearchFilters';
+import SearchFilters from '~/routes/Search/SearchFilters';
 import Modal from '~/components/Modal';
-import AttributeSearch from '~/blocks/AttributeSearch';
+import AttributeSearch from '~/routes/Search/AttributeSearch';
 import ButtonAccent from '~/components/ButtonAccent';
 import {
   searchFiltersToString,
@@ -17,7 +17,7 @@ import {
   useSearchFilters,
   type TSearchFilters,
 } from '~/hooks/useSearchFilters';
-import SearchSortHeader from '~/blocks/SearchSortHeader';
+import SearchSortHeader from '~/components/SearchSortHeader';
 import Block from '~/components/Block';
 import { Drawer, DrawerContent, DrawerTrigger } from '~/components/ui/drawer';
 import ButtonEmpty from '~/components/ButtonEmpty';

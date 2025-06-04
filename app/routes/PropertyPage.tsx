@@ -1,19 +1,19 @@
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
 import { useDesktop } from '~/hooks/useDesktop';
-import DesktopWidth from '~/blocks/DesktopWidth';
-import PropertyImageGallery from '~/components/PropertyImageGallery';
-import PropertyDescription from '~/components/PropertyDescription';
-import PropertyCalendar from '~/components/PropertyCalendar';
+import DesktopWidth from '~/components/DesktopWidth';
+import PropertyImageGallery from '~/routes/Property/PropertyImageGallery';
+import PropertyDescription from '~/routes/Property/PropertyDescription';
+import PropertyCalendar from '~/routes/Property/PropertyCalendar';
 import PropertyMap from '~/components/PropertyMap';
-import PropertyDetails from '~/components/PropertyDetails';
-import PropertySummary from '~/components/PropertySummary';
+import PropertyDetails from '~/routes/Property/PropertyDetails';
+import PropertySummary from '~/routes/Property/PropertySummary';
 import { Post, ErrorToast } from '~/lib/api';
 import { getCalendarPeriods } from '~/lib/calendarApi';
 import type { TProperty, TRentProperty, TSearchResult } from '~/lib/property';
 import type { TCalendarResponse } from '~/lib/calendar';
 import type { Route } from './+types/PropertyPage';
-import CardScroller from '~/blocks/CardScroller';
+import CardScroller from '~/components/CardScroller';
 
 export async function clientLoader({
   params,

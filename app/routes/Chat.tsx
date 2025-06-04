@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import ChatSidebar from '../components/chat/ChatSidebar';
-import ChatWindow from '../components/chat/ChatWindow';
-import DesktopWidth from '~/blocks/DesktopWidth';
+import ChatSidebar from './Chat/ChatSidebar';
+import ChatWindow from './Chat/ChatWindow';
+import DesktopWidth from '~/components/DesktopWidth';
 import { useDesktop } from '~/hooks/useDesktop';
 import { useAuth } from '~/hooks/useAuth';
 import { useChat } from '~/hooks/useChat';

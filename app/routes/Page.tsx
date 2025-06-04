@@ -1,22 +1,23 @@
 import { Outlet, useLocation } from 'react-router';
-import MainHeader from '~/blocks/MainHeader';
-import SearchHeader from '~/blocks/SearchHeader';
+import MainHeader from '~/routes/Page/MainHeader';
+import SearchHeader from '~/routes/Page/SearchHeader';
 import type { Route } from '../+types/root';
-import { useMediaQuery } from 'react-responsive';
-import MobileHeader from '~/blocks/MobileHeader';
+import MobileHeader from '~/routes/Page/MobileHeader';
 import { useState } from 'react';
-import SidePage from '~/blocks/mobileSidepage';
+import SidePage from '~/routes/Page/mobileSidepage';
 import { AnimatePresence } from 'motion/react';
-import Footer from '~/blocks/Footer';
+import Footer from '~/routes/Page/Footer';
 import { useDesktop } from '~/hooks/useDesktop';
 import { Toaster } from '~/components/ui/sonner';
-import LoginModalProvider from '~/components/LoginModalProvider';
-import { TSortOption, useSearchFilters } from '~/hooks/useSearchFilters';
+import LoginModalProvider from '~/routes/Page/LoginModalProvider';
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: 'Domio' },
-    { name: 'description', content: 'Welcome to React Router!' },
+    { title: 'Домио' },
+    {
+      name: 'description',
+      content: 'Домио - сервис по продаже и аренде недвижимости!',
+    },
   ];
 }
 

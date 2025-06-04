@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Form, useActionData, useNavigate, useNavigation } from 'react-router';
-import FullscreenBlock from '~/blocks/FullscreenBlock';
+import FullscreenBlock from '~/components/FullscreenBlock';
 import ButtonAccent from '~/components/ButtonAccent';
 import ButtonEmpty from '~/components/ButtonEmpty';
 import { Input } from '~/components/ui/input';
@@ -8,7 +8,7 @@ import Profile from '~/components/chat/Profile';
 import { useAuth } from '~/hooks/useAuth';
 import { ErrorToast, Post } from '~/lib/api';
 import { useDesktop } from '~/hooks/useDesktop';
-import DesktopWidth from '~/blocks/DesktopWidth';
+import DesktopWidth from '~/components/DesktopWidth';
 import type { Route } from './+types/Invite';
 import { toast } from 'sonner';
 import type {

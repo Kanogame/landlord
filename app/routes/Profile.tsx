@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router';
-import DesktopWidth from '~/blocks/DesktopWidth';
-import ProfileSidebar from '~/blocks/ProfileSidebar';
+import DesktopWidth from '~/components/DesktopWidth';
+import ProfileSidebar from '~/routes/Profile/ProfileSidebar';
 import { useDesktop } from '~/hooks/useDesktop';
 
 export default function ProfilePage() {
@@ -12,17 +12,17 @@ export default function ProfilePage() {
         <div
           className={
             isDesktop
-              ? 'grid grid-cols-[3fr_9fr] gap-[20px]'
+              ? 'flex items-start gap-[20px]'
               : 'flex flex-col gap-[20px]'
           }
         >
           {isDesktop && (
-            <div className="flex flex-col gap-[20px] w-[100%]">
+            <div className="flex flex-[1_0] flex-col gap-[20px] w-[100%]">
               <ProfileSidebar />
             </div>
           )}
 
-          <div className="flex flex-col min-w-0 gap-[20px] w-[100%]">
+          <div className="flex flex-[3_0] flex-col min-w-0 gap-[20px] w-[100%]">
             <Outlet />
           </div>
         </div>

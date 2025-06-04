@@ -14,7 +14,7 @@ export default function TypeSwitcher({ value, onChange }: TypeSwitcherProps) {
         animate={{
           x: value === TOfferType.Rent ? 0 : '100%',
         }}
-        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        transition={{ type: 'spring', stiffness: 500, damping: 50 }}
       />
       <div className="relative z-20 flex h-full">
         <button

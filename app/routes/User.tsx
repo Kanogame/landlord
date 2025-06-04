@@ -1,8 +1,8 @@
 import { useSearchParams } from 'react-router';
-import DesktopWidth from '~/blocks/DesktopWidth';
-import SearchList from '~/blocks/SearchList';
-import SearchSortHeader from '~/blocks/SearchSortHeader';
-import UserCard, { type UserData } from '~/blocks/UserCard';
+import DesktopWidth from '~/components/DesktopWidth';
+import SearchList from '~/routes/Search/SearchList';
+import SearchSortHeader from '~/components/SearchSortHeader';
+import UserCard, { type UserData } from '~/routes/User/UserCard';
 import { useDesktop } from '~/hooks/useDesktop';
 import { TSortOption } from '~/hooks/useSearchFilters';
 import { ErrorToast, Post } from '~/lib/api';

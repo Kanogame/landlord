@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { useLocation, useParams } from 'react-router';
-import DesktopWidth from '~/blocks/DesktopWidth';
+import DesktopWidth from '~/components/DesktopWidth';
 import Block from '~/components/Block';
 import { useDesktop } from '~/hooks/useDesktop';
 

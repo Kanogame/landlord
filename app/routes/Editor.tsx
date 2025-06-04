@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { useDesktop } from '~/hooks/useDesktop';
-import DesktopWidth from '~/blocks/DesktopWidth';
-import PropertyImageUpload from '~/components/PropertyImageUpload';
-import PropertyForm from '~/blocks/PropertyForm';
-import PropertyTextBox from '~/blocks/PropertyTextBox';
-import PropertyAttributesModal from '~/components/PropertyAttributesModal';
-import PropertyCalendarEdit from '~/components/PropertyCalendarEdit';
+import DesktopWidth from '~/components/DesktopWidth';
+import PropertyImageUpload from '~/routes/Property/PropertyImageUpload';
+import PropertyForm from '~/routes/Property/PropertyForm';
+import PropertyTextBox from '~/routes/Property/PropertyTextBox';
+import PropertyAttributesModal from '~/routes/Editor/PropertyAttributesModal';
+import PropertyCalendarEdit from '~/routes/Editor/PropertyCalendarEdit';
 import {
   type TProperty,
   TOfferType,
   CreateEmptyProperty,
 } from '~/lib/property';
 import type { TCalendarResponse } from '~/lib/calendar';
-import PropertyDetails from '~/components/PropertyDetails';
+import PropertyDetails from '~/routes/Property/PropertyDetails';
 import ButtonAccent from '~/components/ButtonAccent';
 import { Post, ErrorToast } from '~/lib/api';
 import { createProperty, updateProperty } from '~/lib/propertyApi';

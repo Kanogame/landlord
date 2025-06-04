@@ -1,6 +1,6 @@
 import { motion, type HTMLMotionProps } from 'motion/react';
 import { ProcessButtonProps, type ButtonTextProps } from './button/buttons';
-import arrow from './buttonArrow/go-arrow.svg';
+import arrow from '~/media/icons/icon-go-arrow.svg';
 import { forwardRef, type Ref } from 'react';
 
 const imageVariants = {

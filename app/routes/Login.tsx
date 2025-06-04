@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Form, useActionData, useNavigate, useNavigation } from 'react-router';
-import FullscreenBlock from '~/blocks/FullscreenBlock';
+import FullscreenBlock from '~/components/FullscreenBlock';
 import ButtonAccent from '~/components/ButtonAccent';
 import ButtonEmpty from '~/components/ButtonEmpty';
 import { Input } from '~/components/ui/input';
