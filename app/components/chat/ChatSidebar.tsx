@@ -10,9 +10,10 @@ import { Link, useParams } from 'react-router';
 interface ChatSidebarProps {
   chats: Chat[];
   onChatUpdate: () => void;
+  onArchive: (chatId: number, isArchived: boolean) => void;
 }
 
-export default function ChatSidebar({ chats, onChatUpdate }: ChatSidebarProps) {
+export default function ChatSidebar({ chats, onArchive }: ChatSidebarProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [showArchivedChats, setShowArchivedChats] = useState(false);
   const isDesktop = useDesktop();
@@ -53,17 +54,11 @@ export default function ChatSidebar({ chats, onChatUpdate }: ChatSidebarProps) {
         <div className="flex items-center gap-[5px]">
           <Input
             type="checkbox"
-            id="showArchived"
             checked={showArchivedChats}
             onChange={e => setShowArchivedChats(e.target.checked)}
             className="w-3 h-3 rounded-sm"
           />
-          <label
-            htmlFor="showArchived"
-            className="text-zinc-800 text-xs font-normal font-['Fira_Sans'] cursor-pointer"
-          >
-            Показывать архивные чаты
-          </label>
+          <label className="p-def">Показывать архивные чаты</label>
         </div>
 
         <div className="flex flex-col max-h-[500px] overflow-y-auto">
@@ -75,9 +70,11 @@ export default function ChatSidebar({ chats, onChatUpdate }: ChatSidebarProps) {
             sortedChats.map(chat => (
               <Link key={chat.id} to={`/chat/${chat.id}`}>
                 <ChatEntry
+                  key={chat.id}
                   chat={chat}
                   isSelected={selectedChatId === chat.id}
-                  onClick={() => {}} // No longer needed since Link handles navigation
+                  onClick={() => {}}
+                  onArchive={() => onArchive(chat.id, chat.isArchived!)}
                 />
               </Link>
             ))

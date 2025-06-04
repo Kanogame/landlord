@@ -227,3 +227,21 @@ export async function InitiateChat(
     initialMessage: initialMessage,
   });
 }
+
+export function generateInviteLink(propertyId: number): string {
+  return `/invite/${propertyId}`;
+}
+
+export interface InviteTransactionRequest {
+  propertyId: number;
+  buyerRenterId: number;
+  transactionType: 1 | 2; // 1 = rent, 2 = buy
+  startDate?: string; // Required for rent
+  endDate?: string; // Required for rent
+}
+
+export interface InviteTransactionResponse {
+  success: boolean;
+  message?: string;
+  transactionId?: number;
+}

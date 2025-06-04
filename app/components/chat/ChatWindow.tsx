@@ -10,8 +10,6 @@ import {
   markMessagesAsRead,
 } from '~/lib/chatApi';
 import type { Chat, ChatMessage } from '~/lib/chat';
-import ButtonAccent from '../ButtonAccent';
-import type { label } from 'motion/react-client';
 import {
   formatMessageDate,
   formatMessageTime,
@@ -40,20 +38,21 @@ export default function ChatWindow({
 
   return (
     <Block label="" isDesktop={isDesktop}>
-      <div
-        className={
-          isDesktop ? 'flex flex-col h-[100%]' : 'flex flex-col w-[100%]'
-        }
-      >
+      <div className="flex flex-col h-full min-h-0">
         {chat != null && (
           <>
-            <ChatHeader
-              chat={chat}
-              onChatUpdate={onChatUpdate}
-              onBack={onBack}
-            />
+            <div className="flex-shrink-0">
+              <ChatHeader
+                chat={chat}
+                onChatUpdate={onChatUpdate}
+                onBack={onBack}
+              />
+            </div>
 
-            <div ref={messagesContainerRef} className="flex-1 py-[16px] px-2">
+            <div
+              ref={messagesContainerRef}
+              className="flex-1 min-h-0 overflow-y-auto py-[16px] px-2"
+            >
               {messages.map((message, index) => {
                 const previousMessage =
                   index > 0 ? messages[index - 1] : undefined;
@@ -84,10 +83,12 @@ export default function ChatWindow({
                   </div>
                 );
               })}
-              <div ref={messagesEndRef} className="flex-1 h-[100%]" />
+              <div ref={messagesEndRef} />
             </div>
 
-            <ChatInput onSendMessage={onMessageSend} disabled={sending} />
+            <div className="flex-shrink-0">
+              <ChatInput onSendMessage={onMessageSend} disabled={sending} />
+            </div>
           </>
         )}
       </div>

@@ -5,23 +5,28 @@ import iconBan from '~/media/icons/icon-ban.svg';
 import DropdownElement from '../DropdownElement';
 import Profile from './Profile';
 import type { Chat } from '~/lib/chat';
-import { archiveChat } from '~/lib/chatApi';
 import { formatLastMessageTime, truncateMessage } from '~/lib/chatUtils';
 
 interface ChatEntryProps {
   chat: Chat;
   isSelected: boolean;
   onClick: () => void;
+  onArchive: (chatId: number, isArchived: boolean) => void;
 }
 
 export default function ChatEntry({
   chat,
   isSelected,
   onClick,
+  onArchive,
 }: ChatEntryProps) {
   const handleReport = () => {
     // TODO: Implement report functionality
     console.log('Report chat:', chat.id);
+  };
+
+  const handleArchive = () => {
+    onArchive(chat.id, !chat.isArchived);
   };
 
   const dropdownOptions = [
@@ -33,7 +38,7 @@ export default function ChatEntry({
     {
       label: chat.isArchived ? 'Разархивировать' : 'Архивировать',
       icon: iconBan,
-      onClick: () => {},
+      onClick: handleArchive,
     },
   ];
 

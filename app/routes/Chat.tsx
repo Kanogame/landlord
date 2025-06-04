@@ -6,11 +6,11 @@ import { useDesktop } from '~/hooks/useDesktop';
 import { useAuth } from '~/hooks/useAuth';
 import { useChat } from '~/hooks/useChat';
 import ButtonAccent from '~/components/ButtonAccent';
-import type { Route } from './+types/ChatDetail';
+import type { Route } from './+types/Chat';
 import { useNavigate } from 'react-router';
-import { sendMessage } from '~/lib/chatApi';
+import { archiveChat } from '~/lib/chatApi';
 
-export default function ChatDetail({ params }: Route.ComponentProps) {
+export default function Chat({ params }: Route.ComponentProps) {
   const navigate = useNavigate();
   const {
     chats,
@@ -21,6 +21,7 @@ export default function ChatDetail({ params }: Route.ComponentProps) {
     loadChats,
     selectChat,
     sendChatMessage,
+    loadMessages,
   } = useChat();
 
   const { isAuthenticated } = useAuth();
@@ -39,7 +40,9 @@ export default function ChatDetail({ params }: Route.ComponentProps) {
     if (!isAuthenticated) return;
 
     const interval = setInterval(() => {
-      loadChats();
+      if (selectedChatId) {
+        loadMessages(selectedChatId, 1);
+      }
     }, 5000);
 
     return () => clearInterval(interval);
@@ -47,6 +50,21 @@ export default function ChatDetail({ params }: Route.ComponentProps) {
 
   const handleBackToSidebar = () => {
     navigate('/chat');
+  };
+
+  const handleArchive = async (chatId: number, isArchived: boolean) => {
+    try {
+      const result = await archiveChat({
+        chatId: chatId,
+        isArchived: isArchived,
+      });
+
+      if (result.success) {
+        loadChats(); // Refresh chat list
+      }
+    } catch (error) {
+      console.error('Failed to archive chat:', error);
+    }
   };
 
   if (!isAuthenticated) {
@@ -72,25 +90,53 @@ export default function ChatDetail({ params }: Route.ComponentProps) {
     );
   }
 
+  // Chat detail view (when chatId is present)
+  if (chatId) {
+    return (
+      <DesktopWidth isDesktop={isDesktop}>
+        <div className="flex flex-1 gap-[20px] min-h-0">
+          {isDesktop && (
+            <div className="flex-[3_1]">
+              <ChatSidebar
+                chats={chats}
+                onChatUpdate={loadChats}
+                onArchive={handleArchive}
+              />
+            </div>
+          )}
+          <div className={isDesktop ? 'flex-[9_1] min-h-0' : 'flex-1 min-h-0'}>
+            <ChatWindow
+              messages={selectedChatMessages}
+              chat={selectedChat}
+              onChatUpdate={loadChats}
+              onBack={handleBackToSidebar}
+              onMessageSend={message => {
+                loadMessages(selectedChatId ?? -1, 1);
+                sendChatMessage(selectedChatId ?? -1, message);
+              }}
+            />
+          </div>
+        </div>
+      </DesktopWidth>
+    );
+  }
+
+  // Chat list view (when no chatId)
   return (
     <DesktopWidth isDesktop={isDesktop}>
-      <div className="flex items-start gap-[20px] h-[100%]">
-        {isDesktop && (
-          <div className="flex-[3_1]">
-            <ChatSidebar chats={chats} onChatUpdate={loadChats} />
-          </div>
-        )}
-        <div className={isDesktop ? 'flex-[9_1]' : 'w-[100%]'}>
-          <ChatWindow
-            messages={selectedChatMessages}
-            chat={selectedChat}
+      <div className="flex items-start gap-[20px]">
+        <div className={isDesktop ? 'flex-[3_1]' : 'flex-1'}>
+          <ChatSidebar
+            chats={chats}
             onChatUpdate={loadChats}
-            onBack={handleBackToSidebar}
-            onMessageSend={message => {
-              sendChatMessage(selectedChatId ?? -1, message);
-            }}
+            onArchive={handleArchive}
           />
         </div>
+        {isDesktop && (
+          <div className="flex-[9_1] flex items-center justify-center">
+            <div className="h4-light">Выберите чат для начала общения</div>
+          </div>
+        )}
       </div>
     </DesktopWidth>
   );

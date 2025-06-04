@@ -30,7 +30,7 @@ export default function LoginPromoModal({
     <Modal
       open={open}
       onOpenChange={onOpenChange}
-      trigger={<></>}
+      trigger={undefined}
       title="Зарегистрируйтесь чтобы пользоваться всеми возможностями"
       isDesktop={isDesktop}
     >
