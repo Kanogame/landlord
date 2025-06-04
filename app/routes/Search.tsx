@@ -221,7 +221,8 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
             onSortingChange={handleSortingChange}
             showMap={showMap}
             onMapToggle={handleMapToggle}
-            onMonitorRequest={handleMonitorRequest}
+            onButtonClick={handleMonitorRequest}
+            buttonText="Мониторить этот запрос"
           />
           <SearchList
             propertyList={searchResult.properties}

@@ -7,17 +7,15 @@ interface MapSwitherProps {
 
 export default function MapSwither({ showMap, onChange }: MapSwitherProps) {
   return (
-    <div className="w-[105px] h-[30px] relative">
-      <div
-        className={`w-[105px] h-[30px] absolute top-0 left-0 rounded-[15px] transition-colors ${
-          showMap ? 'bg-[#F3E7E7]' : 'bg-white'
-        }`}
-      />
-
+    <div
+      className={`w-[120px] h-[30px] relative rounded-full transition-colors ${
+        showMap ? 'bg-[#F3E7E7]' : 'bg-white'
+      }`}
+    >
       {!showMap && (
         <img
-          className="w-[132px] h-[57px] absolute -left-[10px] -top-[14px] object-cover"
-          src="https://placehold.co/132x57"
+          className="w-[120px] h-[30px] absolute left-[0] top-[0] bg-cover rounded-full"
+          src="/app/media/images/map-placeholder.png"
           alt="Map preview"
         />
       )}
@@ -25,12 +23,12 @@ export default function MapSwither({ showMap, onChange }: MapSwitherProps) {
       <motion.div
         className="absolute top-[2px] w-[26px] h-[26px]"
         animate={{
-          x: showMap ? 77 : 2,
+          x: showMap ? 92 : 2,
         }}
         transition={{
           type: 'spring',
           stiffness: 500,
-          damping: 30,
+          damping: 40,
         }}
       >
         <svg
@@ -50,10 +48,10 @@ export default function MapSwither({ showMap, onChange }: MapSwitherProps) {
       </motion.div>
 
       <button
-        className="absolute top-0 text-[#2D2D2D] text-[12px] font-normal cursor-pointer bg-transparent border-none w-full h-full"
+        className="absolute top-0 p-def cursor-pointer bg-transparent border-none w-full h-full"
         onClick={() => onChange(!showMap)}
       >
-        <span className={showMap ? 'ml-[4px]' : 'ml-[36px]'}>
+        <span className={showMap ? 'ml-[14px] ' : 'ml-[40px]'}>
           {showMap ? 'Объявления' : 'На карте'}
         </span>
       </button>

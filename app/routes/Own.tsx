@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import DesktopWidth from '~/blocks/DesktopWidth';
 import SearchList from '~/blocks/SearchList';
 import { ErrorToast, Post } from '~/lib/api';
@@ -50,7 +50,7 @@ export async function clientLoader({
 }
 
 export default function BookmarksPage({ loaderData }: Route.ComponentProps) {
-  const isDesktop = useDesktop();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { bookmarksResult } = loaderData;
@@ -90,6 +90,10 @@ export default function BookmarksPage({ loaderData }: Route.ComponentProps) {
         onSortingChange={newSort =>
           handlePageChange(currentPage, pageSize, newSort)
         }
+        buttonText="Создать новое"
+        onButtonClick={() => {
+          navigate('/editor');
+        }}
         showMap={false}
       />
 

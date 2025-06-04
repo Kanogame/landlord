@@ -18,7 +18,8 @@ interface SearchSortHeaderProps {
   onSortingChange: (sorting: TSortOption) => void;
   showMap: boolean;
   onMapToggle?: (showMap: boolean) => void;
-  onMonitorRequest?: () => void;
+  onButtonClick?: () => void;
+  buttonText?: string;
 }
 
 const sortOptions = [
@@ -32,7 +33,8 @@ export default function SearchSortHeader({
   onSortingChange,
   showMap,
   onMapToggle,
-  onMonitorRequest,
+  onButtonClick,
+  buttonText,
 }: SearchSortHeaderProps) {
   const isDesktop = useDesktop();
 
@@ -125,10 +127,11 @@ export default function SearchSortHeader({
           {onMapToggle && (
             <MapSwither showMap={showMap} onChange={onMapToggle} />
           )}
-          {onMonitorRequest && (
+          {onButtonClick && (
             <ButtonEmpty
-              label="Мониторить этот запрос"
-              onClick={onMonitorRequest}
+              label={buttonText}
+              width="200px"
+              onClick={onButtonClick}
             />
           )}
         </div>
