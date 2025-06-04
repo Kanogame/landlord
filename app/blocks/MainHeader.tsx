@@ -60,7 +60,7 @@ export default function MainHeader(props: any) {
             />
             <ButtonAccent
               label="Мой аккаунт"
-              onClick={() => navigate('/profile/account')}
+              onClick={() => navigate('/profile/settings')}
             />
             <ButtonEmpty
               label="Создать объявление"

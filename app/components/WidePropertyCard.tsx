@@ -18,14 +18,19 @@ import ButtonIconDropdown from './ButtonIconDropdown';
 import iconCalendar from '~/media/icons/icon-calendar.svg';
 import iconShare from '~/media/icons/icon-share.svg';
 import iconPosition from '~/media/icons/icon-position.svg';
+import iconPencil from '~/media/icons/icon-pencil.svg';
 import ArrowLink from './Link';
-import { widePropertyCardDropdownOptions } from './common/propertyCard';
+import {
+  widePropertyCardDropdownOptions,
+  widePropertyCardOwnerDropdownOptions,
+} from './common/propertyCard';
 import DropdownElement from './DropdownElement';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import { addBookmark, removeBookmark } from '~/lib/bookmarkApi';
 import { toast } from 'sonner';
 import PropertyStatusBadge from './PropertyStatusBadge';
+import ButtonEmpty from './ButtonEmpty';
 
 export default function WidePropertyCard(props: { property: TProperty }) {
   const type = props.property.type;
@@ -104,49 +109,75 @@ export default function WidePropertyCard(props: { property: TProperty }) {
           </div>
           <div className="p-def">{FormatArea(prop.area)}</div>
         </div>
-        <div className="flex flex-col gap-[5px]">
-          <ButtonAccent
-            label="Написать"
-            width="100%"
-            onClick={e => {
-              e.stopPropagation();
-              startChat();
-            }}
-          />
+
+        {props.property.status !== undefined ? (
           <div className="flex gap-[5px]">
-            <ButtonIcon
-              icon={isBookmarked ? iconBookmarkChecked : iconBookmark}
-              onClick={bookmark}
-            />
-            <ButtonIcon
-              icon={iconCalendar}
+            <ButtonEmpty
+              label="Открыть страницу"
+              width="100%"
               onClick={e => {
                 e.stopPropagation();
-                navigate(`/property/${prop.id}#propertyCalendar`);
+                navigate(`/property/${prop.id}`);
               }}
             />
             <ButtonIcon
-              icon={iconShare}
+              icon={iconPencil}
               onClick={e => {
                 e.stopPropagation();
-                navigator.clipboard.writeText(`/property/${prop.id}`);
-                toast('Скопировано в буфер обмена');
-              }}
-            />
-            <ButtonIcon
-              icon={iconPosition}
-              onClick={e => {
-                e.stopPropagation();
-                navigate(`/property/${prop.id}#propertyMap`);
+                navigate(`/editor/${prop.id}`);
               }}
             />
             <ButtonIconDropdown icon={IconMore}>
-              {widePropertyCardDropdownOptions.map(el => {
+              {widePropertyCardOwnerDropdownOptions.map(el => {
                 return <DropdownElement label={el.label} icon={el.icon} />;
               })}
             </ButtonIconDropdown>
           </div>
-        </div>
+        ) : (
+          <div className="flex flex-col gap-[5px]">
+            <ButtonAccent
+              label="Написать"
+              width="100%"
+              onClick={e => {
+                e.stopPropagation();
+                startChat();
+              }}
+            />
+            <div className="flex gap-[5px]">
+              <ButtonIcon
+                icon={isBookmarked ? iconBookmarkChecked : iconBookmark}
+                onClick={bookmark}
+              />
+              <ButtonIcon
+                icon={iconCalendar}
+                onClick={e => {
+                  e.stopPropagation();
+                  navigate(`/property/${prop.id}#propertyCalendar`);
+                }}
+              />
+              <ButtonIcon
+                icon={iconShare}
+                onClick={e => {
+                  e.stopPropagation();
+                  navigator.clipboard.writeText(`/property/${prop.id}`);
+                  toast('Скопировано в буфер обмена');
+                }}
+              />
+              <ButtonIcon
+                icon={iconPosition}
+                onClick={e => {
+                  e.stopPropagation();
+                  navigate(`/property/${prop.id}#propertyMap`);
+                }}
+              />
+              <ButtonIconDropdown icon={IconMore}>
+                {widePropertyCardDropdownOptions.map(el => {
+                  return <DropdownElement label={el.label} icon={el.icon} />;
+                })}
+              </ButtonIconDropdown>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

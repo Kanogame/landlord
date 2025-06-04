@@ -37,3 +37,17 @@ export const widePropertyCardDropdownOptions = [
     icon: iconBan,
   },
 ];
+
+export const widePropertyCardOwnerDropdownOptions = [
+  {
+    label: 'Удалить',
+    icon: iconBan,
+  },
+];
+
+export const propertyCardOwnerDropdownOptions = [
+  {
+    label: 'Удалить',
+    icon: iconBan,
+  },
+];
