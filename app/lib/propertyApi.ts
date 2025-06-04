@@ -1,4 +1,4 @@
-import { Post } from './api';
+import { Post, Put } from './api';
 import {
   TOfferType,
   type CreatePropertyRequest,
@@ -31,4 +31,18 @@ export async function createProperty(
     req.period = (p as TRentProperty).period;
   }
   return await Post<CreatePropertyResponse>('api/Property/create', req);
+}
+
+export interface UpdatePropertyResponse {
+  success: boolean;
+  message?: string;
+}
+
+export async function updateProperty(
+  id: number,
+  propertyData: TPropertyData
+): Promise<UpdatePropertyResponse> {
+  return await Put<UpdatePropertyResponse>(`api/Property/update/${id}`, {
+    req: propertyData,
+  });
 }

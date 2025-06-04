@@ -10,6 +10,15 @@ export async function Post<T>(path: string, requestObject: {}): Promise<T> {
   }
 }
 
+export async function Put<T>(path: string, requestObject: {}): Promise<T> {
+  try {
+    const resp = await req('PUT', path, requestObject, undefined);
+    return resp;
+  } catch (e) {
+    return { success: false } as T;
+  }
+}
+
 export function ErrorToast(msg: string) {
   toast.error(msg);
 }

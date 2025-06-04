@@ -14,23 +14,83 @@ import {
 import type { TCalendarResponse } from '~/lib/calendar';
 import PropertyDetails from '~/components/PropertyDetails';
 import ButtonAccent from '~/components/ButtonAccent';
-import { ErrorToast } from '~/lib/api';
-import { createProperty } from '~/lib/propertyApi';
+import { Post, ErrorToast } from '~/lib/api';
+import { createProperty, updateProperty } from '~/lib/propertyApi';
+import { getCalendarPeriods } from '~/lib/calendarApi';
 import { useNavigate } from 'react-router';
+import type { Route } from './+types/Editor';
 
-export default function Editor() {
-  const isDesktop = useDesktop();
-  const [property, setProperty] = useState<TProperty>(
-    CreateEmptyProperty(TOfferType.Rent)
-  );
-  const navigate = useNavigate();
-  const [isAttributesModalOpen, setIsAttributesModalOpen] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [calendarData, setCalendarData] = useState<TCalendarResponse>({
-    success: true,
+export async function clientLoader({
+  params,
+}: Route.ClientLoaderArgs): Promise<{
+  property: TProperty | null;
+  calendarData: TCalendarResponse;
+}> {
+  // If no ID provided, return null property (create mode)
+  if (!params.id) {
+    return {
+      property: null,
+      calendarData: {
+        success: true,
+        count: 0,
+        periods: [],
+      },
+    };
+  }
+
+  // Load existing property (edit mode)
+  const property = await Post<TProperty>('api/Property/get_property_by_id', {
+    propertyId: params.id,
+  });
+
+  // Get current year calendar data
+  const currentYear = new Date().getFullYear();
+  const startDate = new Date(currentYear, 0, 1).toISOString();
+  const endDate = new Date(currentYear, 11, 31, 23, 59, 59).toISOString();
+
+  let calendarData: TCalendarResponse = {
+    success: false,
     count: 0,
     periods: [],
+  };
+
+  try {
+    calendarData = await getCalendarPeriods({
+      propertyId: parseInt(params.id),
+      startDate,
+      endDate,
+    });
+
+    if (!calendarData.success) {
+      ErrorToast('Ошибка при загрузке календаря');
+    }
+  } catch (error) {
+    ErrorToast('Ошибка при загрузке календаря');
+  }
+
+  return { property, calendarData };
+}
+
+export default function Editor({ loaderData }: Route.ComponentProps) {
+  const isDesktop = useDesktop();
+  const navigate = useNavigate();
+
+  // Initialize property state based on whether we're editing or creating
+  const [property, setProperty] = useState<TProperty>(() => {
+    if (loaderData.property) {
+      return loaderData.property;
+    }
+    return CreateEmptyProperty(TOfferType.Rent);
   });
+
+  const [isAttributesModalOpen, setIsAttributesModalOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [calendarData, setCalendarData] = useState<TCalendarResponse>(
+    loaderData.calendarData
+  );
+
+  // Determine if we're in edit mode
+  const isEditMode = loaderData.property !== null;
 
   const handlePropertyUpdate = (updates: Partial<TProperty>) => {
     setProperty(prev => ({
@@ -78,30 +138,55 @@ export default function Editor() {
     setIsSaving(true);
 
     try {
-      const response = await createProperty(property.property);
+      let response;
 
-      if (response.success) {
-        navigate('/property/' + response.propertyId);
-        // Update property with new ID if provided
-        if (response.propertyId) {
-          setProperty(prev => ({
-            ...prev,
-            property: {
-              ...prev.property,
-              id: response.propertyId!,
-            },
-          }));
+      if (isEditMode) {
+        // Update existing property
+        response = await updateProperty(
+          property.property.id,
+          property.property
+        );
+
+        if (response.success) {
+          navigate('/property/' + property.property.id);
+        } else {
+          ErrorToast(
+            `Ошибка при обновлении объявления: ${
+              response.message || 'Неизвестная ошибка'
+            }`
+          );
         }
       } else {
-        ErrorToast(
-          `Ошибка при создании объявления: ${
-            response.message || 'Неизвестная ошибка'
-          }`
-        );
+        // Create new property
+        response = await createProperty(property.property);
+
+        if (response.success) {
+          navigate('/property/' + response.propertyId);
+          // Update property with new ID if provided
+          if (response.propertyId) {
+            setProperty(prev => ({
+              ...prev,
+              property: {
+                ...prev.property,
+                id: response.propertyId!,
+              },
+            }));
+          }
+        } else {
+          ErrorToast(
+            `Ошибка при создании объявления: ${
+              response.message || 'Неизвестная ошибка'
+            }`
+          );
+        }
       }
     } catch (error) {
       console.error('Error saving property:', error);
-      ErrorToast('Произошла ошибка при сохранении объявления');
+      ErrorToast(
+        isEditMode
+          ? 'Произошла ошибка при обновлении объявления'
+          : 'Произошла ошибка при сохранении объявления'
+      );
     } finally {
       setIsSaving(false);
     }

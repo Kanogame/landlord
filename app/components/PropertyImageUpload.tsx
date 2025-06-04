@@ -1,5 +1,6 @@
 import Block from '~/components/Block';
 import type { TImageLink } from './ImageScroller';
+import iconUpload from '~/media/icons/icon-upload.svg';
 
 interface PropertyImageUploadProps {
   images: TImageLink[];
@@ -17,30 +18,15 @@ export default function PropertyImageUpload({
 
   return (
     <div
-      className="w-[780px] h-[370px] bg-[#D9D9D9] rounded-[20px] flex flex-col justify-center items-center gap-[10px] relative"
+      className="w-[100%] h-[370px] bg-[#D9D9D9] rounded-[20px] flex flex-col justify-center items-center gap-[10px] relative"
       style={{
         boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.25)',
       }}
     >
       <div className="w-[124px] h-[124px] relative overflow-hidden">
-        <div
-          className="w-[38.76px] h-[46.51px] absolute bg-black"
-          style={{
-            left: 42.62,
-            top: 46.49,
-          }}
-        />
-        <div
-          className="w-[93px] h-[124px] absolute bg-black"
-          style={{
-            left: 15.5,
-            top: 0,
-          }}
-        />
+        <img src={iconUpload} />
       </div>
-      <div className="text-black text-[24px] font-normal font-['Fira_Sans']">
-        Загрузите изображения
-      </div>
+      <div className="h4-def">Загрузите изображения</div>
       <input
         type="file"
         multiple
