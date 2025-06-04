@@ -1,4 +1,3 @@
-import { AnimatePresence, motion } from 'motion/react';
 import FormatPrice, {
   FormatArea,
   InitiateChat,
@@ -27,6 +26,12 @@ import { useState } from 'react';
 import { addBookmark, removeBookmark } from '~/lib/bookmarkApi';
 import PropertyStatusBadge from '../routes/Own/PropertyStatusBadge';
 import ButtonEmpty from './ButtonEmpty';
+import iconCalendar from '~/media/icons/icon-calendar.svg';
+import iconShare from '~/media/icons/icon-share.svg';
+import iconPosition from '~/media/icons/icon-position.svg';
+import iconWarn from '~/media/icons/icon-warn.svg';
+import iconBan from '~/media/icons/icon-ban.svg';
+import { toast } from 'sonner';
 
 interface PropertyCardProps {
   property: TProperty;
@@ -139,9 +144,33 @@ export default function PropertyCard({
             onClick={bookmark}
           />
           <ButtonIconDropdown icon={IconMore}>
-            {propertyCardDropdownOptions.map(el => {
-              return <DropdownElement label={el.label} icon={el.icon} />;
-            })}
+            <DropdownElement
+              label="Календарь"
+              icon={iconCalendar}
+              onClick={e => {
+                e.stopPropagation();
+                navigate(`/property/${prop.id}#propertyCalendar`);
+              }}
+            />
+            <DropdownElement
+              label="Поделиться"
+              icon={iconShare}
+              onClick={e => {
+                e.stopPropagation();
+                navigator.clipboard.writeText(`/property/${prop.id}`);
+                toast('Скопировано в буфер обмена');
+              }}
+            />
+            <DropdownElement
+              label="На карте"
+              icon={iconPosition}
+              onClick={e => {
+                e.stopPropagation();
+                navigate(`/property/${prop.id}#propertyMap`);
+              }}
+            />
+            <DropdownElement label="Пожаловаться" icon={iconWarn} />
+            <DropdownElement label="Скрыть" icon={iconBan} />
           </ButtonIconDropdown>
         </div>
       )}

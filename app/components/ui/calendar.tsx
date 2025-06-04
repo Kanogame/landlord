@@ -1,6 +1,7 @@
 import * as React from 'react';
 import ArrowLeft from '~/media/icons/leftArrow.svg';
 import { DayPicker } from 'react-day-picker';
+import { ru } from 'date-fns/locale';
 
 import { cn } from '~/lib/utils';
 import { buttonVariants } from '~/components/ui/button';
@@ -57,6 +58,7 @@ function Calendar({
         day_hidden: 'invisible',
         ...classNames,
       }}
+      locale={ru}
       components={{
         IconLeft: ({ className, ...props }) => (
           <div className={cn('size-4', className)} {...props}>
