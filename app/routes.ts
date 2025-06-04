@@ -24,5 +24,20 @@ export default [
     route('invite/:propertyId', './routes/Invite.tsx'),
     // text page
     route('*', './routes/TextPage.tsx'),
+    //route('service', './routes/TextPage.tsx'),
+    //route('contacts', './routes/TextPage.tsx'),
+    //route('privacy-policy', './routes/TextPage.tsx'),
+    //route('faq', './routes/TextPage.tsx'),
+    //// tips
+    //route('tips/nalogi', './routes/TextPage.tsx'),
+    //route('tips/remont', './routes/TextPage.tsx'),
+    //route('tips/raschet', './routes/TextPage.tsx'),
+    //route('tips/yuridicheskaya-proverka', './routes/TextPage.tsx'),
+    //// offers
+    //route('offers/ipoteka', './routes/TextPage.tsx'),
+    //route('offers/kredit', './routes/TextPage.tsx'),
+    //route('offers/rassrochka', './routes/TextPage.tsx'),
+    //route('offers/investitsii', './routes/TextPage.tsx'),
+    //route('offers/bonusy', './routes/TextPage.tsx'),
   ]),
 ] satisfies RouteConfig;

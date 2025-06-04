@@ -22,7 +22,7 @@ export default function Block({
   return (
     <div
       className={
-        'flex flex-col gap-[15px] h-[100%] bg-white block-shadow rounded-[20px] ' +
+        'flex flex-col gap-[15px] h-[100%] bg-white block-shadow rounded-[20px] p-def ' +
         (isDesktop ? 'p-[20px] rounded-[20px]' : 'p-[16px] rounded-[10px]')
       }
     >
