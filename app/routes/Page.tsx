@@ -4,7 +4,7 @@ import SearchHeader from '~/routes/Page/SearchHeader';
 import type { Route } from '../+types/root';
 import MobileHeader from '~/routes/Page/MobileHeader';
 import { useState } from 'react';
-import SidePage from '~/routes/Page/mobileSidepage';
+import SidePage from '~/routes/Page/MobileSidepage';
 import { AnimatePresence } from 'motion/react';
 import Footer from '~/routes/Page/Footer';
 import { useDesktop } from '~/hooks/useDesktop';

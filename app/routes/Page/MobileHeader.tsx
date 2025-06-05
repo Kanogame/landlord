@@ -37,7 +37,11 @@ export default function MobileHeader(props: {
           onClick={() => navigate('/profile/bookmarks')}
         />
         {isAuthenticated ? (
-          <Avatar size={25} avatar={'https://placehold.co/25x25'} />
+          <Avatar
+            size={25}
+            avatar={'https://placehold.co/25x25'}
+            onClick={() => navigate('/profile/settings')}
+          />
         ) : (
           <SimpleIconButton
             img={iconLogin}

@@ -19,8 +19,8 @@ export async function searchProperties(
 
 export function getSearchFromUrl(url: URLSearchParams): TSearchFilters {
   const searchRequest: TSearchFilters = {
-    pageNumber: parseInt(url.get('page') || '1'),
-    pageSize: parseInt(url.get('size') || '10'),
+    pageNumber: parseInt(url.get('pageNumber') || '1'),
+    pageSize: parseInt(url.get('pageSize') || '10'),
     offerType: parseInt(url.get('offerType') || '0'),
     propertyType: url.get('propertyType')
       ? parseInt(url.get('propertyType')!)

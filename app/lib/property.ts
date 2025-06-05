@@ -79,6 +79,7 @@ export function CreateEmptyProperty(type: TOfferType): TProperty {
     isBookmarked: false,
     rooms: 1,
     parking: false,
+    chatExists: null,
   };
 
   if (type === TOfferType.Sell) {
@@ -141,6 +142,7 @@ export interface TGenericProperty {
   profileLink: string;
   price: TMoney;
   isBookmarked: boolean | null;
+  chatExists: boolean | null;
 }
 
 export enum TRentPeriod {

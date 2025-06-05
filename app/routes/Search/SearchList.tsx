@@ -26,6 +26,7 @@ export default function SearchList({
   const isDesktop = useDesktop();
 
   const handlePageChange = (newPage: number) => {
+    console.log(newPage);
     onPageChange(newPage, pageSize);
   };
 
@@ -135,38 +136,41 @@ export default function SearchList({
   };
 
   return (
-    <div
-      className={
-        isDesktop
-          ? 'flex min-w-[0] flex-col gap-[20px]'
-          : 'flex flex-wrap justify-around gap-[10px]'
-      }
-    >
-      {propertyList.map(el => {
-        return isDesktop ? (
-          <WidePropertyCard key={el.property.id} property={el} />
-        ) : (
-          <PropertyCard
-            key={el.property.id}
-            property={el}
-            className="w-[300px] h-[400px]"
-          />
-        );
-      })}
+    <>
+      <div
+        className={
+          isDesktop
+            ? 'flex min-w-[0] flex-col gap-[20px]'
+            : 'flex flex-wrap justify-around gap-[10px]'
+        }
+      >
+        {propertyList.map(el => {
+          return isDesktop ? (
+            <WidePropertyCard key={el.property.id} property={el} />
+          ) : (
+            <PropertyCard
+              key={el.property.id}
+              property={el}
+              className="w-[300px] h-[400px]"
+            />
+          );
+        })}
+      </div>
+      <div className="flex-1 ">
+        {totalPages > 1 && (
+          <div className="flex flex-col items-center gap-4 mt-8 pt-6 border-t border-gray-200">
+            <div className="p-def">
+              Показано {(currentPage - 1) * pageSize + 1}-
+              {Math.min(currentPage * pageSize, totalCount)} из {totalCount}{' '}
+              объявлений
+            </div>
 
-      {totalPages > 1 && (
-        <div className="flex flex-col items-center gap-4 mt-8 pt-6 border-t border-gray-200">
-          <div className="p-def">
-            Показано {(currentPage - 1) * pageSize + 1}-
-            {Math.min(currentPage * pageSize, totalCount)} из {totalCount}{' '}
-            объявлений
+            <div className="flex gap-1 flex-wrap justify-center">
+              {renderPaginationButtons()}
+            </div>
           </div>
-
-          <div className="flex gap-1 flex-wrap justify-center">
-            {renderPaginationButtons()}
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 }

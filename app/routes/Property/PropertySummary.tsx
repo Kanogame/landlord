@@ -127,35 +127,47 @@ export default function PropertySummary({
             subtitle="4 объявления, 7 лет на сайте"
           />
 
-          <div className="flex gap-[10px]">
-            <div className="flex-1">
-              <Input
-                type="text"
-                value={message}
-                onChange={e => setMessage(e.target.value)}
-                placeholder="Начните печатать"
-                className="w-[100%] p-def"
-              />
-            </div>
+          {property.property.chatExists === null ||
+          property.property.chatExists === false ? (
+            <>
+              <div className="flex gap-[10px]">
+                <div className="flex-1">
+                  <Input
+                    type="text"
+                    value={message}
+                    onChange={e => setMessage(e.target.value)}
+                    placeholder="Начните печатать"
+                    className="w-[100%] p-def"
+                  />
+                </div>
+                <ButtonAccent
+                  label="Написать"
+                  width="99px"
+                  height="36px"
+                  onClick={startChat}
+                />
+              </div>
+
+              <div className="flex flex-wrap gap-[10px] justify-center">
+                {quickMessages.map((msg, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setMessage(msg)}
+                    className="text-[12px] text-[#707070] hover:text-[#2D2D2D] cursor-pointer"
+                  >
+                    {msg}
+                  </button>
+                ))}
+              </div>
+            </>
+          ) : (
             <ButtonAccent
-              label="Написать"
-              width="99px"
+              label="Перейти в чат"
+              width="100%"
               height="36px"
               onClick={startChat}
             />
-          </div>
-
-          <div className="flex flex-wrap gap-[10px] justify-center">
-            {quickMessages.map((msg, index) => (
-              <button
-                key={index}
-                onClick={() => setMessage(msg)}
-                className="text-[12px] text-[#707070] hover:text-[#2D2D2D] cursor-pointer"
-              >
-                {msg}
-              </button>
-            ))}
-          </div>
+          )}
         </div>
 
         <div className="flex gap-[6px]">

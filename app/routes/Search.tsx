@@ -45,16 +45,16 @@ export async function clientLoader({
     searchParams,
   };
 }
-const snapPoints = ['400px', 1];
+
 export default function SearchPage({ loaderData }: Route.ComponentProps) {
   const isDesktop = useDesktop();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isAttributeModalOpen, setIsAttributeModalOpen] = useState(false);
   const [showMap, setShowMap] = useState(false);
-  const { filters, resetFilters, updateFiltersAndUrl, setPage } =
-    useSearchFilters(getSearchFromUrl(loaderData.searchParams));
+  const { filters, resetFilters, updateFiltersAndUrl } = useSearchFilters(
+    getSearchFromUrl(loaderData.searchParams)
+  );
   const [drawer, setDrawer] = useState(true);
-  const [snap, setSnap] = useState<number | string | null>(snapPoints[0]);
 
   const handleFilterChange = (updates: Partial<TSearchFilters>) => {
     updateFiltersAndUrl(updates, setSearchParams);
@@ -64,12 +64,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
     handleFilterChange({ sortBy: sorting });
   };
 
-  const handleMapToggle = (newShowMap: boolean) => {
-    setShowMap(newShowMap);
-  };
-
   const handlePageChange = (page: number, size: number) => {
-    setPage(page, size);
     updateFiltersAndUrl({ pageNumber: page, pageSize: size }, setSearchParams);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -82,12 +77,10 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
 
   const { searchResult, attributes } = loaderData;
 
-  // Count active attribute filters
   const activeAttributeCount = Array.from(searchParams.keys()).filter(key =>
     key.startsWith('attr_')
   ).length;
 
-  // Calculate pagination values
   const totalPages = Math.ceil(searchResult.count / filters.pageSize);
   const currentPage = filters.pageNumber;
 
@@ -207,20 +200,30 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
               </Drawer>
             </>
           )}
-          <SearchSortHeader
-            sorting={filters.sortBy ?? TSortOption.CreatedDesc}
-            onSortingChange={handleSortingChange}
-            showMap={showMap}
-            onMapToggle={handleMapToggle}
-          />
-          <SearchList
-            propertyList={searchResult.properties}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            totalCount={searchResult.count}
-            pageSize={filters.pageSize}
-            onPageChange={handlePageChange}
-          />
+          {searchResult.properties.length > 0 ? (
+            <>
+              <SearchSortHeader
+                sorting={filters.sortBy ?? TSortOption.CreatedDesc}
+                onSortingChange={handleSortingChange}
+                showMap={showMap}
+                onMapToggle={setShowMap}
+              />
+              <SearchList
+                propertyList={searchResult.properties}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalCount={searchResult.count}
+                pageSize={filters.pageSize}
+                onPageChange={handlePageChange}
+              />
+            </>
+          ) : (
+            <div className="text-center py-[40px]">
+              <p className="h5-light">
+                По вашему запросу не удалось ничего найти
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </DesktopWidth>
