@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, useActionData, useNavigate, useNavigation } from 'react-router';
 import FullscreenBlock from '~/components/FullscreenBlock';
 import ButtonAccent from '~/components/ButtonAccent';
@@ -100,12 +100,16 @@ export default function Register() {
   const [verificationId, setVerificationId] = useState(0);
   const { login } = useAuth();
 
-  // Update local state when action data changes
-  if (actionData?.stage !== undefined && actionData.stage !== currentStage) {
-    if (actionData.stage === 3) {
-      login(actionData?.token ?? '');
-      navigate('/');
+  useEffect(() => {
+    if (actionData?.stage === 2 && actionData.token) {
+      login(actionData.token);
+      // hard reload to reset useAuth
+      window.location.href = '/';
+      return;
     }
+  }, [actionData?.stage, actionData?.token]);
+
+  if (actionData?.stage !== undefined && actionData.stage !== currentStage) {
     setCurrentStage(actionData.stage);
   }
   if (
