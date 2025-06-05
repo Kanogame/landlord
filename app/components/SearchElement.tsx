@@ -21,7 +21,7 @@ export default function SearchElement(props: {
       }}
       whileHover={{ y: -5, background: '#E9E9E9' }}
       className={
-        'flex items-center w-[100%] justify-between p-[15px] bg-[#EFEFEF] rounded-[10px] cursor-pointer ' +
+        'flex flex-1 items-center w-[100%] justify-between p-[15px] bg-[#EFEFEF] rounded-[10px] cursor-pointer ' +
         (props.isDesktop ? '' : ' min-h-[70px]')
       }
     >

@@ -18,6 +18,7 @@ import iconSearch from '~/media/icons/icon-search.svg';
 import TypeSwitcher from '~/components/TypeSwitcher';
 import { useState } from 'react';
 import SearchElement from '~/components/SearchElement';
+import { useAuth } from '~/hooks/useAuth';
 
 export async function clientLoader(): Promise<{
   rent: TSearchResult;
@@ -47,8 +48,8 @@ export async function clientLoader(): Promise<{
 
 export default function LandingPage({ loaderData }: Route.ComponentProps) {
   const [type, setType] = useState(0);
+  const { isAuthenticated } = useAuth();
   const isDesktop = useDesktop();
-  const navigate = useNavigate();
 
   const { rent, sell } = loaderData as {
     rent: TSearchResult;
@@ -94,7 +95,7 @@ export default function LandingPage({ loaderData }: Route.ComponentProps) {
           </div>
 
           <div className="flex flex-col gap-[20px] w-[100%]">
-            <LoginPromo />
+            {!isAuthenticated && <LoginPromo />}
             <FrequentSearch />
           </div>
         </div>

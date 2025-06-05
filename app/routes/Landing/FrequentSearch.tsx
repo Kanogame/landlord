@@ -102,7 +102,7 @@ export default function FrequentSearch() {
 
   return (
     <Block label="Часто ищут" isDesktop={isDesktop}>
-      <div className="flex flex-col gap-[10px]">
+      <div className="flex flex-1 flex-col gap-[10px]">
         {frequentSearches.map((el, ind) => {
           return (
             <SearchElement

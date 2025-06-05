@@ -2,25 +2,26 @@ import { useNavigate } from 'react-router';
 import ButtonEmpty from '../../components/ButtonEmpty';
 import ButtonIconDropdown from '../../components/ButtonIconDropdown';
 import iconMore from '~/media/icons/icon-more.svg';
-import iconWarn from '~/media/icons/icon-warn.svg';
 import iconBan from '~/media/icons/icon-ban.svg';
 import DropdownElement from '../../components/DropdownElement';
 import Profile from '../../components/chat/Profile';
 import type { Chat } from '~/lib/chat';
 import { useDesktop } from '~/hooks/useDesktop';
-import ButtonIcon from '../../components/ButtonIcon';
 import iconArrowLeft from '~/media/icons/icon-arrow-left.svg';
+import { generateInviteLink } from '~/lib/property';
 
 interface ChatHeaderProps {
   chat: Chat;
   onBack: () => void;
   onArchive: () => void;
+  isOwner?: boolean; // Add this prop to determine if current user is the property owner
 }
 
 export default function ChatHeader({
   chat,
   onBack,
   onArchive,
+  isOwner = false,
 }: ChatHeaderProps) {
   const navigate = useNavigate();
   const isDesktop = useDesktop();
@@ -32,6 +33,11 @@ export default function ChatHeader({
       onClick: onArchive,
     },
   ];
+
+  const handleInviteLink = () => {
+    const inviteLink = generateInviteLink(chat.propertyId);
+    navigate(inviteLink);
+  };
 
   return (
     <div className="flex items-center justify-between border-b pb-[10px] border-[#E3E3E3]">
@@ -47,12 +53,20 @@ export default function ChatHeader({
       </div>
 
       <div className="flex items-center gap-2">
-        {isDesktop && (
+        {isDesktop && !isOwner && (
           <ButtonEmpty
             label="Открыть страницу объявления"
             width="240px"
             height="28px"
             onClick={() => navigate(`/property/${chat.propertyId}`)}
+          />
+        )}
+        {isDesktop && isOwner && (
+          <ButtonEmpty
+            label="Скопировать ссылку для приглашения на аренду"
+            width="280px"
+            height="28px"
+            onClick={handleInviteLink}
           />
         )}
         <ButtonIconDropdown icon={iconMore}>

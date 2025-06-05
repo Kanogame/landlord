@@ -159,7 +159,9 @@ export default function WidePropertyCard(props: { property: TProperty }) {
                 icon={iconShare}
                 onClick={e => {
                   e.stopPropagation();
-                  navigator.clipboard.writeText(`/property/${prop.id}`);
+                  navigator.clipboard.writeText(
+                    `${window.location.origin}/property/${prop.id}`
+                  );
                   toast('Скопировано в буфер обмена');
                 }}
               />

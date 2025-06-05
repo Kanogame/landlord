@@ -62,7 +62,9 @@ export default function UserCard({ user, userId }: UserCardProps) {
             icon={iconShare}
             onClick={e => {
               e.stopPropagation();
-              navigator.clipboard.writeText(`/user/${userId}`);
+              navigator.clipboard.writeText(
+                `${window.location.origin}/user/${userId}`
+              );
               toast('Скопировано в буфер обмена');
             }}
           />
