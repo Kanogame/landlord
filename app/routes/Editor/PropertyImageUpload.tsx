@@ -12,7 +12,6 @@ export default function PropertyImageUpload({
 }: PropertyImageUploadProps) {
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     // TODO: Implement image upload logic
-    console.log('Uploading images:', event.target.files);
   };
 
   return (

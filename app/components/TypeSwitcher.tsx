@@ -7,6 +7,7 @@ interface TypeSwitcherProps {
 }
 
 export default function TypeSwitcher({ value, onChange }: TypeSwitcherProps) {
+
   return (
     <div className="relative h-8 bg-white border border-gray-300 rounded-md overflow-hidden">
       <motion.div

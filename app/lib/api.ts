@@ -54,7 +54,6 @@ async function req(
 
     return await response.json();
   } catch (e) {
-    console.log(e);
     throw e;
   }
 }

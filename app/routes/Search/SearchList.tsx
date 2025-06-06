@@ -26,7 +26,6 @@ export default function SearchList({
   const isDesktop = useDesktop();
 
   const handlePageChange = (newPage: number) => {
-    console.log(newPage);
     onPageChange(newPage, pageSize);
   };
 

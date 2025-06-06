@@ -21,7 +21,7 @@ import { Input } from '../../components/ui/input';
 import { useNavigate } from 'react-router';
 import { ErrorToast } from '~/lib/api';
 import { addBookmark, removeBookmark } from '~/lib/bookmarkApi';
-import AutoButtonDropdown from '~/components/AutoButtonDropdown';
+import AutoDropdown from '~/components/AutoDropdown';
 import { widePropertyCardDropdownOptions } from '~/components/common/propertyCard';
 import DropdownElement from '~/components/DropdownElement';
 
@@ -195,7 +195,7 @@ export default function PropertySummary({
               navigate(`#propertyMap`);
             }}
           />
-          <AutoButtonDropdown
+          <AutoDropdown
             buttonClassName="w-[100%]"
             button={
               <ButtonIconText icon={iconMore} label="Больше" width="100%" />
@@ -204,7 +204,7 @@ export default function PropertySummary({
             {widePropertyCardDropdownOptions.map(el => {
               return <DropdownElement label={el.label} icon={el.icon} />;
             })}
-          </AutoButtonDropdown>
+          </AutoDropdown>
         </div>
       </div>
     </Block>

@@ -57,6 +57,7 @@ export default function SearchFilters({
     },
   });
 
+
   return (
     <div className="flex flex-col gap-[12px] w-[100%]">
       <TypeSwitcher

@@ -25,13 +25,13 @@ export default function MainHeader(props: any) {
             Главная
           </span>
           <span
-            onClick={() => navigate('/search?offerType=1')}
+            onClick={() => {window.location.href =  '/search?offerType=1&pageNumber=1&pageSize=10&sortBy=0'}}
             className="cursor-pointer p-def"
           >
             Покупка
           </span>
           <span
-            onClick={() => navigate('/search?offerType=0')}
+            onClick={() => {window.location.href =  '/search?offerType=0&pageNumber=1&pageSize=10&sortBy=0'}}
             className="cursor-pointer p-def"
           >
             Аренда

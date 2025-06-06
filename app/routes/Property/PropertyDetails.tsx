@@ -83,11 +83,11 @@ export default function PropertyDetails({
       )}
       <Block label="О квартире" isDesktop={isDesktop}>
         <div className="flex flex-wrap gap-[40px]">
-          {(showFull && isDesktop ? attibutes : attibutes.slice(0, 6)).map(
+          {((showFull && isDesktop) ? attibutes : attibutes.slice(0, 6)).map(
             (detail, index) => (
               <div className="flex-[1_0_300px]">
                 <PropertyInfoLine
-                  key={index}
+                  key={detail.name + detail.value + index}
                   label={detail.name}
                   value={detail.value}
                 />

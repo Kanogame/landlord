@@ -87,7 +87,7 @@ export default function WidePropertyCard(props: { property: TProperty }) {
         {props.property.status !== undefined && (
           <PropertyStatusBadge status={props.property.status} />
         )}
-        <div className="min-w-[0] p-light overflow-hidden text-ellipsis text-nowrap">
+        <div className={`min-w-[0] p-light ${type === TOfferType.Rent || props.property.status !== undefined ? "line-clamp-1" : "line-clamp-2"}`}>
           {prop.desc}
         </div>
 
@@ -105,7 +105,7 @@ export default function WidePropertyCard(props: { property: TProperty }) {
         <div className="flex flex-col items-end">
           <div className="n1-def">{FormatPrice(props.property)}</div>
           <div className="p-def">
-            {(+prop.price.amount / prop.area).toFixed(1) + ' ₽/м²'}
+            {(+(prop.price.amount.slice(0, -3)) / prop.area).toFixed(1) + ' ₽/м²'}
           </div>
           <div className="p-def">{FormatArea(prop.area)}</div>
         </div>

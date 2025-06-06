@@ -95,7 +95,7 @@ export default function NumberInput({
     <div className={`relative ${className}`} ref={inputRef}>
       <div className="relative">
         <div className="absolute inset-0 rounded-md pointer-events-none">
-          <div className="absolute inset-0 border border-gray-300 rounded-md" />
+          <div className="absolute inset-0 rounded-md" />
           {value != 0 && (
             <motion.div
               className="absolute bottom-0 left-0 h-0.5 bg-[#8B2635] rounded-full"

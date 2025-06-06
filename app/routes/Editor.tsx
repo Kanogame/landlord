@@ -138,7 +138,7 @@ export default function Editor({ loaderData }: Route.ComponentProps) {
     setIsSaving(true);
 
     try {
-      let response;
+      let response: any;
 
       if (isEditMode) {
         // Update existing property
@@ -194,7 +194,6 @@ export default function Editor({ loaderData }: Route.ComponentProps) {
 
   const handleDelete = () => {
     // TODO: Implement delete functionality
-    console.log('Deleting property');
   };
 
   return (

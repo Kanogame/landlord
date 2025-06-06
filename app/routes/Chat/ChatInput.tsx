@@ -35,7 +35,7 @@ export default function ChatInput({
     <div className="flex gap-[5px] pt-[10px] border-t border-[#E3E3E3]">
       <ButtonIcon
         icon={IconAttach}
-        onClick={() => console.log('Attach file')}
+        onClick={() => {}}
         disabled={disabled}
       />
 

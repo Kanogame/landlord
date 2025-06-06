@@ -5,7 +5,7 @@ export interface TMoney {
 }
 
 export function FormatMoneyAmountWithSpaces(value: string): string {
-  const tmp: string = value.split('.')[0];
+  const tmp: string = value.split(',')[0];
   return (
     tmp
       .split('')

@@ -101,7 +101,7 @@ export default function Register() {
   const { login } = useAuth();
 
   useEffect(() => {
-    if (actionData?.stage === 2 && actionData.token) {
+    if (actionData?.stage === 3 && actionData.token) {
       login(actionData.token);
       // hard reload to reset useAuth
       window.location.href = '/';
