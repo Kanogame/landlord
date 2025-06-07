@@ -91,7 +91,7 @@ export default function AttributeSearch({
   const renderAttributeInput = (attribute: SearchAttribute) => {
     const currentValue = getLocalAttributeValue(attribute.attributeName);
 
-    // Type 0 with possible values - use ComboBox
+    // Type 0 - ComboBox string
     if (attribute.attributeType === 0 && attribute.possibleValues.length > 0) {
       const options = attribute.possibleValues.map(value => ({
         value,
@@ -119,7 +119,7 @@ export default function AttributeSearch({
       );
     }
 
-    // Type 2 without possible values - use Toggle (Boolean)
+    // Type 2 - Toggle (Boolean)
     if (attribute.attributeType === 2) {
       return (
         <ToggleLabel

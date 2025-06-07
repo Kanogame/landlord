@@ -25,7 +25,6 @@ export default function PropertyCalendar({
     null
   );
 
-  // Get all dates that are part of periods
   const periodDates = useMemo(() => {
     const dateMap = new Map<string, TCalendarPeriod>();
 
@@ -42,7 +41,6 @@ export default function PropertyCalendar({
     return dateMap;
   }, [calendarData.periods]);
 
-  // Load calendar data for specific month
   const loadCalendarData = async (month: Date) => {
     try {
       const startDate = new Date(
@@ -67,7 +65,7 @@ export default function PropertyCalendar({
 
       if (response.success) {
         setCalendarData(response);
-        setSelectedPeriod(null); // Reset selection when month changes
+        setSelectedPeriod(null); 
       } else {
         ErrorToast('Ошибка при загрузке календаря');
       }
@@ -76,7 +74,6 @@ export default function PropertyCalendar({
     }
   };
 
-  // Handle month change
   const handleMonthChange = (month: Date) => {
     const newMonth = new Date(month.getFullYear(), month.getMonth(), 1);
     const oldMonth = new Date(
@@ -91,7 +88,6 @@ export default function PropertyCalendar({
     }
   };
 
-  // Handle day click to select period
   const handleDayClick = (date: Date | undefined) => {
     const dateKey = date?.toDateString() ?? '';
     const period = periodDates.get(dateKey);
@@ -103,7 +99,6 @@ export default function PropertyCalendar({
     }
   };
 
-  // Custom day content to show period styling
   const getDayClassName = (date: Date) => {
     const dateKey = date.toDateString();
     const period = periodDates.get(dateKey);

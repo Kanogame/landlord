@@ -40,7 +40,7 @@ export interface UpdatePropertyResponse {
 
 export async function updateProperty(
   id: number,
-  propertyData: TPropertyData
+  propertyData: TProperty
 ): Promise<UpdatePropertyResponse> {
   return await Put<UpdatePropertyResponse>(`api/Property/update/${id}`, {
     req: propertyData,

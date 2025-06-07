@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import banner from '~/media/images/banner1.png';
 import banner2 from '~/media/images/banner2.png';
 import { AnimatePresence, motion } from 'motion/react';
@@ -21,20 +22,8 @@ const props: Slide[] = [
   },
   {
     image: banner2,
-    header: 'Другая Ипотека от партнера',
-    desc: 'Откройте выгодную ипотеку от одного из партнёров на срок от 10 лет. ',
-    href: './',
-  },
-  {
-    image: banner,
-    header: 'Ипотека от партнера',
-    desc: 'Откройте выгодную ипотеку от одного из партнёров на срок от 10 лет. ',
-    href: './',
-  },
-  {
-    image: banner2,
-    header: 'Другая Ипотека от партнера',
-    desc: 'Откройте выгодную ипотеку от одного из партнёров на срок от 10 лет. ',
+    header: 'Кредиты под низкие проценты',
+    desc: 'Кредиты и акции от надежных банков. ',
     href: './',
   },
 ];
@@ -59,6 +48,7 @@ const variants = {
 };
 
 export default function SlideScroller() {
+  const navigate = useNavigate();
   const [[page, direction], setPage] = useState([0, 0]);
 
   const currentSlide = props[page];
@@ -106,7 +96,9 @@ export default function SlideScroller() {
           <div className="h1-def">{currentSlide.header}</div>
           <div className="h4-def w-[500px]">{currentSlide.desc}</div>
 
-          <ButtonAccent label="Узнать больше" width="180px" height="40px" />
+          <ButtonAccent label="Узнать больше" width="180px" height="40px" onClick={() => {
+            navigate("/offers")
+          }} />
         </motion.div>
       </AnimatePresence>
     </div>

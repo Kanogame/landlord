@@ -148,7 +148,7 @@ export default function Editor({ loaderData }: Route.ComponentProps) {
         );
 
         if (response.success) {
-          navigate('/property/' + property.property.id);
+          navigate('/property/' + response.property.id);
         } else {
           ErrorToast(
             `Ошибка при обновлении объявления: ${
